@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">YandexSummerSchool</string>
+    <string name="Expenses_today">Расходы сегодня</string>
+    <string name="expenses_today">Расходы сегодня</string>
+    <string name="Incomes_today">Доходы сегодня</string>
+    <string name="My_account">Мой Счет</string>
+    <string name="Settings">Настройки</string>
+    <string name="My_articles">Мои статьи</string>
+    <string name="Sum">Всего</string>
+    <string name="Balance">Баланс</string>
+    <string name="Currency">Валюта</string>
 </resources>
