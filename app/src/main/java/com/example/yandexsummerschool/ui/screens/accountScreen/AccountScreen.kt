@@ -13,23 +13,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.yandexsummerschool.BottomNavigationBar
 import com.example.yandexsummerschool.R
-import com.example.yandexsummerschool.TopAppBar
-import com.example.yandexsummerschool.TopAppBarElement
+import com.example.yandexsummerschool.domain.utils.Currency
+import com.example.yandexsummerschool.ui.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.components.FloatingActionButton
 import com.example.yandexsummerschool.ui.components.ListItem
 import com.example.yandexsummerschool.ui.components.ListItemData
+import com.example.yandexsummerschool.ui.components.TopAppBar
+import com.example.yandexsummerschool.ui.components.TopAppBarElement
 import com.example.yandexsummerschool.ui.components.TrailingIconArrowRight
 
 @Composable
-fun AccountScreen(navController: NavController, viewModel: AccountScreenViewModel = viewModel()) {
+fun AccountScreen(
+	navController: NavController,
+	viewModel: AccountScreenViewModel = viewModel(),
+) {
 	val accountState by viewModel.accountState.collectAsState()
 
 	Scaffold(
-		topBar = { TopAppBar(TopAppBarElement.Account) },
+		topBar = { TopAppBar(TopAppBarElement.Account, navController) },
 		bottomBar = { BottomNavigationBar(navController = navController) },
-		floatingActionButton = { FloatingActionButton() }
+		floatingActionButton = { FloatingActionButton(navController) }
 	) { innerPadding ->
 		Column(
 			modifier = Modifier
@@ -44,13 +48,13 @@ fun AccountScreen(navController: NavController, viewModel: AccountScreenViewMode
 					val balanceBlock = ListItemData(
 						lead = "💰",
 						title = stringResource(R.string.Balance),
-						value = state.balance + " $currencySymbol",
-						trail = { TrailingIconArrowRight() },
+						trailingText = state.balance + " $currencySymbol",
+						trailingIcon = { TrailingIconArrowRight() },
 					)
 					val currencyBlock = ListItemData(
 						title = stringResource(R.string.Currency),
-						value = currencySymbol,
-						trail = { TrailingIconArrowRight() },
+						trailingText = currencySymbol,
+						trailingIcon = { TrailingIconArrowRight() },
 					)
 
 					ListItem(

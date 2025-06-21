@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool
+package com.example.yandexsummerschool.ui.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.yandexsummerschool.R
+import com.example.yandexsummerschool.Routes
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {

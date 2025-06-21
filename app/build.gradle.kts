@@ -1,6 +1,18 @@
+import java.util.Properties
+
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.kotlin.android)
+	id("com.google.devtools.ksp")
+	id("dagger.hilt.android.plugin")
+
+}
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+	localPropertiesFile.inputStream().use { stream ->
+		localProperties.load(stream)
+	}
 }
 
 android {
@@ -18,6 +30,8 @@ android {
 		vectorDrawables {
 			useSupportLibrary = true
 		}
+
+		buildConfigField("String", "TOKEN", "\"${localProperties.getProperty("TOKEN") ?: ""}\"")
 	}
 
 	buildTypes {
@@ -38,6 +52,7 @@ android {
 	}
 	buildFeatures {
 		compose = true
+		buildConfig = true
 	}
 	composeOptions {
 		kotlinCompilerExtensionVersion = "1.5.1"
@@ -69,5 +84,13 @@ dependencies {
 	implementation(libs.androidx.navigation.compose)
 
 	implementation(libs.androidx.core.splashscreen)
+	//Retrofit
+	implementation("com.squareup.retrofit2:retrofit:2.9.0")
+	implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+	//Hilt
+	implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+	implementation("com.google.dagger:hilt-android:2.50")
+	ksp("com.google.dagger:hilt-android-compiler:2.50")
+
 
 }
