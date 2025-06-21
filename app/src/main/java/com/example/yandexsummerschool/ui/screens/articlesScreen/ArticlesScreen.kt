@@ -26,11 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.yandexsummerschool.BottomNavigationBar
-import com.example.yandexsummerschool.TopAppBar
-import com.example.yandexsummerschool.TopAppBarElement
+import com.example.yandexsummerschool.ui.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.components.ListItem
 import com.example.yandexsummerschool.ui.components.ListItemData
+import com.example.yandexsummerschool.ui.components.TopAppBar
+import com.example.yandexsummerschool.ui.components.TopAppBarElement
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +42,7 @@ fun ArticlesScreen(
 	var active by remember { mutableStateOf(false) }
 
 	Scaffold(
-		topBar = { TopAppBar(TopAppBarElement.Articles) },
+		topBar = { TopAppBar(TopAppBarElement.Articles, navController) },
 		bottomBar = { BottomNavigationBar(navController = navController) },
 	) { innerPadding ->
 		Column(

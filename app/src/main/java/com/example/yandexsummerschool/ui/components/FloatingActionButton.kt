@@ -9,15 +9,24 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun FloatingActionButton(onClick: () -> Unit = {}) {
+fun FloatingActionButton(navController: NavController) {
 	FloatingActionButton(
-		onClick = onClick,
+		onClick = {
+//			navController.navigate("") {
+//				popUpTo(navController.graph.findStartDestination().id) {
+//					saveState = true
+//				}
+//				launchSingleTop = true
+//				restoreState = true
+//			}
+		},
 		shape = CircleShape,
 		containerColor = MaterialTheme.colorScheme.primary,
 		contentColor = MaterialTheme.colorScheme.surface,
-		elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp)
+		elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
 	) {
 		Icon(Icons.Filled.Add, null)
 	}

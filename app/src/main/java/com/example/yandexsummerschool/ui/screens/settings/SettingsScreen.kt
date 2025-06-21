@@ -17,17 +17,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.yandexsummerschool.BottomNavigationBar
-import com.example.yandexsummerschool.TopAppBar
-import com.example.yandexsummerschool.TopAppBarElement
+import com.example.yandexsummerschool.ui.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.components.ListItem
 import com.example.yandexsummerschool.ui.components.ListItemData
+import com.example.yandexsummerschool.ui.components.TopAppBar
+import com.example.yandexsummerschool.ui.components.TopAppBarElement
 import com.example.yandexsummerschool.ui.components.TrailingIconArrowRightFilled
 
 @Composable
 fun SettingsScreen(navController: NavController) {
 	Scaffold(
-		topBar = { TopAppBar(TopAppBarElement.Settings) },
+		topBar = { TopAppBar(TopAppBarElement.Settings, navController) },
 		bottomBar = { BottomNavigationBar(navController = navController) },
 	) { innerPadding ->
 		var checkedState by remember { mutableStateOf(false) }
@@ -39,7 +39,7 @@ fun SettingsScreen(navController: NavController) {
 			ListItem(
 				ListItemData(
 					title = "Тёмная тема",
-					trail = {
+					trailingIcon = {
 						Switch(
 							checked = checkedState,
 							onCheckedChange = { checkedState = !checkedState },
@@ -55,7 +55,7 @@ fun SettingsScreen(navController: NavController) {
 			)
 			val someSettingItem = ListItemData(
 				title = "mock setting",
-				trail = { TrailingIconArrowRightFilled() },
+				trailingIcon = { TrailingIconArrowRightFilled() },
 			)
 
 			LazyColumn {
