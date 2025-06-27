@@ -20,7 +20,7 @@ val iconColor = Color(0xff49454f)
 val onGreenPrimary = Color(0xff1d1b20)
 
 // Цвета для тёмной темы
-val GreenDark = Color(0xFF1DBF6E)   // Более тёмный зелёный для secondary
+val GreenDark = Color(0xFF1DBF6E) // Более тёмный зелёный для secondary
 val darkSurface = Color(0xFF1D1B20)
 val darkSurfaceContainer = Color(0xFF2D2B36)
 val darkSurfaceVariant = Color(0xFF49454F)

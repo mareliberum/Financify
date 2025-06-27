@@ -13,7 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.ui.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.components.DatePicker
@@ -33,103 +33,106 @@ import com.example.yandexsummerschool.ui.components.TrailingIconArrowRight
 
 @Composable
 fun MyHistoryScreen(
-	navController: NavController,
-	transactionType: TransactionType,
-	viewModel: MyHistoryScreenViewModel = hiltViewModel(),
+    navController: NavController,
+    transactionType: TransactionType,
+    viewModel: MyHistoryScreenViewModel = hiltViewModel(),
 ) {
-	var showPicker by remember { mutableStateOf(false) }
-	var pickerType by remember { mutableStateOf<DateType?>(null) }
-	val startOfPeriod by viewModel.startOfPeriod.collectAsState()
-	val endOfPeriod by viewModel.endOfPeriod.collectAsState()
+    var showPicker by remember { mutableStateOf(false) }
+    var pickerType by remember { mutableStateOf<DateType?>(null) }
+    val startOfPeriod by viewModel.startOfPeriod.collectAsStateWithLifecycle()
+    val endOfPeriod by viewModel.endOfPeriod.collectAsStateWithLifecycle()
+    val currentState = viewModel.myHistoryScreenState.collectAsStateWithLifecycle()
 
-	val startItem = ListItemData(title = "Начало", trailingText = startOfPeriod)
-	val endItem = ListItemData(title = "Конец", trailingText = endOfPeriod)
+    val startItem = ListItemData(title = "Начало", trailingText = startOfPeriod)
+    val endItem = ListItemData(title = "Конец", trailingText = endOfPeriod)
 
-	Scaffold(
-		topBar = { TopAppBar(TopAppBarElement.MyHistory, navController) },
-		bottomBar = { BottomNavigationBar(navController) }
-	) { padding ->
-		val currentState = viewModel.myHistoryScreenState.collectAsState()
+    Scaffold(
+        topBar = { TopAppBar(TopAppBarElement.MyHistory, navController) },
+        bottomBar = { BottomNavigationBar(navController) },
+    ) { padding ->
 
-		LaunchedEffect(Unit) {
-			viewModel.loadHistory(transactionType)
-		}
+        LaunchedEffect(Unit) {
+            viewModel.loadHistory(transactionType)
+        }
 
-		Column(
-			Modifier
-				.fillMaxSize()
-				.padding(padding)
-		) {
-			if (showPicker) {
-				DatePicker(
-					selectedDate = System.currentTimeMillis(),
-					onDateSelected = {
-						when (pickerType) {
-							DateType.START -> viewModel.setStartDate(it)
-							DateType.END -> viewModel.setEndDate(it)
-							null -> {}
-						}
-						showPicker = false
-					},
-					onDismiss = {
-						showPicker = false
-					}
-				)
-			}
-			// Даты
-			ListItem(
-				startItem,
-				modifier = Modifier
-					.background(MaterialTheme.colorScheme.secondary)
-					.clickable {
-						pickerType = DateType.START
-						showPicker = true
-					}
-			)
-			ListItem(
-				endItem,
-				modifier = Modifier
-					.background(MaterialTheme.colorScheme.secondary)
-					.clickable {
-						pickerType = DateType.END
-						showPicker = true
-					}
-			)
-			//контент
-			when (val state = currentState.value) {
-				HistoryScreenState.Empty -> Text("Пусто")
-				HistoryScreenState.Loading -> LoadingIndicator()
-				is HistoryScreenState.Content -> {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(padding),
+        ) {
+            if (showPicker) {
+                DatePicker(
+                    selectedDate = System.currentTimeMillis(),
+                    onDateSelected = {
+                        when (pickerType) {
+                            DateType.START -> viewModel.setStartDate(it)
+                            DateType.END -> viewModel.setEndDate(it)
+                            null -> {}
+                        }
+                        showPicker = false
+                    },
+                    onDismiss = {
+                        showPicker = false
+                    },
+                )
+            }
+            // Даты
+            ListItem(
+                startItem,
+                modifier =
+                    Modifier
+                        .background(MaterialTheme.colorScheme.secondary)
+                        .clickable {
+                            pickerType = DateType.START
+                            showPicker = true
+                        },
+            )
+            ListItem(
+                endItem,
+                modifier =
+                    Modifier
+                        .background(MaterialTheme.colorScheme.secondary)
+                        .clickable {
+                            pickerType = DateType.END
+                            showPicker = true
+                        },
+            )
+            // контент
+            when (val state = currentState.value) {
+                HistoryScreenState.Empty -> Text("Пусто")
+                HistoryScreenState.Loading -> LoadingIndicator()
+                is HistoryScreenState.Content -> {
+                    val sumItem = ListItemData(title = "Сумма", trailingText = state.expensesSum)
 
-					val sumItem = ListItemData(title = "Сумма", trailingText = state.expensesSum)
+                    ListItem(
+                        sumItem,
+                        modifier = Modifier.background(MaterialTheme.colorScheme.secondary),
+                    )
 
-					ListItem(
-						sumItem,
-						modifier = Modifier.background(MaterialTheme.colorScheme.secondary)
-					)
-
-					LazyColumn {
-						items(state.history) { item ->
-							val listItemData = ListItemData(
-								lead = item.lead,
-								title = item.title,
-								subtitle = item.subtitle,
-								trailingText = item.sum,
-								trailingSubText = item.time,
-								trailingIcon = { TrailingIconArrowRight() }
-							)
-							ListItem(
-								listItemData = listItemData,
-								modifier = Modifier.height(70.dp)
-							)
-						}
-					}
-				}
-			}
-		}
-	}
+                    LazyColumn {
+                        items(state.history) { item ->
+                            val listItemData =
+                                ListItemData(
+                                    lead = item.lead,
+                                    title = item.title,
+                                    subtitle = item.subtitle,
+                                    trailingText = item.sum,
+                                    trailingSubText = item.time,
+                                    trailingIcon = { TrailingIconArrowRight() },
+                                )
+                            ListItem(
+                                listItemData = listItemData,
+                                modifier = Modifier.height(70.dp),
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 enum class DateType {
-	START, END
+    START,
+    END,
 }

@@ -15,26 +15,26 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ErrorScreen(
-	message: String,
-	onRetry: (() -> Unit)? = null,
-	modifier: Modifier = Modifier
+    message: String,
+    onRetry: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
 ) {
-	Box(
-		modifier = modifier.fillMaxSize(),
-		contentAlignment = Alignment.Center
-	) {
-		Column(horizontalAlignment = Alignment.CenterHorizontally) {
-			Text(
-				text = message,
-				style = MaterialTheme.typography.bodyLarge,
-				color = MaterialTheme.colorScheme.error
-			)
-			Spacer(modifier = Modifier.height(16.dp))
-			if (onRetry != null) {
-				Button(onClick = onRetry) {
-					Text(text = "Попробовать снова")
-				}
-			}
-		}
-	}
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.error,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            if (onRetry != null) {
+                Button(onClick = onRetry) {
+                    Text(text = "Попробовать снова")
+                }
+            }
+        }
+    }
 }

@@ -13,21 +13,21 @@ import androidx.navigation.NavController
 
 @Composable
 fun FloatingActionButton(navController: NavController) {
-	FloatingActionButton(
-		onClick = {
-//			navController.navigate("") {
-//				popUpTo(navController.graph.findStartDestination().id) {
-//					saveState = true
-//				}
-//				launchSingleTop = true
-//				restoreState = true
-//			}
-		},
-		shape = CircleShape,
-		containerColor = MaterialTheme.colorScheme.primary,
-		contentColor = MaterialTheme.colorScheme.surface,
-		elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
-	) {
-		Icon(Icons.Filled.Add, null)
-	}
+    FloatingActionButton(
+        onClick = {
+// 			navController.navigate("") {
+// 				popUpTo(navController.graph.findStartDestination().id) {
+// 					saveState = true
+// 				}
+// 				launchSingleTop = true
+// 				restoreState = true
+// 			}
+        },
+        shape = CircleShape,
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.surface,
+        elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
+    ) {
+        Icon(Icons.Filled.Add, null)
+    }
 }

@@ -11,12 +11,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.ui.components.BottomNavigationBar
@@ -31,60 +31,59 @@ import com.example.yandexsummerschool.ui.components.TrailingIconArrowRight
 
 @Composable
 fun ExpensesScreen(
-	navController: NavController,
-	viewModel: ExpensesScreenViewModel = hiltViewModel()
+    navController: NavController,
+    viewModel: ExpensesScreenViewModel = hiltViewModel(),
 ) {
-	val expensesState by viewModel.expensesState.collectAsState()
+    val expensesState by viewModel.expensesState.collectAsStateWithLifecycle()
 
-	Scaffold(
-		topBar = { TopAppBar(TopAppBarElement.Expenses, navController) },
-		bottomBar = { BottomNavigationBar(navController = navController) },
-		floatingActionButton = { FloatingActionButton(navController) },
-	) { innerPadding ->
-		Column(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(innerPadding)
-		) {
-			when (val state = expensesState) {
-				is ExpensesState.Content -> {
-					val expensesList = state.expenses
-					val expensesSum = state.expensesSum
-					val total = ListItemData(
-						title = stringResource(R.string.Sum),
-						trailingText = expensesSum,
-					)
+    Scaffold(
+        topBar = { TopAppBar(TopAppBarElement.Expenses, navController) },
+        bottomBar = { BottomNavigationBar(navController = navController) },
+        floatingActionButton = { FloatingActionButton(navController) },
+    ) { innerPadding ->
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+        ) {
+            when (val state = expensesState) {
+                is ExpensesState.Content -> {
+                    val expensesList = state.expenses
+                    val expensesSum = state.expensesSum
+                    val total =
+                        ListItemData(
+                            title = stringResource(R.string.Sum),
+                            trailingText = expensesSum,
+                        )
 
-					ListItem(
-						total,
-						Modifier.background(color = MaterialTheme.colorScheme.secondary)
-					)
+                    ListItem(
+                        total,
+                        Modifier.background(color = MaterialTheme.colorScheme.secondary),
+                    )
 
-					LazyColumn(modifier = Modifier.padding(vertical = 3.dp)) {
-						items(expensesList) { expense ->
-							val listItemData = ListItemData(
-								lead = expense.emoji,
-								title = expense.categoryName,
-								subtitle = expense.comment,
-								trailingText = expense.amount,
-								trailingIcon = { TrailingIconArrowRight() },
-							)
-							ListItem(
-								listItemData,
-								modifier = Modifier.height(70.dp),
-							)
-						}
-					}
-				}
+                    LazyColumn(modifier = Modifier.padding(vertical = 3.dp)) {
+                        items(expensesList) { expense ->
+                            val listItemData =
+                                ListItemData(
+                                    lead = expense.emoji,
+                                    title = expense.categoryName,
+                                    subtitle = expense.comment,
+                                    trailingText = expense.amount,
+                                    trailingIcon = { TrailingIconArrowRight() },
+                                )
+                            ListItem(
+                                listItemData,
+                                modifier = Modifier.height(70.dp),
+                            )
+                        }
+                    }
+                }
 
-				is ExpensesState.Error -> ErrorScreen("Ошибка")
-				ExpensesState.Empty -> Text("Пусто")
-				ExpensesState.Loading -> LoadingIndicator()
-			}
-		}
-	}
+                is ExpensesState.Error -> ErrorScreen("Ошибка")
+                ExpensesState.Empty -> Text("Пусто")
+                ExpensesState.Loading -> LoadingIndicator()
+            }
+        }
+    }
 }
-
-
-
-
