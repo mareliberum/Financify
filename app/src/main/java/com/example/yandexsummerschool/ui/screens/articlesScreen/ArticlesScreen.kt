@@ -17,13 +17,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.ui.components.BottomNavigationBar
@@ -35,55 +35,59 @@ import com.example.yandexsummerschool.ui.components.TopAppBarElement
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticlesScreen(
-	navController: NavController, viewModel: ArticlesScreenViewModel = viewModel()
+    navController: NavController,
+    viewModel: ArticlesScreenViewModel = viewModel(),
 ) {
-	val articleState by viewModel.articleState.collectAsState()
-	var query by remember { mutableStateOf("") }
-	var active by remember { mutableStateOf(false) }
+    val articleState by viewModel.articleState.collectAsStateWithLifecycle()
+    var query by remember { mutableStateOf("") }
+    var active by remember { mutableStateOf(false) }
 
-	Scaffold(
-		topBar = { TopAppBar(TopAppBarElement.Articles, navController) },
-		bottomBar = { BottomNavigationBar(navController = navController) },
-	) { innerPadding ->
-		Column(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(innerPadding)
-		) {
-			DockedSearchBar(
-				shape = SearchBarDefaults.fullScreenShape,
-				modifier = Modifier
-					.fillMaxWidth()
-					.height(56.dp),
-				query = query,
-				onQueryChange = { query = it },
-				onSearch = { active = false },
-				active = active,
-				onActiveChange = { },
-				placeholder = { Text("Найти статью") },
-				trailingIcon = { Icon(Icons.Default.Search, null) },
-				colors = SearchBarDefaults.colors(
-					containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
-				),
-			) {}
+    Scaffold(
+        topBar = { TopAppBar(TopAppBarElement.Articles, navController) },
+        bottomBar = { BottomNavigationBar(navController = navController) },
+    ) { innerPadding ->
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+        ) {
+            DockedSearchBar(
+                shape = SearchBarDefaults.fullScreenShape,
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                query = query,
+                onQueryChange = { query = it },
+                onSearch = { active = false },
+                active = active,
+                onActiveChange = { },
+                placeholder = { Text("Найти статью") },
+                trailingIcon = { Icon(Icons.Default.Search, null) },
+                colors =
+                    SearchBarDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    ),
+            ) {}
 
-			when (val state = articleState) {
-				ArticleState.Empty -> TODO()
-				ArticleState.Loading -> TODO()
-				is ArticleState.Content -> {
-					val articles = state.articles
-					LazyColumn {
-						items(articles) { article ->
-							val listItemData = ListItemData(
-								lead = article.emoji,
-								title = article.categoryName,
-							)
-							ListItem(listItemData, Modifier.height(70.dp))
-						}
-					}
-				}
-			}
-		}
-	}
+            when (val state = articleState) {
+                ArticleState.Empty -> TODO()
+                ArticleState.Loading -> TODO()
+                is ArticleState.Content -> {
+                    val articles = state.articles
+                    LazyColumn {
+                        items(articles) { article ->
+                            val listItemData =
+                                ListItemData(
+                                    lead = article.emoji,
+                                    title = article.categoryName,
+                                )
+                            ListItem(listItemData, Modifier.height(70.dp))
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
-

@@ -26,46 +26,49 @@ import com.example.yandexsummerschool.ui.components.TrailingIconArrowRightFilled
 
 @Composable
 fun SettingsScreen(navController: NavController) {
-	Scaffold(
-		topBar = { TopAppBar(TopAppBarElement.Settings, navController) },
-		bottomBar = { BottomNavigationBar(navController = navController) },
-	) { innerPadding ->
-		var checkedState by remember { mutableStateOf(false) }
-		Column(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(innerPadding)
-		) {
-			ListItem(
-				ListItemData(
-					title = "Тёмная тема",
-					trailingIcon = {
-						Switch(
-							checked = checkedState,
-							onCheckedChange = { checkedState = !checkedState },
-							colors = SwitchDefaults.colors(
-								checkedThumbColor = MaterialTheme.colorScheme.surface,
-								uncheckedThumbColor = MaterialTheme.colorScheme.outline,
-								uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant
-							)
-						)
-					},
-				),
-				modifier = Modifier.height(55.dp)
-			)
-			val someSettingItem = ListItemData(
-				title = "mock setting",
-				trailingIcon = { TrailingIconArrowRightFilled() },
-			)
+    Scaffold(
+        topBar = { TopAppBar(TopAppBarElement.Settings, navController) },
+        bottomBar = { BottomNavigationBar(navController = navController) },
+    ) { innerPadding ->
+        var checkedState by remember { mutableStateOf(false) }
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+        ) {
+            ListItem(
+                ListItemData(
+                    title = "Тёмная тема",
+                    trailingIcon = {
+                        Switch(
+                            checked = checkedState,
+                            onCheckedChange = { checkedState = !checkedState },
+                            colors =
+                                SwitchDefaults.colors(
+                                    checkedThumbColor = MaterialTheme.colorScheme.surface,
+                                    uncheckedThumbColor = MaterialTheme.colorScheme.outline,
+                                    uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant,
+                                ),
+                        )
+                    },
+                ),
+                modifier = Modifier.height(55.dp),
+            )
+            val someSettingItem =
+                ListItemData(
+                    title = "mock setting",
+                    trailingIcon = { TrailingIconArrowRightFilled() },
+                )
 
-			LazyColumn {
-				items(9) {
-					ListItem(
-						listItemData = someSettingItem,
-						modifier = Modifier.height(55.dp)
-					)
-				}
-			}
-		}
-	}
+            LazyColumn {
+                items(9) {
+                    ListItem(
+                        listItemData = someSettingItem,
+                        modifier = Modifier.height(55.dp),
+                    )
+                }
+            }
+        }
+    }
 }

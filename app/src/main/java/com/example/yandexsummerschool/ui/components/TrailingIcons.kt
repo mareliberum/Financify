@@ -8,18 +8,18 @@ import com.example.yandexsummerschool.R
 
 @Composable
 fun TrailingIconArrowRight() {
-	Icon(
-		painter = painterResource(R.drawable.icon_arrow_right),
-		tint = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.5f),
-		contentDescription = null,
-	)
+    Icon(
+        painter = painterResource(R.drawable.icon_arrow_right),
+        tint = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.5f),
+        contentDescription = null,
+    )
 }
 
 @Composable
 fun TrailingIconArrowRightFilled() {
-	Icon(
-		painter = painterResource(R.drawable.icon_arrow_right_filled),
-		tint = MaterialTheme.colorScheme.surfaceVariant,
-		contentDescription = null,
-	)
+    Icon(
+        painter = painterResource(R.drawable.icon_arrow_right_filled),
+        tint = MaterialTheme.colorScheme.surfaceVariant,
+        contentDescription = null,
+    )
 }
