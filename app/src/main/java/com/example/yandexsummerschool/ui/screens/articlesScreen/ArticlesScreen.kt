@@ -38,7 +38,7 @@ fun ArticlesScreen(
     navController: NavController,
     viewModel: ArticlesScreenViewModel = viewModel(),
 ) {
-    val articleState by viewModel.articleState.collectAsStateWithLifecycle()
+    val articleState by viewModel.articlesScreenState.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
 
@@ -72,10 +72,10 @@ fun ArticlesScreen(
             ) {}
 
             when (val state = articleState) {
-                ArticleState.Empty -> TODO()
-                ArticleState.Loading -> TODO()
-                is ArticleState.Content -> {
-                    val articles = state.articles
+                ArticlesScreenState.Empty -> TODO()
+                ArticlesScreenState.Loading -> TODO()
+                is ArticlesScreenState.Content -> {
+                    val articles = state.articleUiModels
                     LazyColumn {
                         items(articles) { article ->
                             val listItemData =

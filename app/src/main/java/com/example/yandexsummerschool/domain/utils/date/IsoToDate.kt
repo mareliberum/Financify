@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.domain.utils
+package com.example.yandexsummerschool.domain.utils.date
 
 import java.text.SimpleDateFormat
 
@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat
  * @param isoDate [String] дата в формате yyyy-MM-dd
  * @return [String] дата в формате dd/MM/yyyy
  */
-fun formatDate(isoDate: String): String {
+fun convertIsoToDate(isoDate: String): String {
     return try {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val parsed = java.time.OffsetDateTime.parse(isoDate)

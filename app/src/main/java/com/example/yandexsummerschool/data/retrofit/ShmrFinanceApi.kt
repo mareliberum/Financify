@@ -1,6 +1,6 @@
 package com.example.yandexsummerschool.data.retrofit
 
-import com.example.yandexsummerschool.domain.dto.TransactionDto
+import com.example.yandexsummerschool.data.dto.TransactionDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

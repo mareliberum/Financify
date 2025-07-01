@@ -28,8 +28,6 @@ fun BottomNavigationBar(navController: NavController) {
     ) {
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = backStackEntry?.destination?.route
-
-        // TODO: немного накостылил, потом подумаю, как можно сделать лучше
         val operationType = backStackEntry?.arguments?.getString("operationType")
 
         /**
@@ -46,20 +44,26 @@ fun BottomNavigationBar(navController: NavController) {
                         else -> null
                     }
                 }
+
                 else -> currentRoute
             }
+
         Row(modifier = Modifier.padding(horizontal = 4.dp)) {
             NavBarItems.BarItems.forEach { navItem ->
                 val isSelected = resolvedRoute == navItem.route
                 NavigationBarItem(
                     selected = isSelected,
                     onClick = {
-                        navController.navigate(navItem.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+                        if (isSelected) {
+                            navController.popBackStack(navItem.route, inclusive = false)
+                        } else {
+                            navController.navigate(navItem.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
                         }
                     },
                     icon = {

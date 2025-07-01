@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.domain.utils
+package com.example.yandexsummerschool.domain.utils.date
 
 /**
  * Форматирует текущее время в милисеккундах в дату формата dd/MM/yyyy

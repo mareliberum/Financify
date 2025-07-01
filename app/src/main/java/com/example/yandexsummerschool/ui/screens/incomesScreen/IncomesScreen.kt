@@ -48,7 +48,7 @@ fun IncomesScreen(
                     .padding(innerPadding),
         ) {
             when (val state = incomeState) {
-                is IncomeState.Content -> {
+                is IncomesScreenState.Content -> {
                     val incomesList = state.incomes
                     val incomesSum = state.incomeSum
                     val total =
@@ -78,9 +78,9 @@ fun IncomesScreen(
                         }
                     }
                 }
-                IncomeState.Empty -> Text("Пусто")
-                IncomeState.Loading -> LoadingIndicator()
-                is IncomeState.Error -> ErrorScreen("Ошибка")
+                IncomesScreenState.Empty -> Text("Пусто")
+                IncomesScreenState.Loading -> LoadingIndicator()
+                is IncomesScreenState.Error -> ErrorScreen("Ошибка")
             }
         }
     }

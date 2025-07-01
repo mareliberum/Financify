@@ -2,14 +2,15 @@ package com.example.yandexsummerschool.ui.screens.myHistoryScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yandexsummerschool.domain.dto.Result
+import com.example.yandexsummerschool.data.dto.Result
+import com.example.yandexsummerschool.domain.models.TransactionModel
 import com.example.yandexsummerschool.domain.models.toHistoryItem
 import com.example.yandexsummerschool.domain.useCases.GetExpensesUseCase
 import com.example.yandexsummerschool.domain.useCases.GetIncomesUseCase
 import com.example.yandexsummerschool.domain.utils.calculateSum
-import com.example.yandexsummerschool.domain.utils.convertDateToIso
-import com.example.yandexsummerschool.domain.utils.getStartOfMonth
-import com.example.yandexsummerschool.domain.utils.millsToDate
+import com.example.yandexsummerschool.domain.utils.date.convertDateToIso
+import com.example.yandexsummerschool.domain.utils.date.getStartOfMonth
+import com.example.yandexsummerschool.domain.utils.date.millsToDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,8 +27,7 @@ class MyHistoryScreenViewModel
         private val getExpensesUseCase: GetExpensesUseCase,
         private val getIncomesUseCase: GetIncomesUseCase,
     ) : ViewModel() {
-        // Историю чего мы отображаем - доходы или расходы
-        private var transactionsType: TransactionType? = null
+        private var transactionsType: TransactionType? = null // Историю чего мы отображаем - доходы или расходы
 
         private val _startOfPeriod = MutableStateFlow(millsToDate(getStartOfMonth()))
         val startOfPeriod = _startOfPeriod.asStateFlow()
@@ -37,14 +37,6 @@ class MyHistoryScreenViewModel
 
         private val _myHistoryScreenState = MutableStateFlow<HistoryScreenState>(HistoryScreenState.Loading)
         val myHistoryScreenState = _myHistoryScreenState.asStateFlow()
-
-        fun loadHistory(type: TransactionType) {
-            when (type) {
-                TransactionType.EXPENSE -> loadExpenseTransactions()
-                TransactionType.INCOME -> loadIncomeTransactions()
-            }
-            transactionsType = type
-        }
 
         fun setStartDate(dateMillis: Long?) {
             _startOfPeriod.value = millsToDate(dateMillis)
@@ -58,19 +50,11 @@ class MyHistoryScreenViewModel
             if (type != null) loadHistory(type)
         }
 
-        // TODO : loadExpenseTransactions и loadIncomeTransactions почти одинаковые, объединить?
-        private fun loadExpenseTransactions() {
+        fun loadHistory(type: TransactionType) {
             viewModelScope.launch {
                 _myHistoryScreenState.value = HistoryScreenState.Loading
-
-                when (
-                    val result =
-                        getExpensesUseCase(
-                            1,
-                            convertDateToIso(startOfPeriod.value),
-                            convertDateToIso(endOfPeriod.value),
-                        )
-                ) {
+                transactionsType = type
+                when (val result = getResult(type)) {
                     is Result.Success -> {
                         val expenses = result.data
                         if (expenses.isEmpty()) {
@@ -80,82 +64,36 @@ class MyHistoryScreenViewModel
                             val content =
                                 HistoryScreenState.Content(
                                     history = history,
-                                    expensesSum = calculateSum(expenses),
+                                    sum = calculateSum(expenses),
                                 )
                             _myHistoryScreenState.value = content
                         }
                     }
 
                     is Result.Failure -> {
-                        // TODO обработать ошибку
-                        _myHistoryScreenState.value =
-// 						HistoryScreenState.Error(result.exception.message ?: "Неизвестная ошибка")
-                            HistoryScreenState.Empty
+                        _myHistoryScreenState.value = HistoryScreenState.Empty
                     }
                 }
             }
         }
 
-        private fun loadIncomeTransactions() {
-            viewModelScope.launch {
-                _myHistoryScreenState.value = HistoryScreenState.Loading
+        private suspend fun getResult(type: TransactionType): Result<List<TransactionModel>> {
+            return when (type) {
+                TransactionType.INCOME -> {
+                    getIncomesUseCase(
+                        1,
+                        convertDateToIso(startOfPeriod.value),
+                        convertDateToIso(endOfPeriod.value),
+                    )
+                }
 
-                when (
-                    val result =
-                        getIncomesUseCase(
-                            1,
-                            convertDateToIso(startOfPeriod.value),
-                            convertDateToIso(endOfPeriod.value),
-                        )
-                ) {
-                    is Result.Success -> {
-                        val expenses = result.data
-                        if (expenses.isEmpty()) {
-                            _myHistoryScreenState.value = HistoryScreenState.Empty
-                        } else {
-                            val history = expenses.map { it.toHistoryItem() }
-                            val content =
-                                HistoryScreenState.Content(
-                                    history = history,
-                                    expensesSum = calculateSum(expenses),
-                                )
-                            _myHistoryScreenState.value = content
-                        }
-                    }
-
-                    is Result.Failure -> {
-                        // TODO обработать ошибку
-                        _myHistoryScreenState.value =
-// 						HistoryScreenState.Error(result.exception.message ?: "Неизвестная ошибка")
-                            HistoryScreenState.Empty
-                    }
+                TransactionType.EXPENSE -> {
+                    getExpensesUseCase(
+                        1,
+                        convertDateToIso(startOfPeriod.value),
+                        convertDateToIso(endOfPeriod.value),
+                    )
                 }
             }
         }
     }
-
-/**
- * Состояние экрана/компонента для отображения расходов.
- * Используется для управления UI в зависимости от данных:
- * - Показ контента
- * - Загрузка
- * - Пустое состояние
- */
-sealed interface HistoryScreenState {
-    data class Content(
-        val history: List<HistoryItem>,
-        val expensesSum: String,
-    ) : HistoryScreenState
-
-    data object Loading : HistoryScreenState
-
-    data object Empty : HistoryScreenState
-}
-
-data class HistoryItem(
-    val lead: String,
-    val title: String,
-    val sum: String,
-    val time: String,
-    val subtitle: String? = null,
-)

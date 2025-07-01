@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.domain.utils
+package com.example.yandexsummerschool.domain.utils.date
 
 /**
  * Конвертирует дату из формата dd/MM/yyyy в формат yyyy-MM-dd

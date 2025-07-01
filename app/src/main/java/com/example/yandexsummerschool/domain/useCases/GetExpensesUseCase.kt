@@ -1,18 +1,18 @@
 package com.example.yandexsummerschool.domain.useCases
 
-import com.example.yandexsummerschool.data.repositories.ShmrFinanceRepository
-import com.example.yandexsummerschool.domain.dto.Result
+import com.example.yandexsummerschool.data.dto.Result
+import com.example.yandexsummerschool.data.repositories.TransactionsRepository
 import com.example.yandexsummerschool.domain.models.TransactionModel
 import javax.inject.Inject
 
 /**
  * Возвращает список расходных транзакций
- * @param repository [ShmrFinanceRepository]
+ * @param repository [TransactionsRepository]
  */
 class GetExpensesUseCase
     @Inject
     constructor(
-        private val repository: ShmrFinanceRepository,
+        private val repository: TransactionsRepository,
     ) {
         suspend operator fun invoke(
             accountId: Int,

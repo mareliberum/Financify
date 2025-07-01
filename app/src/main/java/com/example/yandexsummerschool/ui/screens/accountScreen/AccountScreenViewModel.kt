@@ -5,30 +5,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 /**
- * ViewModel для экрана аккаунта. Хранит состояние аккаунта пользователя [AccountState].
+ * ViewModel для экрана аккаунта. Хранит состояние аккаунта пользователя [AccountScreenState].
  */
 class AccountScreenViewModel : ViewModel() {
     private val mockBalance =
-        AccountState.Content(
+        AccountScreenState.Content(
             "Mock account",
             "100 000",
             "RUB",
         )
     private val _accountState = MutableStateFlow(mockBalance)
-    val accountState: StateFlow<AccountState> = _accountState
-}
-
-/**
- * Состояния экрана аккаунта: содержимое, загрузка, пусто.
- */
-sealed interface AccountState {
-    data class Content(
-        val name: String,
-        val balance: String,
-        val currency: String,
-    ) : AccountState
-
-    data object Loading : AccountState
-
-    data object Empty : AccountState
+    val accountState: StateFlow<AccountScreenState> = _accountState
 }

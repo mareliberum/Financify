@@ -1,6 +1,8 @@
 package com.example.yandexsummerschool.domain.models
 
-import com.example.yandexsummerschool.domain.utils.formatDate
+import com.example.yandexsummerschool.data.dto.TransactionDto
+import com.example.yandexsummerschool.domain.utils.CurrencyResolver
+import com.example.yandexsummerschool.domain.utils.date.convertIsoToDate
 import com.example.yandexsummerschool.ui.screens.myHistoryScreen.HistoryItem
 
 data class TransactionModel(
@@ -18,7 +20,20 @@ fun TransactionModel.toHistoryItem(): HistoryItem {
         lead = emoji ?: "",
         title = categoryName,
         sum = amount,
-        time = formatDate(date),
+        time = convertIsoToDate(date),
         subtitle = comment,
+    )
+}
+
+fun TransactionDto.toTransactionModel(): TransactionModel {
+    return TransactionModel(
+        id = id.toString(),
+        categoryName = category.name,
+        emoji = category.emoji,
+        // TODO добавление символа валюты стоит перенести на UI
+        amount = amount + " " + CurrencyResolver.resolve(account.currency),
+        comment = comment,
+        isIncome = category.isIncome,
+        date = transactionDate,
     )
 }
