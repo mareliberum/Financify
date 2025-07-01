@@ -1,6 +1,5 @@
 package com.example.yandexsummerschool.ui.components
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -11,12 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.ui.screens.myHistoryScreen.TransactionType
 import com.example.yandexsummerschool.ui.theme.iconColor
@@ -28,7 +25,16 @@ fun TopAppBar(
     navController: NavController,
 ) {
     CenterAlignedTopAppBar(
-        navigationIcon = { Icon(Icons.AutoMirrored.Filled.ArrowBack, "back") },
+        navigationIcon = {
+            if (topAppBarElement.navigationIcon != null) {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(
+                        imageVector = topAppBarElement.navigationIcon,
+                        contentDescription = "back",
+                    )
+                }
+            }
+        },
         colors =
             TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -46,9 +52,6 @@ fun TopAppBar(
                     onClick = {
                         topAppBarElement.destination?.let {
                             navController.navigate(it) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
                                 launchSingleTop = true
                                 restoreState = false
                             }
@@ -56,7 +59,6 @@ fun TopAppBar(
                     },
                 ) {
                     Icon(
-                        modifier = Modifier.padding(end = 16.dp),
                         painter = painterResource(topAppBarElement.iconResource),
                         contentDescription = null,
                         tint = iconColor,
@@ -71,6 +73,7 @@ sealed class TopAppBarElement(
     val titleResource: Int,
     val iconResource: Int?,
     val destination: String? = null,
+    val navigationIcon: ImageVector? = null,
 ) {
     data object Expenses :
         TopAppBarElement(
@@ -108,5 +111,6 @@ sealed class TopAppBarElement(
         TopAppBarElement(
             titleResource = R.string.My_History,
             iconResource = R.drawable.analysis,
+            navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
         )
 }

@@ -2,11 +2,10 @@ package com.example.yandexsummerschool.ui.screens.incomesScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yandexsummerschool.domain.dto.Result
-import com.example.yandexsummerschool.domain.models.TransactionModel
+import com.example.yandexsummerschool.data.dto.Result
 import com.example.yandexsummerschool.domain.useCases.GetIncomesUseCase
 import com.example.yandexsummerschool.domain.utils.calculateSum
-import com.example.yandexsummerschool.domain.utils.millisToIso
+import com.example.yandexsummerschool.domain.utils.date.millisToIso
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel для экрана доходов. Загружает и хранит состояние доходов [IncomeState].
+ * ViewModel для экрана доходов. Загружает и хранит состояние доходов [IncomesScreenState].
  */
 @HiltViewModel
 class IncomesScreenViewModel
@@ -23,8 +22,8 @@ class IncomesScreenViewModel
         private val getIncomesUseCase: GetIncomesUseCase,
     ) : ViewModel() {
         private val _incomeState =
-            MutableStateFlow<IncomeState>(IncomeState.Loading)
-        val incomesState: StateFlow<IncomeState> = _incomeState
+            MutableStateFlow<IncomesScreenState>(IncomesScreenState.Loading)
+        val incomesState: StateFlow<IncomesScreenState> = _incomeState
 
         init {
             loadIncomes()
@@ -32,7 +31,7 @@ class IncomesScreenViewModel
 
         private fun loadIncomes() {
             viewModelScope.launch {
-                _incomeState.value = IncomeState.Loading
+                _incomeState.value = IncomesScreenState.Loading
 
                 when (
                     val result =
@@ -46,39 +45,18 @@ class IncomesScreenViewModel
                     is Result.Success -> {
                         val incomes = result.data
                         if (incomes.isEmpty()) {
-                            _incomeState.value = IncomeState.Empty
+                            _incomeState.value = IncomesScreenState.Empty
                         } else {
                             val sum = calculateSum(incomes)
-                            _incomeState.value = IncomeState.Content(incomes, sum)
+                            _incomeState.value = IncomesScreenState.Content(incomes, sum)
                         }
                     }
 
                     is Result.Failure -> {
                         _incomeState.value =
-                            IncomeState.Error(result.exception.message ?: "Неизвестная ошибка")
+                            IncomesScreenState.Error(result.exception.message ?: "Неизвестная ошибка")
                     }
                 }
             }
         }
     }
-
-/**
- * Состояние экрана расходов.
- * Используется для управления UI в зависимости от данных:
- * - Показ контента
- * - Загрузка
- * - Ошибка
- * - Пустое состояние
- */
-sealed interface IncomeState {
-    data class Content(
-        val incomes: List<TransactionModel>,
-        val incomeSum: String,
-    ) : IncomeState
-
-    data object Loading : IncomeState
-
-    data object Empty : IncomeState
-
-    data class Error(val message: String) : IncomeState
-}

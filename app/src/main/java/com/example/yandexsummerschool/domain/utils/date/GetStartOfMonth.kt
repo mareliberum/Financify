@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.domain.utils
+package com.example.yandexsummerschool.domain.utils.date
 
 import android.os.Build
 import java.time.YearMonth

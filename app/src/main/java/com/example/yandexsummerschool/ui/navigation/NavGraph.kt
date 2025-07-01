@@ -43,8 +43,7 @@ fun AppNavGraph() {
             arguments = listOf(navArgument("operationType") { type = NavType.StringType }),
         ) { backStackEntry ->
             val operationType = backStackEntry.arguments?.getString("operationType")
-            val type =
-                TransactionType.entries.find { it.key == operationType } ?: TransactionType.EXPENSE
+            val type = TransactionType.entries.find { it.key == operationType } ?: TransactionType.EXPENSE
             MyHistoryScreen(navController, type)
         }
     }

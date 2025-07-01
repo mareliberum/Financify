@@ -1,14 +1,12 @@
 package com.example.yandexsummerschool.data.repositories
 
-import com.example.yandexsummerschool.domain.dto.Result
+import com.example.yandexsummerschool.data.dto.Result
 import com.example.yandexsummerschool.domain.models.TransactionModel
 
 /**
  * Предоставляет интерфейс репозитория для работы с SHMR Finance API
  */
-interface ShmrFinanceRepository {
-    suspend fun getCategories()
-
+interface TransactionsRepository {
     suspend fun getTransactions(
         accountId: Int,
         startDate: String?,

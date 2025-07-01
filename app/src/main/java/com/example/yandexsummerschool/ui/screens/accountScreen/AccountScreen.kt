@@ -42,9 +42,9 @@ fun AccountScreen(
                     .padding(innerPadding),
         ) {
             when (val state = accountState) {
-                AccountState.Empty -> TODO()
-                AccountState.Loading -> TODO()
-                is AccountState.Content -> {
+                AccountScreenState.Empty -> TODO()
+                AccountScreenState.Loading -> TODO()
+                is AccountScreenState.Content -> {
                     val currencySymbol = CurrencyResolver.resolve(state.currency)
                     val balanceBlock =
                         ListItemData(

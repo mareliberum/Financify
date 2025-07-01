@@ -102,7 +102,7 @@ fun MyHistoryScreen(
                 HistoryScreenState.Empty -> Text("Пусто")
                 HistoryScreenState.Loading -> LoadingIndicator()
                 is HistoryScreenState.Content -> {
-                    val sumItem = ListItemData(title = "Сумма", trailingText = state.expensesSum)
+                    val sumItem = ListItemData(title = "Сумма", trailingText = state.sum)
 
                     ListItem(
                         sumItem,

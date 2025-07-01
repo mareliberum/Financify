@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.domain.dto
+package com.example.yandexsummerschool.data.dto
 
 /**
  * Обёртка для результата выполнения операции: успех или ошибка.

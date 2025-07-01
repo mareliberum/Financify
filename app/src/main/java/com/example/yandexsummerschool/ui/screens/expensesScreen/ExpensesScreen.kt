@@ -1,6 +1,7 @@
 package com.example.yandexsummerschool.ui.screens.expensesScreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -12,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -34,7 +36,7 @@ fun ExpensesScreen(
     navController: NavController,
     viewModel: ExpensesScreenViewModel = hiltViewModel(),
 ) {
-    val expensesState by viewModel.expensesState.collectAsStateWithLifecycle()
+    val expensesState by viewModel.expensesScreenState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = { TopAppBar(TopAppBarElement.Expenses, navController) },
@@ -48,7 +50,7 @@ fun ExpensesScreen(
                     .padding(innerPadding),
         ) {
             when (val state = expensesState) {
-                is ExpensesState.Content -> {
+                is ExpensesScreenState.Content -> {
                     val expensesList = state.expenses
                     val expensesSum = state.expensesSum
                     val total =
@@ -80,9 +82,14 @@ fun ExpensesScreen(
                     }
                 }
 
-                is ExpensesState.Error -> ErrorScreen("Ошибка")
-                ExpensesState.Empty -> Text("Пусто")
-                ExpensesState.Loading -> LoadingIndicator()
+                is ExpensesScreenState.Error -> ErrorScreen("Ошибка")
+
+                ExpensesScreenState.Empty -> {
+                    Box(modifier = Modifier.fillMaxSize().align(Alignment.CenterHorizontally)) {
+                        Text("Пусто")
+                    }
+                }
+                ExpensesScreenState.Loading -> LoadingIndicator()
             }
         }
     }
