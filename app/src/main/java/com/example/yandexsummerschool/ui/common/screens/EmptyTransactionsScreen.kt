@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.ui.components
+package com.example.yandexsummerschool.ui.common.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

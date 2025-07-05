@@ -22,17 +22,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
-import com.example.yandexsummerschool.ui.components.BottomNavigationBar
-import com.example.yandexsummerschool.ui.components.EmptyTransactionsScreen
-import com.example.yandexsummerschool.ui.components.ErrorScreen
-import com.example.yandexsummerschool.ui.components.FloatingActionButton
-import com.example.yandexsummerschool.ui.components.ListItem
-import com.example.yandexsummerschool.ui.components.ListItemData
-import com.example.yandexsummerschool.ui.components.ListItemSize
-import com.example.yandexsummerschool.ui.components.LoadingIndicator
-import com.example.yandexsummerschool.ui.components.TopAppBar
-import com.example.yandexsummerschool.ui.components.TopAppBarElement
-import com.example.yandexsummerschool.ui.components.TrailingIconArrowRight
+import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
+import com.example.yandexsummerschool.ui.common.components.FloatingActionButton
+import com.example.yandexsummerschool.ui.common.components.ListItem
+import com.example.yandexsummerschool.ui.common.components.ListItemData
+import com.example.yandexsummerschool.ui.common.components.ListItemSize
+import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
+import com.example.yandexsummerschool.ui.common.components.TopAppBar
+import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
+import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRight
+import com.example.yandexsummerschool.ui.common.screens.EmptyTransactionsScreen
+import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,6 +44,8 @@ fun ExpensesScreen(
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
+        // TODO здесь и в других местах сделать не рефреш,
+        //  а проверку на то, надо ли, если изменилась валюта
         viewModel.loadExpenses()
     }
 
@@ -76,18 +78,15 @@ fun ExpensesScreen(
                                             expensesList.firstOrNull()?.currency ?: Currencies.RUB.code,
                                         ),
                             )
-
-                        ListItem(
-                            total,
-                            Modifier.background(color = MaterialTheme.colorScheme.secondary),
-                        )
-
                         LazyColumn(
-                            modifier =
-                                Modifier
-                                    .padding(vertical = 3.dp)
-                                    .padding(top = ListItemSize.SMALL.size),
+                            modifier = Modifier.padding(vertical = 3.dp),
                         ) {
+                            item {
+                                ListItem(
+                                    total,
+                                    Modifier.background(color = MaterialTheme.colorScheme.secondary),
+                                )
+                            }
                             items(expensesList) { expense ->
                                 val listItemData =
                                     ListItemData(
@@ -99,7 +98,7 @@ fun ExpensesScreen(
                                     )
                                 ListItem(
                                     listItemData,
-                                    modifier = Modifier.height(70.dp),
+                                    modifier = Modifier.height(ListItemSize.BIG.size),
                                 )
                             }
                         }

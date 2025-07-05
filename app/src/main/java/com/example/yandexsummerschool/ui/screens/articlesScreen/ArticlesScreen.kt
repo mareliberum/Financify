@@ -28,13 +28,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
-import com.example.yandexsummerschool.ui.components.BasicEmptyScreen
-import com.example.yandexsummerschool.ui.components.BottomNavigationBar
-import com.example.yandexsummerschool.ui.components.ListItem
-import com.example.yandexsummerschool.ui.components.ListItemData
-import com.example.yandexsummerschool.ui.components.LoadingIndicator
-import com.example.yandexsummerschool.ui.components.TopAppBar
-import com.example.yandexsummerschool.ui.components.TopAppBarElement
+import com.example.yandexsummerschool.ui.common.screens.BasicEmptyScreen
+import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
+import com.example.yandexsummerschool.ui.common.components.ListItem
+import com.example.yandexsummerschool.ui.common.components.ListItemData
+import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
+import com.example.yandexsummerschool.ui.common.components.TopAppBar
+import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.ui.components
+package com.example.yandexsummerschool.ui.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,7 +47,7 @@ enum class ListItemSize(val size: Dp) {
 @Composable
 fun ListItem(
     listItemData: ListItemData,
-    modifier: Modifier = Modifier.height(56.dp),
+    modifier: Modifier = Modifier.height(ListItemSize.SMALL.size),
     leadingIconBackground: Color = MaterialTheme.colorScheme.secondary,
     onClick: (() -> Unit)? = null,
 ) {
@@ -96,7 +96,7 @@ fun ListItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                if (listItemData.subtitle != null) {
+                if (listItemData.subtitle?.isNotBlank() == true) {
                     Text(
                         text = listItemData.subtitle,
                         style = MaterialTheme.typography.bodyMedium,

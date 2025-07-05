@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
-import com.example.yandexsummerschool.ui.components.ListItem
-import com.example.yandexsummerschool.ui.components.ListItemSize
+import com.example.yandexsummerschool.ui.common.components.ListItem
+import com.example.yandexsummerschool.ui.common.components.ListItemSize
 import com.example.yandexsummerschool.ui.theme.dangerAction
 import com.example.yandexsummerschool.ui.theme.white
 
