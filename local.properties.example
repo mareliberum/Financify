@@ -1,0 +1,4 @@
+#Пример того, как должен выглядеть local.properties
+
+sdk.dir=C:/Some_route
+TOKEN=SomeCoolToken42

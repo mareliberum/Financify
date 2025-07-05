@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.yandexsummerschool.data.dto.Result
 import com.example.yandexsummerschool.domain.models.TransactionModel
 import com.example.yandexsummerschool.domain.models.toHistoryItem
-import com.example.yandexsummerschool.domain.useCases.GetExpensesUseCase
-import com.example.yandexsummerschool.domain.useCases.GetIncomesUseCase
+import com.example.yandexsummerschool.domain.useCases.expenses.GetExpensesUseCase
+import com.example.yandexsummerschool.domain.useCases.incomes.GetIncomesUseCase
 import com.example.yandexsummerschool.domain.utils.calculateSum
 import com.example.yandexsummerschool.domain.utils.date.convertDateToIso
 import com.example.yandexsummerschool.domain.utils.date.getStartOfMonth

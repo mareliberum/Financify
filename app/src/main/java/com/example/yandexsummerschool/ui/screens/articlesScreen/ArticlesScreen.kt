@@ -22,13 +22,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.yandexsummerschool.R
+import com.example.yandexsummerschool.ui.components.BasicEmptyScreen
 import com.example.yandexsummerschool.ui.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.components.ListItem
 import com.example.yandexsummerschool.ui.components.ListItemData
+import com.example.yandexsummerschool.ui.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.components.TopAppBar
 import com.example.yandexsummerschool.ui.components.TopAppBarElement
 
@@ -36,7 +40,7 @@ import com.example.yandexsummerschool.ui.components.TopAppBarElement
 @Composable
 fun ArticlesScreen(
     navController: NavController,
-    viewModel: ArticlesScreenViewModel = viewModel(),
+    viewModel: ArticlesScreenViewModel = hiltViewModel(),
 ) {
     val articleState by viewModel.articlesScreenState.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
@@ -69,13 +73,21 @@ fun ArticlesScreen(
                     SearchBarDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                     ),
-            ) {}
+            ) {
+            }
 
             when (val state = articleState) {
-                ArticlesScreenState.Empty -> TODO()
-                ArticlesScreenState.Loading -> TODO()
+                ArticlesScreenState.Empty ->
+                    BasicEmptyScreen(
+                        stringResource(R.string.no_articles_now),
+                        stringResource(R.string.try_later),
+                    )
+                ArticlesScreenState.Loading -> LoadingIndicator()
                 is ArticlesScreenState.Content -> {
-                    val articles = state.articleUiModels
+                    var articles = state.articleUiModels
+                    if (query.isNotBlank()) {
+                        articles = articles.filter { it.categoryName.startsWith(query, ignoreCase = true) }
+                    }
                     LazyColumn {
                         items(articles) { article ->
                             val listItemData =

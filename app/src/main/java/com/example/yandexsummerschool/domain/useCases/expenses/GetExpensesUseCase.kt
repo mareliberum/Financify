@@ -1,8 +1,8 @@
-package com.example.yandexsummerschool.domain.useCases
+package com.example.yandexsummerschool.domain.useCases.expenses
 
 import com.example.yandexsummerschool.data.dto.Result
-import com.example.yandexsummerschool.data.repositories.TransactionsRepository
 import com.example.yandexsummerschool.domain.models.TransactionModel
+import com.example.yandexsummerschool.domain.repositories.TransactionsRepository
 import javax.inject.Inject
 
 /**

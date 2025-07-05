@@ -30,27 +30,28 @@ fun BottomNavigationBar(navController: NavController) {
         val currentRoute = backStackEntry?.destination?.route
         val operationType = backStackEntry?.arguments?.getString("operationType")
 
+        // TODO: Переделать навигацию с nested graph,должно быть удобнее
+
         /**
-         * Это связано с тем, что экран myHistoryScreen я открываю с пробрасыванием туда ключа -
-         * доходы или расходы я отображаю. А иконку в нав баре надо подсвечивать доходов или
-         * расходов в соответствии с ключом
+         * Определяю рутовый путь для всех подэкранов, чтобы выделять
+         * нужный элемент нав бара
          */
-        val resolvedRoute =
-            when {
-                currentRoute == Routes.MyHistoryScreen.route -> {
+        val rootRoute =
+            when (currentRoute) {
+                Routes.MyHistoryScreen.route -> {
                     when (operationType) {
                         TransactionType.EXPENSE.key -> Routes.ExpensesScreen.route
                         TransactionType.INCOME.key -> Routes.IncomesScreen.route
                         else -> null
                     }
                 }
-
+                Routes.EditorAccountScreen.route -> Routes.AccountScreen.route
                 else -> currentRoute
             }
 
         Row(modifier = Modifier.padding(horizontal = 4.dp)) {
             NavBarItems.BarItems.forEach { navItem ->
-                val isSelected = resolvedRoute == navItem.route
+                val isSelected = rootRoute == navItem.route
                 NavigationBarItem(
                     selected = isSelected,
                     onClick = {

@@ -9,8 +9,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,7 +19,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
+import com.example.yandexsummerschool.domain.utils.Currencies
 import com.example.yandexsummerschool.ui.components.BottomNavigationBar
+import com.example.yandexsummerschool.ui.components.EmptyTransactionsScreen
 import com.example.yandexsummerschool.ui.components.ErrorScreen
 import com.example.yandexsummerschool.ui.components.FloatingActionButton
 import com.example.yandexsummerschool.ui.components.ListItem
@@ -35,7 +37,9 @@ fun IncomesScreen(
     viewModel: IncomesScreenViewModel = hiltViewModel(),
 ) {
     val incomeState by viewModel.incomesState.collectAsStateWithLifecycle()
-
+    LaunchedEffect(Unit) {
+        viewModel.loadIncomes()
+    }
     Scaffold(
         topBar = { TopAppBar(TopAppBarElement.Incomes, navController) },
         bottomBar = { BottomNavigationBar(navController = navController) },
@@ -54,7 +58,11 @@ fun IncomesScreen(
                     val total =
                         ListItemData(
                             title = stringResource(R.string.Sum),
-                            trailingText = incomesSum,
+                            trailingText =
+                                incomesSum + " ${
+                                    Currencies.resolve
+                                        (state.incomes.firstOrNull()?.currency ?: Currencies.RUB.code)
+                                }",
                         )
 
                     ListItem(
@@ -68,7 +76,7 @@ fun IncomesScreen(
                                 ListItemData(
                                     lead = income.emoji,
                                     title = income.categoryName,
-                                    trailingText = income.amount,
+                                    trailingText = income.amount + " ${Currencies.resolve(income.currency)}",
                                     trailingIcon = { TrailingIconArrowRight() },
                                 )
                             ListItem(
@@ -78,7 +86,8 @@ fun IncomesScreen(
                         }
                     }
                 }
-                IncomesScreenState.Empty -> Text("Пусто")
+
+                IncomesScreenState.Empty -> EmptyTransactionsScreen()
                 IncomesScreenState.Loading -> LoadingIndicator()
                 is IncomesScreenState.Error -> ErrorScreen("Ошибка")
             }

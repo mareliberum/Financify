@@ -2,12 +2,7 @@ package com.example.yandexsummerschool.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Светлая тема
 val GreenPrimary = Color(0xFF2AE881)
 val GreenLight = Color(0xffd4fae6)
 val surface = Color(0xfffef7ff)
@@ -28,3 +23,6 @@ val darkOutlineVariant = Color(0xFF5A5766)
 val darkTertiary = Color(0xFF3B3C43)
 val darkBackground = Color(0xFF121016)
 val darkIconColor = Color(0xFFE6E0E9)
+
+val dangerAction = Color(0xffe46962)
+val white = Color(0xFFFFFFFF)

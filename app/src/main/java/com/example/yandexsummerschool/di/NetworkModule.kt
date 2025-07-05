@@ -1,12 +1,15 @@
 package com.example.yandexsummerschool.di
 
 import com.example.yandexsummerschool.BuildConfig
+import com.example.yandexsummerschool.data.retrofit.ShmrAccountApi
+import com.example.yandexsummerschool.data.retrofit.ShmrArticlesApi
 import com.example.yandexsummerschool.data.retrofit.ShmrFinanceApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -41,6 +44,11 @@ object NetworkModule {
                         .build()
                 chain.proceed(request)
             }
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                },
+            )
             .build()
     }
 
@@ -59,4 +67,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideShmrFinanceApi(retrofit: Retrofit): ShmrFinanceApi = retrofit.create(ShmrFinanceApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providesShmrAccountApi(retrofit: Retrofit): ShmrAccountApi = retrofit.create(ShmrAccountApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providesShmrArticlesApi(retrofit: Retrofit): ShmrArticlesApi = retrofit.create(ShmrArticlesApi::class.java)
 }
