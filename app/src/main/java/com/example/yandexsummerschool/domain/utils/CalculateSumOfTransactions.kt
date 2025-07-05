@@ -7,5 +7,5 @@ fun calculateSum(transactions: List<TransactionModel>): String {
         transactions.sumOf {
             it.amount.replace(Regex("[^\\d]"), "").toLongOrNull() ?: 0L
         }
-    return "$total ₽"
+    return "$total"
 }

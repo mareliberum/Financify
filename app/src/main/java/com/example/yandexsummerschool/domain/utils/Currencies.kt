@@ -6,7 +6,7 @@ package com.example.yandexsummerschool.domain.utils
  * @property code код валюты по типу ("RUB")
  * @property symbol символ валюты ("₽")
  */
-enum class CurrencyResolver(
+enum class Currencies(
     val code: String,
     val symbol: String,
 ) {

@@ -11,7 +11,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.yandexsummerschool.domain.NetworkObserver
 import com.example.yandexsummerschool.ui.components.NetworkStatusToast
-import com.example.yandexsummerschool.ui.screens.accountScreen.AccountScreen
+import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreen
+import com.example.yandexsummerschool.ui.screens.accountScreen.editor.EditorAccountScreen
 import com.example.yandexsummerschool.ui.screens.articlesScreen.ArticlesScreen
 import com.example.yandexsummerschool.ui.screens.expensesScreen.ExpensesScreen
 import com.example.yandexsummerschool.ui.screens.incomesScreen.IncomesScreen
@@ -29,7 +30,7 @@ fun AppNavGraph() {
             networkObserver.stopObserving()
         }
     }
-
+    // TODO перенести главный скаффолд в котором будет нав бар
     NetworkStatusToast(networkObserver)
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.ExpensesScreen.route) {
@@ -45,6 +46,10 @@ fun AppNavGraph() {
             val operationType = backStackEntry.arguments?.getString("operationType")
             val type = TransactionType.entries.find { it.key == operationType } ?: TransactionType.EXPENSE
             MyHistoryScreen(navController, type)
+        }
+
+        composable(Routes.EditorAccountScreen.route) {
+            EditorAccountScreen(navController)
         }
     }
 }

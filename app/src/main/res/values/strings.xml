@@ -10,4 +10,13 @@
     <string name="Balance">Баланс</string>
     <string name="Currency">Валюта</string>
     <string name="My_History">Моя история</string>
+    <string name="Empty_transaction_screen_subText">Когда появятся новые транзакции, они отобразятся здесь</string>
+    <string name="empty_transaction_screen_text">Сегодня транзакций не было</string>
+    <string name="No_account_exception">У вас нет аккаунта</string>
+    <string name="delete_account">Удалить счет</string>
+    <string name="dont_delete_account_message">Не удаляй аккаунт, пока нельзя создать новый)</string>
+    <string name="name">Название</string>
+    <string name="currency">Валюта</string>
+    <string name="try_later">попробуйте позднее</string>
+    <string name="no_articles_now">Сейчас статей нет</string>
 </resources>

@@ -15,4 +15,6 @@ sealed class Routes(val route: String) {
     data object ExpenseArticleScreen : Routes("ExpenseArticles")
 
     data object MyHistoryScreen : Routes("history/{operationType}")
+
+    data object EditorAccountScreen : Routes("EditorAccountScreen")
 }

@@ -1,7 +1,6 @@
 package com.example.yandexsummerschool.ui.screens.myHistoryScreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -42,7 +41,6 @@ fun MyHistoryScreen(
     val startOfPeriod by viewModel.startOfPeriod.collectAsStateWithLifecycle()
     val endOfPeriod by viewModel.endOfPeriod.collectAsStateWithLifecycle()
     val currentState = viewModel.myHistoryScreenState.collectAsStateWithLifecycle()
-
     val startItem = ListItemData(title = "Начало", trailingText = startOfPeriod)
     val endItem = ListItemData(title = "Конец", trailingText = endOfPeriod)
 
@@ -50,7 +48,6 @@ fun MyHistoryScreen(
         topBar = { TopAppBar(TopAppBarElement.MyHistory, navController) },
         bottomBar = { BottomNavigationBar(navController) },
     ) { padding ->
-
         LaunchedEffect(Unit) {
             viewModel.loadHistory(transactionType)
         }
@@ -79,23 +76,21 @@ fun MyHistoryScreen(
             // Даты
             ListItem(
                 startItem,
-                modifier =
-                    Modifier
-                        .background(MaterialTheme.colorScheme.secondary)
-                        .clickable {
-                            pickerType = DateType.START
-                            showPicker = true
-                        },
+                modifier = Modifier.background(MaterialTheme.colorScheme.secondary),
+                onClick = {
+                    pickerType = DateType.START
+                    showPicker = true
+                },
             )
             ListItem(
                 endItem,
                 modifier =
                     Modifier
-                        .background(MaterialTheme.colorScheme.secondary)
-                        .clickable {
-                            pickerType = DateType.END
-                            showPicker = true
-                        },
+                        .background(MaterialTheme.colorScheme.secondary),
+                onClick = {
+                    pickerType = DateType.START
+                    showPicker = true
+                },
             )
             // контент
             when (val state = currentState.value) {

@@ -10,6 +10,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -61,6 +64,58 @@ fun TopAppBar(
                     Icon(
                         painter = painterResource(topAppBarElement.iconResource),
                         contentDescription = null,
+                        tint = iconColor,
+                    )
+                }
+            }
+        },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopAppBar(
+    title: String,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
+    leadingIcon: Painter? = null,
+    leadingIconContentDescription: String? = null,
+    onLeadingClick: (() -> Unit)? = null,
+    trailingIcon: Painter? = null,
+    trailingIconContentDescription: String? = null,
+    onTrailingClick: (() -> Unit)? = null,
+) {
+    CenterAlignedTopAppBar(
+        navigationIcon = {
+            if (leadingIcon != null) {
+                IconButton(onClick = { onLeadingClick?.invoke() }) {
+                    Icon(
+                        painter = leadingIcon,
+                        contentDescription = leadingIconContentDescription,
+                    )
+                }
+            }
+        },
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = backgroundColor,
+                titleContentColor = contentColor,
+            ),
+        title = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+            )
+        },
+        actions = {
+            if (trailingIcon != null) {
+                IconButton(
+                    onClick = { onTrailingClick?.invoke() },
+                ) {
+                    Icon(
+                        painter = trailingIcon,
+                        contentDescription = trailingIconContentDescription,
                         tint = iconColor,
                     )
                 }

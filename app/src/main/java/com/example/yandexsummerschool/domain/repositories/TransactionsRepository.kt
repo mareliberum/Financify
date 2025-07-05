@@ -1,10 +1,10 @@
-package com.example.yandexsummerschool.data.repositories
+package com.example.yandexsummerschool.domain.repositories
 
 import com.example.yandexsummerschool.data.dto.Result
 import com.example.yandexsummerschool.domain.models.TransactionModel
 
 /**
- * Предоставляет интерфейс репозитория для работы с SHMR Finance API
+ * Интерфейс репозитория для работы с транзакциями SHMR Finance API
  */
 interface TransactionsRepository {
     suspend fun getTransactions(
