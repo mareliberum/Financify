@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.ui.components
+package com.example.yandexsummerschool.ui.common.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

@@ -17,12 +17,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.yandexsummerschool.ui.components.BottomNavigationBar
-import com.example.yandexsummerschool.ui.components.ListItem
-import com.example.yandexsummerschool.ui.components.ListItemData
-import com.example.yandexsummerschool.ui.components.TopAppBar
-import com.example.yandexsummerschool.ui.components.TopAppBarElement
-import com.example.yandexsummerschool.ui.components.TrailingIconArrowRightFilled
+import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
+import com.example.yandexsummerschool.ui.common.components.ListItem
+import com.example.yandexsummerschool.ui.common.components.ListItemData
+import com.example.yandexsummerschool.ui.common.components.TopAppBar
+import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
+import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRightFilled
 
 @Composable
 fun SettingsScreen(navController: NavController) {

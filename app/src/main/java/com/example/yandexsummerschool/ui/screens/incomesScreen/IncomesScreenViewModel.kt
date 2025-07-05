@@ -1,13 +1,13 @@
 package com.example.yandexsummerschool.ui.screens.incomesScreen
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yandexsummerschool.data.dto.Result
-import com.example.yandexsummerschool.domain.UserDelegate
-import com.example.yandexsummerschool.domain.useCases.account.GetAccountIdUseCase
+import com.example.yandexsummerschool.data.local.UserDelegate
+import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.incomes.GetIncomesUseCase
 import com.example.yandexsummerschool.domain.utils.calculateSum
 import com.example.yandexsummerschool.domain.utils.date.millisToIso
+import com.example.yandexsummerschool.ui.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,9 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class IncomesScreenViewModel @Inject constructor(
     private val getIncomesUseCase: GetIncomesUseCase,
-    private val getAccountIdUseCase: GetAccountIdUseCase,
-    private val userDelegate: UserDelegate,
-) : ViewModel() {
+    override val userDelegate: UserDelegate,
+    override val getAccountUseCase: GetAccountUseCase,
+) : BaseViewModel() {
     private val _incomeState = MutableStateFlow<IncomesScreenState>(IncomesScreenState.Loading)
     val incomesState: StateFlow<IncomesScreenState> = _incomeState
 
@@ -55,22 +55,6 @@ class IncomesScreenViewModel @Inject constructor(
                     _incomeState.value =
                         IncomesScreenState.Error(result.exception.message ?: "Неизвестная ошибка")
                 }
-            }
-        }
-    }
-
-    suspend fun getAccountId(): Int {
-        val id = userDelegate.getAccountId() ?: fetchAndSaveAccountId()
-        return id
-    }
-
-    suspend fun fetchAndSaveAccountId(): Int {
-        when (val result = getAccountIdUseCase()) {
-            is Result.Failure -> error(result)
-            is Result.Success -> {
-                val id = result.data
-                userDelegate.saveAccountId(id)
-                return id
             }
         }
     }

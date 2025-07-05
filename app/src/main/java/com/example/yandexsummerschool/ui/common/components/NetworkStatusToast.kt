@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.ui.components
+package com.example.yandexsummerschool.ui.common.components
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable

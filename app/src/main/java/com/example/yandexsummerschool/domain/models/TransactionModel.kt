@@ -20,6 +20,7 @@ fun TransactionModel.toHistoryItem(): HistoryItem {
         lead = emoji ?: "",
         title = categoryName,
         sum = amount,
+        currency = currency,
         time = convertIsoToDate(date),
         subtitle = comment,
     )

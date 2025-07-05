@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.yandexsummerschool.domain.NetworkObserver
-import com.example.yandexsummerschool.ui.components.NetworkStatusToast
+import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
 import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreen
 import com.example.yandexsummerschool.ui.screens.accountScreen.editor.EditorAccountScreen
 import com.example.yandexsummerschool.ui.screens.articlesScreen.ArticlesScreen

@@ -1,13 +1,13 @@
 package com.example.yandexsummerschool.ui.screens.expensesScreen
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yandexsummerschool.data.dto.Result
-import com.example.yandexsummerschool.domain.UserDelegate
+import com.example.yandexsummerschool.data.local.UserDelegate
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.expenses.GetExpensesUseCase
 import com.example.yandexsummerschool.domain.utils.calculateSum
 import com.example.yandexsummerschool.domain.utils.date.millisToIso
+import com.example.yandexsummerschool.ui.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,9 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ExpensesScreenViewModel @Inject constructor(
     private val getExpensesUseCase: GetExpensesUseCase,
-    private val getAccountUseCase: GetAccountUseCase,
-    private val userDelegate: UserDelegate,
-) : ViewModel() {
+    override val getAccountUseCase: GetAccountUseCase,
+    override val userDelegate: UserDelegate,
+) : BaseViewModel() {
     private var fetchJob: Job? = null
 
     private val _expensesScreenState = MutableStateFlow<ExpensesScreenState>(ExpensesScreenState.Loading)
@@ -68,45 +68,5 @@ class ExpensesScreenViewModel @Inject constructor(
                 }
                 _isRefreshing.value = false
             }
-    }
-//
-//    fun isCurrencyUpdated(): Boolean{
-//        if(userDelegate.getCurrency() != )
-//    }
-
-    suspend fun getAccountId(): Int {
-        val id = userDelegate.getAccountId() ?: fetchAndSaveAccountId()
-        return id
-    }
-
-    suspend fun fetchAndSaveAccountId(): Int {
-        when (val result = getAccountUseCase()) {
-            is Result.Failure -> error(result)
-            is Result.Success -> {
-                val id = result.data.id
-                val currency = result.data.currency
-                userDelegate.saveAccountId(id)
-                userDelegate.saveCurrency(currency)
-                return id
-            }
-        }
-    }
-
-    suspend fun getCurrency(): String {
-        val currency = userDelegate.getCurrency() ?: fetchAndSaveCurrency()
-        return currency
-    }
-
-    suspend fun fetchAndSaveCurrency(): String {
-        when (val result = getAccountUseCase()) {
-            is Result.Failure -> error(result)
-            is Result.Success -> {
-                val id = result.data.id
-                val currency = result.data.currency
-                userDelegate.saveAccountId(id)
-                userDelegate.saveCurrency(currency)
-                return currency
-            }
-        }
     }
 }

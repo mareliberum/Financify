@@ -17,18 +17,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.yandexsummerschool.ui.components.BottomNavigationBar
-import com.example.yandexsummerschool.ui.components.DatePicker
-import com.example.yandexsummerschool.ui.components.ListItem
-import com.example.yandexsummerschool.ui.components.ListItemData
-import com.example.yandexsummerschool.ui.components.LoadingIndicator
-import com.example.yandexsummerschool.ui.components.TopAppBar
-import com.example.yandexsummerschool.ui.components.TopAppBarElement
-import com.example.yandexsummerschool.ui.components.TrailingIconArrowRight
+import com.example.yandexsummerschool.R
+import com.example.yandexsummerschool.domain.utils.Currencies
+import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
+import com.example.yandexsummerschool.ui.common.components.DatePicker
+import com.example.yandexsummerschool.ui.common.components.ListItem
+import com.example.yandexsummerschool.ui.common.components.ListItemData
+import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
+import com.example.yandexsummerschool.ui.common.components.TopAppBar
+import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
+import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRight
 
 @Composable
 fun MyHistoryScreen(
@@ -97,7 +100,15 @@ fun MyHistoryScreen(
                 HistoryScreenState.Empty -> Text("Пусто")
                 HistoryScreenState.Loading -> LoadingIndicator()
                 is HistoryScreenState.Content -> {
-                    val sumItem = ListItemData(title = "Сумма", trailingText = state.sum)
+                    val sumItem =
+                        ListItemData(
+                            title = stringResource(R.string.Sum),
+                            trailingText =
+                                state.sum +
+                                    Currencies.resolve(
+                                        state.history.firstOrNull()?.currency ?: Currencies.RUB.code,
+                                    ),
+                        )
 
                     ListItem(
                         sumItem,
@@ -111,7 +122,7 @@ fun MyHistoryScreen(
                                     lead = item.lead,
                                     title = item.title,
                                     subtitle = item.subtitle,
-                                    trailingText = item.sum,
+                                    trailingText = item.sum + Currencies.resolve(item.currency),
                                     trailingSubText = item.time,
                                     trailingIcon = { TrailingIconArrowRight() },
                                 )

@@ -20,16 +20,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
-import com.example.yandexsummerschool.ui.components.BottomNavigationBar
-import com.example.yandexsummerschool.ui.components.EmptyTransactionsScreen
-import com.example.yandexsummerschool.ui.components.ErrorScreen
-import com.example.yandexsummerschool.ui.components.FloatingActionButton
-import com.example.yandexsummerschool.ui.components.ListItem
-import com.example.yandexsummerschool.ui.components.ListItemData
-import com.example.yandexsummerschool.ui.components.LoadingIndicator
-import com.example.yandexsummerschool.ui.components.TopAppBar
-import com.example.yandexsummerschool.ui.components.TopAppBarElement
-import com.example.yandexsummerschool.ui.components.TrailingIconArrowRight
+import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
+import com.example.yandexsummerschool.ui.common.components.FloatingActionButton
+import com.example.yandexsummerschool.ui.common.components.ListItem
+import com.example.yandexsummerschool.ui.common.components.ListItemData
+import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
+import com.example.yandexsummerschool.ui.common.components.TopAppBar
+import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
+import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRight
+import com.example.yandexsummerschool.ui.common.screens.EmptyTransactionsScreen
+import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 
 @Composable
 fun IncomesScreen(
@@ -76,6 +76,7 @@ fun IncomesScreen(
                                 ListItemData(
                                     lead = income.emoji,
                                     title = income.categoryName,
+                                    subtitle = income.comment,
                                     trailingText = income.amount + " ${Currencies.resolve(income.currency)}",
                                     trailingIcon = { TrailingIconArrowRight() },
                                 )

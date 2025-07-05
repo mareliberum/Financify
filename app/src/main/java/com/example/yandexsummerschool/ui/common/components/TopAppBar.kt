@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.ui.components
+package com.example.yandexsummerschool.ui.common.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
