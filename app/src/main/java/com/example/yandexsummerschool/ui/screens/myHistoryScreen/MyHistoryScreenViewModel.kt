@@ -24,78 +24,78 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MyHistoryScreenViewModel @Inject constructor(
-        private val getExpensesUseCase: GetExpensesUseCase,
-        private val getIncomesUseCase: GetIncomesUseCase,
-        override val userDelegate: UserDelegate,
-        override val getAccountUseCase: GetAccountUseCase,
-    ) : BaseViewModel() {
-        private var transactionsType: TransactionType? = null // Историю чего мы отображаем - доходы или расходы
+    private val getExpensesUseCase: GetExpensesUseCase,
+    private val getIncomesUseCase: GetIncomesUseCase,
+    override val userDelegate: UserDelegate,
+    override val getAccountUseCase: GetAccountUseCase,
+) : BaseViewModel() {
+    private var transactionsType: TransactionType? = null // Историю чего мы отображаем - доходы или расходы
 
-        private val _startOfPeriod = MutableStateFlow(millsToDate(getStartOfMonth()))
-        val startOfPeriod = _startOfPeriod.asStateFlow()
+    private val _startOfPeriod = MutableStateFlow(millsToDate(getStartOfMonth()))
+    val startOfPeriod = _startOfPeriod.asStateFlow()
 
-        private val _endOfPeriod = MutableStateFlow(millsToDate(System.currentTimeMillis()))
-        val endOfPeriod = _endOfPeriod.asStateFlow()
+    private val _endOfPeriod = MutableStateFlow(millsToDate(System.currentTimeMillis()))
+    val endOfPeriod = _endOfPeriod.asStateFlow()
 
-        private val _myHistoryScreenState = MutableStateFlow<HistoryScreenState>(HistoryScreenState.Loading)
-        val myHistoryScreenState = _myHistoryScreenState.asStateFlow()
+    private val _myHistoryScreenState = MutableStateFlow<HistoryScreenState>(HistoryScreenState.Loading)
+    val myHistoryScreenState = _myHistoryScreenState.asStateFlow()
 
-        fun setStartDate(dateMillis: Long?) {
-            _startOfPeriod.value = millsToDate(dateMillis)
-            val type = transactionsType
-            if (type != null) loadHistory(type)
-        }
+    fun setStartDate(dateMillis: Long?) {
+        _startOfPeriod.value = millsToDate(dateMillis)
+        val type = transactionsType
+        if (type != null) loadHistory(type)
+    }
 
-        fun setEndDate(dateMillis: Long?) {
-            _endOfPeriod.value = millsToDate(dateMillis)
-            val type = transactionsType
-            if (type != null) loadHistory(type)
-        }
+    fun setEndDate(dateMillis: Long?) {
+        _endOfPeriod.value = millsToDate(dateMillis)
+        val type = transactionsType
+        if (type != null) loadHistory(type)
+    }
 
-        fun loadHistory(type: TransactionType) {
-            viewModelScope.launch {
-                _myHistoryScreenState.value = HistoryScreenState.Loading
-                transactionsType = type
-                when (val result = getResult(type)) {
-                    is Result.Success -> {
-                        val expenses = result.data
-                        if (expenses.isEmpty()) {
-                            _myHistoryScreenState.value = HistoryScreenState.Empty
-                        } else {
-                            val history = expenses.map { it.toHistoryItem() }
-                            val content =
-                                HistoryScreenState.Content(
-                                    history = history,
-                                    sum = calculateSum(expenses),
-                                )
-                            _myHistoryScreenState.value = content
-                        }
-                    }
-
-                    is Result.Failure -> {
+    fun loadHistory(type: TransactionType) {
+        viewModelScope.launch {
+            _myHistoryScreenState.value = HistoryScreenState.Loading
+            transactionsType = type
+            when (val result = getResult(type)) {
+                is Result.Success -> {
+                    val expenses = result.data
+                    if (expenses.isEmpty()) {
                         _myHistoryScreenState.value = HistoryScreenState.Empty
+                    } else {
+                        val history = expenses.map { it.toHistoryItem() }
+                        val content =
+                            HistoryScreenState.Content(
+                                history = history,
+                                sum = calculateSum(expenses),
+                            )
+                        _myHistoryScreenState.value = content
                     }
                 }
-            }
-        }
 
-        private suspend fun getResult(type: TransactionType): Result<List<TransactionModel>> {
-            return when (type) {
-                TransactionType.INCOME -> {
-                    getIncomesUseCase(
-                        getAccountId(),
-                        convertDateToIso(startOfPeriod.value),
-                        convertDateToIso(endOfPeriod.value),
-                    )
-                }
-
-                TransactionType.EXPENSE -> {
-                    getExpensesUseCase(
-                        getAccountId(),
-                        convertDateToIso(startOfPeriod.value),
-                        convertDateToIso(endOfPeriod.value),
-                    )
+                is Result.Failure -> {
+                    _myHistoryScreenState.value = HistoryScreenState.Empty
                 }
             }
         }
     }
+
+    private suspend fun getResult(type: TransactionType): Result<List<TransactionModel>> {
+        return when (type) {
+            TransactionType.INCOME -> {
+                getIncomesUseCase(
+                    getAccountId(),
+                    convertDateToIso(startOfPeriod.value),
+                    convertDateToIso(endOfPeriod.value),
+                )
+            }
+
+            TransactionType.EXPENSE -> {
+                getExpensesUseCase(
+                    getAccountId(),
+                    convertDateToIso(startOfPeriod.value),
+                    convertDateToIso(endOfPeriod.value),
+                )
+            }
+        }
+    }
+}
