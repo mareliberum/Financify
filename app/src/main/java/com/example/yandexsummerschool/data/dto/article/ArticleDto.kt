@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.data.dto
+package com.example.yandexsummerschool.data.dto.article
 
 import com.example.yandexsummerschool.domain.models.ArticleModel
 

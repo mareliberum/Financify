@@ -1,6 +1,6 @@
 package com.example.yandexsummerschool.domain.useCases.account
 
-import com.example.yandexsummerschool.data.dto.Result
+import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.repositories.AccountRepository
 import javax.inject.Inject
 

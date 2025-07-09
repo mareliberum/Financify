@@ -1,6 +1,6 @@
 package com.example.yandexsummerschool.data.retrofit
 
-import com.example.yandexsummerschool.data.dto.ApiError
+import com.example.yandexsummerschool.data.dto.common.ApiError
 import com.google.gson.Gson
 import okhttp3.ResponseBody
 

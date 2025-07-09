@@ -43,13 +43,13 @@ fun IncomesScreen(
     Scaffold(
         topBar = { TopAppBar(TopAppBarElement.Incomes, navController) },
         bottomBar = { BottomNavigationBar(navController = navController) },
-        floatingActionButton = { FloatingActionButton(navController) },
+        floatingActionButton = { FloatingActionButton() },
     ) { innerPadding ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
         ) {
             when (val state = incomeState) {
                 is IncomesScreenState.Content -> {

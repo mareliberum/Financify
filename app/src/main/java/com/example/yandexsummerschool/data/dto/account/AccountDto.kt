@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.data.dto
+package com.example.yandexsummerschool.data.dto.account
 
 data class AccountDto(
     val id: Int,

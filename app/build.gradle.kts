@@ -6,6 +6,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
+
 }
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
@@ -85,12 +86,15 @@ dependencies {
 
     implementation(libs.androidx.core.splashscreen)
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     // Hilt
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-    implementation("com.google.dagger:hilt-android:2.50")
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    //Ksp
     ksp("com.google.dagger:hilt-android-compiler:2.50")
+    //Dagger
+    implementation("com.google.dagger:dagger:2.x")
 }

@@ -1,10 +1,10 @@
 package com.example.yandexsummerschool.data.repositories
 
-import com.example.yandexsummerschool.data.dto.AccountUpdateRequestDto
-import com.example.yandexsummerschool.data.dto.Result
+import com.example.yandexsummerschool.data.dto.account.AccountUpdateRequestDto
 import com.example.yandexsummerschool.data.retrofit.ErrorParser.parseError
 import com.example.yandexsummerschool.data.retrofit.ShmrAccountApi
 import com.example.yandexsummerschool.domain.models.AccountModel
+import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.toAccountModel
 import com.example.yandexsummerschool.domain.repositories.AccountRepository
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +44,6 @@ class AccountRepositoryImpl @Inject constructor(
                 val account =
                     response.body()?.toAccountModel()
                         ?: return@withContext Result.Failure(Exception("Empty account data"))
-
                 Result.Success(account)
             } else {
                 val error = parseError(response.errorBody())

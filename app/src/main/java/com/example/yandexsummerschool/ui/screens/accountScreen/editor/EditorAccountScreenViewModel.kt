@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yandexsummerschool.data.dto.Result
+import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.account.UpdateAccountDataUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies

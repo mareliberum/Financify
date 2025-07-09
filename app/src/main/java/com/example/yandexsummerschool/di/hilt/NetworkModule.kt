@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.di
+package com.example.yandexsummerschool.di.hilt
 
 import com.example.yandexsummerschool.BuildConfig
 import com.example.yandexsummerschool.data.retrofit.ShmrAccountApi

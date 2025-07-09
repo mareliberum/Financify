@@ -1,10 +1,11 @@
 package com.example.yandexsummerschool.data.repositories
 
-import com.example.yandexsummerschool.data.dto.Result
+import com.example.yandexsummerschool.data.dto.transactions.toTransactionDomainModel
+import com.example.yandexsummerschool.data.dto.transactions.toTransactionRequestDto
 import com.example.yandexsummerschool.data.retrofit.ErrorParser.parseError
 import com.example.yandexsummerschool.data.retrofit.ShmrFinanceApi
-import com.example.yandexsummerschool.domain.models.TransactionModel
-import com.example.yandexsummerschool.domain.models.toTransactionModel
+import com.example.yandexsummerschool.domain.models.Result
+import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 import com.example.yandexsummerschool.domain.repositories.TransactionsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,11 +25,11 @@ class TransactionsRepositoryImpl @Inject constructor(
         accountId: Int,
         startDate: String?,
         endDate: String?,
-    ): Result<List<TransactionModel>> =
+    ): Result<List<TransactionDomainModel>> =
         withContext(Dispatchers.IO) {
             val response = executeWIthRetries { api.getTransactions(accountId, startDate, endDate) }
             if (response.isSuccessful) {
-                val transactionsList = response.body()?.map { it.toTransactionModel() } ?: emptyList()
+                val transactionsList = response.body()?.map { it.toTransactionDomainModel() } ?: emptyList()
                 Result.Success(transactionsList)
             } else {
                 val error = parseError(response.errorBody())
@@ -40,7 +41,7 @@ class TransactionsRepositoryImpl @Inject constructor(
         accountId: Int,
         startDate: String?,
         endDate: String?,
-    ): Result<List<TransactionModel>> {
+    ): Result<List<TransactionDomainModel>> {
         return when (val result = getTransactions(accountId, startDate, endDate)) {
             is Result.Success -> Result.Success(result.data.filter { it.isIncome })
             is Result.Failure -> result
@@ -51,10 +52,41 @@ class TransactionsRepositoryImpl @Inject constructor(
         accountId: Int,
         startDate: String?,
         endDate: String?,
-    ): Result<List<TransactionModel>> {
+    ): Result<List<TransactionDomainModel>> {
         return when (val result = getTransactions(accountId, startDate, endDate)) {
             is Result.Success -> Result.Success(result.data.filter { !it.isIncome })
             is Result.Failure -> result
+        }
+    }
+
+    override suspend fun postTransaction(transaction: TransactionDomainModel): Result<TransactionDomainModel> {
+        val transactionRequestDto = transaction.toTransactionRequestDto()
+
+        return withContext(Dispatchers.IO) {
+            val response = executeWIthRetries { api.postTransaction(transactionRequestDto) }
+            if (response.isSuccessful) {
+                Result.Success(transaction)
+            } else {
+                val error = parseError(response.errorBody())
+                Result.Failure(Exception(error.message))
+            }
+        }
+    }
+
+    override suspend fun updateTransaction(
+        transaction: TransactionDomainModel
+    ): Result<TransactionDomainModel> {
+        val transactionRequestDto = transaction.toTransactionRequestDto()
+        return withContext(Dispatchers.IO) {
+            val response = executeWIthRetries { api.updateTransaction(transaction.id.toInt(), transactionRequestDto) }
+            if (response.isSuccessful) {
+                val transactionDomainModel = response.body()?.toTransactionDomainModel()
+                    ?: return@withContext Result.Failure(Exception("Server error - empty response body"))
+                Result.Success(transactionDomainModel)
+            } else {
+                val error = parseError(response.errorBody())
+                Result.Failure(Exception(error.message))
+            }
         }
     }
 }

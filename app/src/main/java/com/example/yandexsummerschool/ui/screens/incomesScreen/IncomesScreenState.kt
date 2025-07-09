@@ -1,6 +1,6 @@
 package com.example.yandexsummerschool.ui.screens.incomesScreen
 
-import com.example.yandexsummerschool.domain.models.TransactionModel
+import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 
 /**
  * Состояние экрана расходов.
@@ -12,7 +12,7 @@ import com.example.yandexsummerschool.domain.models.TransactionModel
  */
 sealed interface IncomesScreenState {
     data class Content(
-        val incomes: List<TransactionModel>,
+        val incomes: List<TransactionDomainModel>,
         val incomeSum: String,
     ) : IncomesScreenState
 

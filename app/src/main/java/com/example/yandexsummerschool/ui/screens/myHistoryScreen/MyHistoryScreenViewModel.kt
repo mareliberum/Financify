@@ -2,9 +2,8 @@ package com.example.yandexsummerschool.ui.screens.myHistoryScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yandexsummerschool.data.dto.Result
-import com.example.yandexsummerschool.domain.models.TransactionModel
-import com.example.yandexsummerschool.domain.models.toHistoryItem
+import com.example.yandexsummerschool.domain.models.Result
+import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 import com.example.yandexsummerschool.domain.useCases.expenses.GetExpensesUseCase
 import com.example.yandexsummerschool.domain.useCases.incomes.GetIncomesUseCase
 import com.example.yandexsummerschool.domain.utils.calculateSum
@@ -76,8 +75,7 @@ class MyHistoryScreenViewModel
                 }
             }
         }
-
-        private suspend fun getResult(type: TransactionType): Result<List<TransactionModel>> {
+    private suspend fun getResult(type: TransactionType): Result<List<TransactionDomainModel>> {
             return when (type) {
                 TransactionType.INCOME -> {
                     getIncomesUseCase(

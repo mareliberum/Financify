@@ -24,12 +24,12 @@ import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
 import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
-import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 import com.example.yandexsummerschool.ui.common.components.FloatingActionButton
 import com.example.yandexsummerschool.ui.common.components.ListItem
 import com.example.yandexsummerschool.ui.common.components.ListItemData
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
 import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRight
+import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 import com.example.yandexsummerschool.ui.navigation.Routes
 import com.example.yandexsummerschool.ui.screens.accountScreen.components.BottomSheetContent
 
@@ -56,13 +56,13 @@ fun AccountScreen(
             )
         },
         bottomBar = { BottomNavigationBar(navController = navController) },
-        floatingActionButton = { FloatingActionButton(navController) },
+        floatingActionButton = { FloatingActionButton() },
     ) { innerPadding ->
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
         ) {
             when (val state = accountState) {
                 AccountScreenState.Empty -> ErrorScreen(stringResource(R.string.No_account_exception))

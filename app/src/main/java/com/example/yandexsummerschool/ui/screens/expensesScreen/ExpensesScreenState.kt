@@ -1,6 +1,6 @@
 package com.example.yandexsummerschool.ui.screens.expensesScreen
 
-import com.example.yandexsummerschool.domain.models.TransactionModel
+import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 
 /**
  * Состояние экрана расходов.
@@ -11,8 +11,9 @@ import com.example.yandexsummerschool.domain.models.TransactionModel
  * - Пустое состояние
  */
 sealed interface ExpensesScreenState {
+
     data class Content(
-        val expenses: List<TransactionModel>,
+        val expenses: List<TransactionDomainModel>,
         val expensesSum: String,
     ) : ExpensesScreenState
 

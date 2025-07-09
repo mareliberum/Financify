@@ -1,6 +1,6 @@
 package com.example.yandexsummerschool.domain.models
 
-import com.example.yandexsummerschool.data.dto.AccountDto
+import com.example.yandexsummerschool.data.dto.account.AccountDto
 
 data class AccountModel(
     val id: Int,

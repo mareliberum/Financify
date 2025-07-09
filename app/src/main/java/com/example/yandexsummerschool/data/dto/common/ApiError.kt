@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.data.dto
+package com.example.yandexsummerschool.data.dto.common
 
 /**
  * дата класс хранящий инормацию об ошибке с апи

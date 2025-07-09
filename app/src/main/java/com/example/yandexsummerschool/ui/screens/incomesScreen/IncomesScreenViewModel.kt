@@ -1,8 +1,8 @@
 package com.example.yandexsummerschool.ui.screens.incomesScreen
 
 import androidx.lifecycle.viewModelScope
-import com.example.yandexsummerschool.data.dto.Result
 import com.example.yandexsummerschool.data.local.UserDelegate
+import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.incomes.GetIncomesUseCase
 import com.example.yandexsummerschool.domain.utils.calculateSum

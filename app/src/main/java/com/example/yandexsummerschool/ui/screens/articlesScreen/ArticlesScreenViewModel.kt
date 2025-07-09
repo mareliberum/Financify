@@ -2,7 +2,7 @@ package com.example.yandexsummerschool.ui.screens.articlesScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yandexsummerschool.data.dto.Result
+import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.toUiModel
 import com.example.yandexsummerschool.domain.useCases.articles.GetArticlesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

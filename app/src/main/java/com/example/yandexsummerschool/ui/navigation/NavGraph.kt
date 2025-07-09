@@ -13,6 +13,7 @@ import com.example.yandexsummerschool.domain.NetworkObserver
 import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
 import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreen
 import com.example.yandexsummerschool.ui.screens.accountScreen.editor.EditorAccountScreen
+import com.example.yandexsummerschool.ui.screens.addTransactionScreen.AddTransactionScreen
 import com.example.yandexsummerschool.ui.screens.articlesScreen.ArticlesScreen
 import com.example.yandexsummerschool.ui.screens.expensesScreen.ExpensesScreen
 import com.example.yandexsummerschool.ui.screens.incomesScreen.IncomesScreen
@@ -51,5 +52,11 @@ fun AppNavGraph() {
         composable(Routes.EditorAccountScreen.route) {
             EditorAccountScreen(navController)
         }
+
+        composable(Routes.AddTransactionScreen.route) {
+            AddTransactionScreen(navController)
+        }
+
+
     }
 }

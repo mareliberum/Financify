@@ -33,6 +33,7 @@ import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
 import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRight
 import com.example.yandexsummerschool.ui.common.screens.EmptyTransactionsScreen
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
+import com.example.yandexsummerschool.ui.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +53,7 @@ fun ExpensesScreen(
     Scaffold(
         topBar = { TopAppBar(TopAppBarElement.Expenses, navController) },
         bottomBar = { BottomNavigationBar(navController = navController) },
-        floatingActionButton = { FloatingActionButton(navController) },
+        floatingActionButton = { FloatingActionButton(onClick = { navController.navigate(Routes.AddTransactionScreen.route) }) },
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding),
@@ -73,10 +74,10 @@ fun ExpensesScreen(
                             ListItemData(
                                 title = stringResource(R.string.Sum),
                                 trailingText =
-                                    "$expensesSum " +
-                                        Currencies.resolve(
-                                            expensesList.firstOrNull()?.currency ?: Currencies.RUB.code,
-                                        ),
+                                "$expensesSum " +
+                                    Currencies.resolve(
+                                        expensesList.firstOrNull()?.currency ?: Currencies.RUB.code,
+                                    ),
                             )
                         LazyColumn(
                             modifier = Modifier.padding(vertical = 3.dp),

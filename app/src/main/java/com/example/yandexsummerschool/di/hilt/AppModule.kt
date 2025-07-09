@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.di
+package com.example.yandexsummerschool.di.hilt
 
 import com.example.yandexsummerschool.data.repositories.AccountRepositoryImpl
 import com.example.yandexsummerschool.data.repositories.ArticlesRepositoryImpl
@@ -13,6 +13,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 /**
  * Dagger-модуль для предоставления репозиториев
@@ -21,16 +22,19 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides
+    @Singleton
     fun provideShmrFinanceRepository(shmrFinanceApi: ShmrFinanceApi): TransactionsRepository {
         return TransactionsRepositoryImpl(shmrFinanceApi)
     }
 
     @Provides
+    @Singleton
     fun provideAccountRepository(accountApi: ShmrAccountApi): AccountRepository {
         return AccountRepositoryImpl(accountApi)
     }
 
     @Provides
+    @Singleton
     fun provideArticlesRepository(articlesApi: ShmrArticlesApi): ArticlesRepository {
         return ArticlesRepositoryImpl(articlesApi)
     }
