@@ -60,9 +60,9 @@ fun AccountScreen(
     ) { innerPadding ->
         Column(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
             when (val state = accountState) {
                 AccountScreenState.Empty -> ErrorScreen(stringResource(R.string.No_account_exception))

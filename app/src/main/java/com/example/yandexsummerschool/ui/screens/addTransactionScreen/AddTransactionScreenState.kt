@@ -4,13 +4,14 @@ import com.example.yandexsummerschool.ui.common.uiModels.TransactionUiModel
 
 sealed interface AddTransactionScreenState {
     data class Content(
-        val transaction: TransactionUiModel
+        val transaction: TransactionUiModel,
     ) : AddTransactionScreenState
 
     data class Error(
-        val message: String
+        val message: String,
     ) : AddTransactionScreenState
 
     data object Empty : AddTransactionScreenState
+
     data object Loading : AddTransactionScreenState
 }

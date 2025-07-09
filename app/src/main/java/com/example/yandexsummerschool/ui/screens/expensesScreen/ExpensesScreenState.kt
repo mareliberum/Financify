@@ -11,7 +11,6 @@ import com.example.yandexsummerschool.domain.models.TransactionDomainModel
  * - Пустое состояние
  */
 sealed interface ExpensesScreenState {
-
     data class Content(
         val expenses: List<TransactionDomainModel>,
         val expensesSum: String,

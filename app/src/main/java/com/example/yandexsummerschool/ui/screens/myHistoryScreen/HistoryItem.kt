@@ -22,4 +22,3 @@ fun TransactionDomainModel.toHistoryItem(): HistoryItem {
         subtitle = comment,
     )
 }
-

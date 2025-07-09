@@ -22,10 +22,10 @@ fun AddTransactionScreen(
 
     Scaffold(
         topBar = { AddTransactionTopBar(navController) },
-        bottomBar = { BottomNavigationBar(navController) }
+        bottomBar = { BottomNavigationBar(navController) },
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding(paddingValues),
         ) {
             ListItem(
                 title = "Счет",

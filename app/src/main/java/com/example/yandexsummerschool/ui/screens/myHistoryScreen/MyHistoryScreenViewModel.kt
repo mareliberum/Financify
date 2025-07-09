@@ -75,7 +75,8 @@ class MyHistoryScreenViewModel
                 }
             }
         }
-    private suspend fun getResult(type: TransactionType): Result<List<TransactionDomainModel>> {
+
+        private suspend fun getResult(type: TransactionType): Result<List<TransactionDomainModel>> {
             return when (type) {
                 TransactionType.INCOME -> {
                     getIncomesUseCase(

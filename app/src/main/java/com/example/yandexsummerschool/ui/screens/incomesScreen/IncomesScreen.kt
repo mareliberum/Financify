@@ -47,9 +47,9 @@ fun IncomesScreen(
     ) { innerPadding ->
         Column(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
             when (val state = incomeState) {
                 is IncomesScreenState.Content -> {

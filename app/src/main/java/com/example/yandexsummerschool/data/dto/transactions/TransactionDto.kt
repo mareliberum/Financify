@@ -38,5 +38,5 @@ fun TransactionDto.toTransactionDomainModel(): TransactionDomainModel {
         comment = comment,
         isIncome = category.isIncome,
         date = transactionDate,
-        )
+    )
 }

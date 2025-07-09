@@ -10,7 +10,7 @@ data class PostTransactionResponseDto(
     val cratedAt: String,
     val updatedAt: String,
 )
-//fun PostTransactionResponseDto.toTransactionDomainModel(categoryName: String, ): TransactionDomainModel {
+// fun PostTransactionResponseDto.toTransactionDomainModel(categoryName: String, ): TransactionDomainModel {
 //    return TransactionDomainModel(
 //        id = id,
 //        categoryId = categoryId,
@@ -18,6 +18,4 @@ data class PostTransactionResponseDto(
 //        amount = amount,
 //        currency =
 //    )
-//}
-
-
+// }

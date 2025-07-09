@@ -74,14 +74,15 @@ class TransactionsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateTransaction(
-        transaction: TransactionDomainModel
+        transaction: TransactionDomainModel,
     ): Result<TransactionDomainModel> {
         val transactionRequestDto = transaction.toTransactionRequestDto()
         return withContext(Dispatchers.IO) {
             val response = executeWIthRetries { api.updateTransaction(transaction.id.toInt(), transactionRequestDto) }
             if (response.isSuccessful) {
-                val transactionDomainModel = response.body()?.toTransactionDomainModel()
-                    ?: return@withContext Result.Failure(Exception("Server error - empty response body"))
+                val transactionDomainModel =
+                    response.body()?.toTransactionDomainModel()
+                        ?: return@withContext Result.Failure(Exception("Server error - empty response body"))
                 Result.Success(transactionDomainModel)
             } else {
                 val error = parseError(response.errorBody())

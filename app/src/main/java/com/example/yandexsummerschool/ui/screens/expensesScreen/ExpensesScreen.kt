@@ -53,7 +53,9 @@ fun ExpensesScreen(
     Scaffold(
         topBar = { TopAppBar(TopAppBarElement.Expenses, navController) },
         bottomBar = { BottomNavigationBar(navController = navController) },
-        floatingActionButton = { FloatingActionButton(onClick = { navController.navigate(Routes.AddTransactionScreen.route) }) },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { navController.navigate(Routes.AddTransactionScreen.route) })
+        },
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding),
@@ -74,10 +76,10 @@ fun ExpensesScreen(
                             ListItemData(
                                 title = stringResource(R.string.Sum),
                                 trailingText =
-                                "$expensesSum " +
-                                    Currencies.resolve(
-                                        expensesList.firstOrNull()?.currency ?: Currencies.RUB.code,
-                                    ),
+                                    "$expensesSum " +
+                                        Currencies.resolve(
+                                            expensesList.firstOrNull()?.currency ?: Currencies.RUB.code,
+                                        ),
                             )
                         LazyColumn(
                             modifier = Modifier.padding(vertical = 3.dp),

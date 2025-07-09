@@ -6,7 +6,6 @@ plugins {
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
-
 }
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
@@ -93,8 +92,8 @@ dependencies {
     // Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
-    //Ksp
+    // Ksp
     ksp("com.google.dagger:hilt-android-compiler:2.50")
-    //Dagger
+    // Dagger
     implementation("com.google.dagger:dagger:2.x")
 }

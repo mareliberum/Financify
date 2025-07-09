@@ -56,7 +56,5 @@ fun AppNavGraph() {
         composable(Routes.AddTransactionScreen.route) {
             AddTransactionScreen(navController)
         }
-
-
     }
 }

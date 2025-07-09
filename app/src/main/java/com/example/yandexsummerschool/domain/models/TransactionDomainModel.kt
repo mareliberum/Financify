@@ -11,4 +11,3 @@ data class TransactionDomainModel(
     val comment: String? = null,
     val date: String = "",
 )
-
