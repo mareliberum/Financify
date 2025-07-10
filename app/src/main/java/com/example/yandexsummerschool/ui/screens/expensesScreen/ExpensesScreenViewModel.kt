@@ -8,7 +8,6 @@ import com.example.yandexsummerschool.domain.useCases.expenses.GetExpensesUseCas
 import com.example.yandexsummerschool.domain.utils.calculateSum
 import com.example.yandexsummerschool.domain.utils.date.millisToIso
 import com.example.yandexsummerschool.ui.common.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +18,6 @@ import javax.inject.Inject
 /**
  * ViewModel для экрана расходов. Загружает и хранит состояние расходов [ExpensesScreenState].
  */
-@HiltViewModel
 class ExpensesScreenViewModel @Inject constructor(
     private val getExpensesUseCase: GetExpensesUseCase,
     override val getAccountUseCase: GetAccountUseCase,

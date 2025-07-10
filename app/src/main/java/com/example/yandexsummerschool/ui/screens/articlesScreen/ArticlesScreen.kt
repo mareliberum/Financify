@@ -24,24 +24,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
-import com.example.yandexsummerschool.ui.common.screens.BasicEmptyScreen
 import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.common.components.ListItem
 import com.example.yandexsummerschool.ui.common.components.ListItemData
 import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
 import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
+import com.example.yandexsummerschool.ui.common.screens.BasicEmptyScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticlesScreen(
     navController: NavController,
-    viewModel: ArticlesScreenViewModel = hiltViewModel(),
+    viewModelFactory: ViewModelProvider.Factory,
 ) {
+    val viewModel: ArticlesScreenViewModel = viewModel(factory = viewModelFactory)
     val articleState by viewModel.articlesScreenState.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }

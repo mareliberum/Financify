@@ -6,7 +6,6 @@ import androidx.core.content.edit
 import com.example.yandexsummerschool.data.local.PreferencesConstants.Keys.KEY_ACCOUNT_ID
 import com.example.yandexsummerschool.data.local.PreferencesConstants.Keys.KEY_CURRENCY
 import com.example.yandexsummerschool.data.local.PreferencesConstants.PREFS_NAME
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -14,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class UserDelegate @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
 ) : UserAccountIdPrefs, UserCurrencyPrefs {
     private val prefs: SharedPreferences
         get() = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)

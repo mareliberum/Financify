@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.di.hilt
+package com.example.yandexsummerschool.di.dagger
 
 import com.example.yandexsummerschool.BuildConfig
 import com.example.yandexsummerschool.data.retrofit.ShmrAccountApi
@@ -6,8 +6,6 @@ import com.example.yandexsummerschool.data.retrofit.ShmrArticlesApi
 import com.example.yandexsummerschool.data.retrofit.ShmrFinanceApi
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -23,7 +21,6 @@ const val BASE_URL = "https://shmr-finance.ru/api/v1/"
  * - [ShmrFinanceApi]
  */
 @Module
-@InstallIn(SingletonComponent::class)
 object NetworkModule {
     private val token: String
         get() = BuildConfig.TOKEN

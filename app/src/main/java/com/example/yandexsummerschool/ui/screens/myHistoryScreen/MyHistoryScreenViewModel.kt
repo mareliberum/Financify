@@ -10,7 +10,6 @@ import com.example.yandexsummerschool.domain.utils.calculateSum
 import com.example.yandexsummerschool.domain.utils.date.convertDateToIso
 import com.example.yandexsummerschool.domain.utils.date.getStartOfMonth
 import com.example.yandexsummerschool.domain.utils.date.millsToDate
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,7 +18,6 @@ import javax.inject.Inject
 /**
  * ViewModel для экрана истории операций. Управляет загрузкой и состоянием истории [HistoryScreenState].
  */
-@HiltViewModel
 class MyHistoryScreenViewModel
     @Inject
     constructor(

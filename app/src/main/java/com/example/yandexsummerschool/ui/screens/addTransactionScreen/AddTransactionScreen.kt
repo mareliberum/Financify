@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.common.components.ListItem
@@ -16,10 +18,10 @@ import com.example.yandexsummerschool.ui.common.components.TopAppBar
 
 @Composable
 fun AddTransactionScreen(
-    navController: NavController,
+    viewModelFactory: ViewModelProvider.Factory,
+    navController: NavHostController,
 ) {
-    val viewModel = remember { AddTransactionScreenViewModel() }
-
+    val viewModel: AddTransactionScreenViewModel = viewModel(factory = viewModelFactory)
     Scaffold(
         topBar = { AddTransactionTopBar(navController) },
         bottomBar = { BottomNavigationBar(navController) },
@@ -29,7 +31,8 @@ fun AddTransactionScreen(
         ) {
             ListItem(
                 title = "Счет",
-                trailingText = "Сбербанк", // TODO имя счета
+                // TODO имя счета
+                trailingText = "Сбербанк",
                 trailingIcon = painterResource(R.drawable.icon_arrow_right),
                 listItemSize = ListItemSize.BIG,
             )

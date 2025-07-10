@@ -19,8 +19,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
@@ -37,8 +38,9 @@ import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRigh
 fun MyHistoryScreen(
     navController: NavController,
     transactionType: TransactionType,
-    viewModel: MyHistoryScreenViewModel = hiltViewModel(),
+    viewModelFactory: ViewModelProvider.Factory,
 ) {
+    val viewModel: MyHistoryScreenViewModel = viewModel(factory = viewModelFactory)
     var showPicker by remember { mutableStateOf(false) }
     var pickerType by remember { mutableStateOf<DateType?>(null) }
     val startOfPeriod by viewModel.startOfPeriod.collectAsStateWithLifecycle()

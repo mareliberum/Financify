@@ -3,8 +3,10 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
-    id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.21"
+//    id("com.google.devtools.ksp")
+//    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.ksp)
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
 }
 val localProperties = Properties()
@@ -90,10 +92,9 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     // Hilt
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.hilt.android)
+//    implementation(libs.androidx.hilt.navigation.compose)
+//    implementation(libs.hilt.android)
     // Ksp
-    ksp("com.google.dagger:hilt-android-compiler:2.50")
-    // Dagger
-    implementation("com.google.dagger:dagger:2.x")
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
 }

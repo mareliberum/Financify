@@ -17,8 +17,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
@@ -38,9 +39,10 @@ import com.example.yandexsummerschool.ui.navigation.Routes
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpensesScreen(
+    viewModelFactory: ViewModelProvider.Factory,
     navController: NavController,
-    viewModel: ExpensesScreenViewModel = hiltViewModel(),
 ) {
+    val viewModel: ExpensesScreenViewModel = viewModel(factory = viewModelFactory)
     val expensesState by viewModel.expensesScreenState.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 

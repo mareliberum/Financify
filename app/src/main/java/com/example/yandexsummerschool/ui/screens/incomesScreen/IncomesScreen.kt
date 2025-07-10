@@ -15,8 +15,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
@@ -34,8 +35,9 @@ import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 @Composable
 fun IncomesScreen(
     navController: NavController,
-    viewModel: IncomesScreenViewModel = hiltViewModel(),
+    viewModelFactory: ViewModelProvider.Factory,
 ) {
+    val viewModel: IncomesScreenViewModel = viewModel(factory = viewModelFactory)
     val incomeState by viewModel.incomesState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         viewModel.loadIncomes()

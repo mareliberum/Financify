@@ -8,7 +8,6 @@ import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.account.UpdateAccountDataUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +17,6 @@ import javax.inject.Inject
 /**
  * ViewModel для экрана аккаунта. Хранит состояние аккаунта пользователя [AccountScreenState].
  */
-@HiltViewModel
 class AccountScreenViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
     private val updateAccountDataUseCase: UpdateAccountDataUseCase,

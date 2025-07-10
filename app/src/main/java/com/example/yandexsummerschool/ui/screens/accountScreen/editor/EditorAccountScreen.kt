@@ -30,18 +30,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
 import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
-import com.example.yandexsummerschool.ui.common.screens.EmptyTransactionsScreen
-import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 import com.example.yandexsummerschool.ui.common.components.ListItem
 import com.example.yandexsummerschool.ui.common.components.ListItemSize
 import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
+import com.example.yandexsummerschool.ui.common.screens.EmptyTransactionsScreen
+import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreenState
 import com.example.yandexsummerschool.ui.screens.accountScreen.components.BottomSheetContent
 import com.example.yandexsummerschool.ui.theme.dangerAction
@@ -49,8 +50,9 @@ import com.example.yandexsummerschool.ui.theme.dangerAction
 @Composable
 fun EditorAccountScreen(
     navController: NavController,
-    viewModel: EditorAccountScreenViewModel = hiltViewModel(),
+    viewModelFactory: ViewModelProvider.Factory,
 ) {
+    val viewModel: EditorAccountScreenViewModel = viewModel(factory = viewModelFactory)
     val state by viewModel.accountState.collectAsStateWithLifecycle()
     var showBottomSheet by remember { mutableStateOf(false) }
 

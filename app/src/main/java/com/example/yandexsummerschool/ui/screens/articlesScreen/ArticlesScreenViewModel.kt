@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.toUiModel
 import com.example.yandexsummerschool.domain.useCases.articles.GetArticlesUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -14,7 +13,6 @@ import javax.inject.Inject
 /**
  * ViewModel для экрана статей. Хранит состояние списка статей [ArticlesScreenState].
  */
-@HiltViewModel
 class ArticlesScreenViewModel @Inject constructor(
     private val getArticlesUseCase: GetArticlesUseCase,
 ) : ViewModel() {

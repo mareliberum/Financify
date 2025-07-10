@@ -16,6 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.common.components.ListItem
@@ -25,7 +27,11 @@ import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
 import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRightFilled
 
 @Composable
-fun SettingsScreen(navController: NavController) {
+fun SettingsScreen(
+    navController: NavController,
+    viewModelFactory: ViewModelProvider.Factory,
+) {
+    val viewModel: SettingsScreenViewModel = viewModel(factory = viewModelFactory)
     Scaffold(
         topBar = { TopAppBar(TopAppBarElement.Settings, navController) },
         bottomBar = { BottomNavigationBar(navController = navController) },

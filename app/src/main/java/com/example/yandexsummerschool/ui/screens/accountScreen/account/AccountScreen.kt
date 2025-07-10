@@ -18,8 +18,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
@@ -37,8 +38,9 @@ import com.example.yandexsummerschool.ui.screens.accountScreen.components.Bottom
 @Composable
 fun AccountScreen(
     navController: NavController,
-    viewModel: AccountScreenViewModel = hiltViewModel(),
+    viewModelFactory: ViewModelProvider.Factory,
 ) {
+    val viewModel: AccountScreenViewModel = viewModel(factory = viewModelFactory)
     val accountState by viewModel.accountState.collectAsStateWithLifecycle()
     var showBottomSheet by remember { mutableStateOf(false) }
     val title by viewModel.accountTitle.collectAsStateWithLifecycle()

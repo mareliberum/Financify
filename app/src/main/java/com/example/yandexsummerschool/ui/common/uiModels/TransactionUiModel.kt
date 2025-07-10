@@ -19,7 +19,8 @@ fun TransactionDomainModel.toTransactionUiModel(): TransactionUiModel {
         categoryName = categoryName,
         amount = amount,
         date = date,
-        time = "time", // TODO fetch time
+        // TODO fetch time
+        time = "time",
         isIncome = isIncome,
         emoji = emoji,
         comment = comment,

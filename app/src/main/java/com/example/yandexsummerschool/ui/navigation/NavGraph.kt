@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,7 +23,7 @@ import com.example.yandexsummerschool.ui.screens.myHistoryScreen.TransactionType
 import com.example.yandexsummerschool.ui.screens.settings.SettingsScreen
 
 @Composable
-fun AppNavGraph() {
+fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
     val context = LocalContext.current
     val networkObserver = remember { NetworkObserver(context) }
     DisposableEffect(Unit) {
@@ -35,26 +36,26 @@ fun AppNavGraph() {
     NetworkStatusToast(networkObserver)
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.ExpensesScreen.route) {
-        composable(Routes.ExpensesScreen.route) { ExpensesScreen(navController) }
-        composable(Routes.IncomesScreen.route) { IncomesScreen(navController) }
-        composable(Routes.SettingsScreen.route) { SettingsScreen(navController) }
-        composable(Routes.AccountScreen.route) { AccountScreen(navController) }
-        composable(Routes.ExpenseArticleScreen.route) { ArticlesScreen(navController) }
+        composable(Routes.ExpensesScreen.route) { ExpensesScreen(viewModelFactory, navController) }
+        composable(Routes.IncomesScreen.route) { IncomesScreen(navController, viewModelFactory) }
+        composable(Routes.SettingsScreen.route) { SettingsScreen(navController, viewModelFactory) }
+        composable(Routes.AccountScreen.route) { AccountScreen(navController, viewModelFactory) }
+        composable(Routes.ExpenseArticleScreen.route) { ArticlesScreen(navController, viewModelFactory) }
         composable(
             Routes.MyHistoryScreen.route,
             arguments = listOf(navArgument("operationType") { type = NavType.StringType }),
         ) { backStackEntry ->
             val operationType = backStackEntry.arguments?.getString("operationType")
             val type = TransactionType.entries.find { it.key == operationType } ?: TransactionType.EXPENSE
-            MyHistoryScreen(navController, type)
+            MyHistoryScreen(navController, type, viewModelFactory)
         }
 
         composable(Routes.EditorAccountScreen.route) {
-            EditorAccountScreen(navController)
+            EditorAccountScreen(navController, viewModelFactory)
         }
 
         composable(Routes.AddTransactionScreen.route) {
-            AddTransactionScreen(navController)
+            AddTransactionScreen(viewModelFactory, navController)
         }
     }
 }

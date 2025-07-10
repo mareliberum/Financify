@@ -1,12 +1,26 @@
 package com.example.yandexsummerschool.di.dagger
 
+import android.content.Context
+import com.example.yandexsummerschool.MainActivity
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class])
+@Component(
+    modules = [
+        NetworkModule::class,
+        RepositoryModule::class,
+        ViewModelModule::class,
+    ],
+)
 interface AppComponent {
-    // Здесь будут методы для внедрения зависимостей (inject)
-    // Например:
-    // fun inject(application: ShmrApplication)
+    fun inject(mainActivity: MainActivity)
+
+    @Component.Factory
+    interface Factory {
+        fun create(
+            @BindsInstance context: Context,
+        ): AppComponent
+    }
 }

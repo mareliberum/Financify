@@ -9,14 +9,12 @@ import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.account.UpdateAccountDataUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies
 import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreenState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class EditorAccountScreenViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
     private val updateAccountDataUseCase: UpdateAccountDataUseCase,
