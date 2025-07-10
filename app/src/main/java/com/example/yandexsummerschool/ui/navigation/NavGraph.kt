@@ -54,8 +54,12 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
             EditorAccountScreen(navController, viewModelFactory)
         }
 
-        composable(Routes.AddTransactionScreen.route) {
-            AddTransactionScreen(viewModelFactory, navController)
+        composable(
+            "AddTransactionScreen?isIncome={isIncome}",
+            arguments = listOf(navArgument("isIncome") { type = NavType.BoolType })
+        ) { backStackEntry ->
+            val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+            AddTransactionScreen(viewModelFactory, navController, isIncome)
         }
     }
 }

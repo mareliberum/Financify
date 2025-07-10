@@ -16,7 +16,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -34,7 +33,6 @@ import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
 import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRight
 import com.example.yandexsummerschool.ui.common.screens.EmptyTransactionsScreen
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
-import com.example.yandexsummerschool.ui.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +54,7 @@ fun ExpensesScreen(
         topBar = { TopAppBar(TopAppBarElement.Expenses, navController) },
         bottomBar = { BottomNavigationBar(navController = navController) },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate(Routes.AddTransactionScreen.route) })
+            FloatingActionButton(onClick = { navController.navigate("AddTransactionScreen?isIncome=false") })
         },
     ) { innerPadding ->
         Column(
@@ -83,9 +81,7 @@ fun ExpensesScreen(
                                             expensesList.firstOrNull()?.currency ?: Currencies.RUB.code,
                                         ),
                             )
-                        LazyColumn(
-                            modifier = Modifier.padding(vertical = 3.dp),
-                        ) {
+                        LazyColumn {
                             item {
                                 ListItem(
                                     total,

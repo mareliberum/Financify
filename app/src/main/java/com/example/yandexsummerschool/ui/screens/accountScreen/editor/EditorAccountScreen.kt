@@ -17,7 +17,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,6 +40,7 @@ import com.example.yandexsummerschool.ui.common.components.ListItem
 import com.example.yandexsummerschool.ui.common.components.ListItemSize
 import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
+import com.example.yandexsummerschool.ui.common.components.textFieldColors
 import com.example.yandexsummerschool.ui.common.screens.EmptyTransactionsScreen
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreenState
@@ -99,9 +99,9 @@ private fun EditorContent(
 ) {
     Column(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
+        Modifier
+            .fillMaxSize()
+            .padding(innerPadding),
     ) {
         when (state) {
             AccountScreenState.Empty -> EmptyTransactionsScreen()
@@ -134,9 +134,9 @@ private fun AccountNameField(viewModel: EditorAccountScreenViewModel) {
             value = accountName,
             onValueChange = viewModel::updateAccountName,
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(ListItemSize.SMALL.size),
+            Modifier
+                .fillMaxWidth()
+                .height(ListItemSize.SMALL.size),
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { isEditing = false }),
@@ -162,9 +162,9 @@ private fun BalanceField(viewModel: EditorAccountScreenViewModel) {
             value = balance,
             onValueChange = { viewModel.updateBalance(it) },
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(ListItemSize.SMALL.size),
+            Modifier
+                .fillMaxWidth()
+                .height(ListItemSize.SMALL.size),
             singleLine = true,
             keyboardOptions =
                 KeyboardOptions(
@@ -201,9 +201,9 @@ private fun DeleteAccountButton() {
     val context = LocalContext.current
     Button(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 16.dp),
         colors =
             ButtonDefaults.buttonColors(
                 contentColor = MaterialTheme.colorScheme.surface,
@@ -230,11 +230,3 @@ private fun CurrencyBottomSheet(
     }
 }
 
-@Composable
-private fun textFieldColors() =
-    TextFieldDefaults.colors(
-        focusedContainerColor = MaterialTheme.colorScheme.background,
-        focusedTextColor = MaterialTheme.colorScheme.onBackground,
-        unfocusedContainerColor = MaterialTheme.colorScheme.background,
-        unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
-    )

@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.di.dagger
+package com.example.yandexsummerschool.di.modules
 
 import com.example.yandexsummerschool.BuildConfig
 import com.example.yandexsummerschool.data.retrofit.ShmrAccountApi

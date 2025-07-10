@@ -2,8 +2,8 @@ package com.example.yandexsummerschool
 
 import android.app.Application
 import android.content.Context
-import com.example.yandexsummerschool.di.dagger.AppComponent
-import com.example.yandexsummerschool.di.dagger.DaggerAppComponent
+import com.example.yandexsummerschool.di.AppComponent
+import com.example.yandexsummerschool.di.DaggerAppComponent
 
 class ShmrApplication : Application() {
     lateinit var appComponent: AppComponent

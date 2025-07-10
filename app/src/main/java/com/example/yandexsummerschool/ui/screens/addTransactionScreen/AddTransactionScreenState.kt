@@ -11,7 +11,5 @@ sealed interface AddTransactionScreenState {
         val message: String,
     ) : AddTransactionScreenState
 
-    data object Empty : AddTransactionScreenState
-
     data object Loading : AddTransactionScreenState
 }

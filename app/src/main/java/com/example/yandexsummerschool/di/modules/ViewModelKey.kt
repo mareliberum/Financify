@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.di.dagger
+package com.example.yandexsummerschool.di.modules
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
