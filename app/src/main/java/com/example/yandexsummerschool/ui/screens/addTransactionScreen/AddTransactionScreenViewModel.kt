@@ -31,21 +31,23 @@ class AddTransactionScreenViewModel @Inject constructor(
     val accountName = _accountName.asStateFlow()
     private val _articles = MutableStateFlow<List<ArticleModel>>(emptyList())
     val articles = _articles.asStateFlow()
-    private val transactionModel = TransactionUiModel(
-        id = "0",
-        categoryId = 0,
-        categoryName = "",
-        amount = "0",
-        currency = Currencies.RUB.code,
-        date = millsToUiDate(System.currentTimeMillis()),
-        time = String.format(
-            Locale.ENGLISH,
-            "%02d:%02d",
-            Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-            Calendar.getInstance().get(Calendar.MINUTE)
-        ),
-        isIncome = isIncome ?: false
-    )
+    private val transactionModel =
+        TransactionUiModel(
+            id = "0",
+            categoryId = 0,
+            categoryName = "",
+            amount = "0",
+            currency = Currencies.RUB.code,
+            date = millsToUiDate(System.currentTimeMillis()),
+            time =
+                String.format(
+                    Locale.ENGLISH,
+                    "%02d:%02d",
+                    Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                    Calendar.getInstance().get(Calendar.MINUTE),
+                ),
+            isIncome = isIncome ?: false,
+        )
 
     init {
         loadAccount()
@@ -54,9 +56,10 @@ class AddTransactionScreenViewModel @Inject constructor(
     fun setIncomeType(isIncome: Boolean) {
         val currentState = state.value
         if (currentState is AddTransactionScreenState.Content) {
-            val updatedTransaction = currentState.transaction.copy(
-                isIncome = isIncome
-            )
+            val updatedTransaction =
+                currentState.transaction.copy(
+                    isIncome = isIncome,
+                )
             _state.value = currentState.copy(transaction = updatedTransaction)
         }
     }
@@ -102,9 +105,10 @@ class AddTransactionScreenViewModel @Inject constructor(
     fun changeTime(hours: Int, minutes: Int) {
         val currentState = state.value
         if (currentState is AddTransactionScreenState.Content) {
-            val updatedTransaction = currentState.transaction.copy(
-                time = String.format(Locale.ENGLISH, "%02d:%02d", hours, minutes)
-            )
+            val updatedTransaction =
+                currentState.transaction.copy(
+                    time = String.format(Locale.ENGLISH, "%02d:%02d", hours, minutes),
+                )
             _state.value = currentState.copy(transaction = updatedTransaction)
         }
     }
@@ -112,9 +116,10 @@ class AddTransactionScreenViewModel @Inject constructor(
     fun changeDate(dateMills: Long) {
         val currentState = state.value
         if (currentState is AddTransactionScreenState.Content) {
-            val updatedTransaction = currentState.transaction.copy(
-                date = millsToUiDate(dateMills)
-            )
+            val updatedTransaction =
+                currentState.transaction.copy(
+                    date = millsToUiDate(dateMills),
+                )
             _state.value = currentState.copy(transaction = updatedTransaction)
         }
     }
@@ -122,9 +127,10 @@ class AddTransactionScreenViewModel @Inject constructor(
     fun changeAmount(newAmount: String) {
         val currentState = state.value
         if (currentState is AddTransactionScreenState.Content) {
-            val updatedTransaction = currentState.transaction.copy(
-                amount = newAmount
-            )
+            val updatedTransaction =
+                currentState.transaction.copy(
+                    amount = newAmount,
+                )
             _state.value = currentState.copy(transaction = updatedTransaction)
         }
     }
@@ -132,9 +138,10 @@ class AddTransactionScreenViewModel @Inject constructor(
     fun changeComment(newComment: String) {
         val currentState = state.value
         if (currentState is AddTransactionScreenState.Content) {
-            val updatedTransaction = currentState.transaction.copy(
-                comment = newComment
-            )
+            val updatedTransaction =
+                currentState.transaction.copy(
+                    comment = newComment,
+                )
             _state.value = currentState.copy(transaction = updatedTransaction)
         }
     }
@@ -142,11 +149,12 @@ class AddTransactionScreenViewModel @Inject constructor(
     fun changeCategory(article: ArticleModel) {
         val currentState = state.value
         if (currentState is AddTransactionScreenState.Content) {
-            val updatedTransaction = currentState.transaction.copy(
-                categoryId = article.id,
-                categoryName = article.name,
-                emoji = article.emoji
-            )
+            val updatedTransaction =
+                currentState.transaction.copy(
+                    categoryId = article.id,
+                    categoryName = article.name,
+                    emoji = article.emoji,
+                )
             _state.value = currentState.copy(transaction = updatedTransaction)
         }
     }
@@ -154,9 +162,10 @@ class AddTransactionScreenViewModel @Inject constructor(
     private fun changeId(id: Int) {
         val currentState = state.value
         if (currentState is AddTransactionScreenState.Content) {
-            val updatedTransaction = currentState.transaction.copy(
-                id = id.toString()
-            )
+            val updatedTransaction =
+                currentState.transaction.copy(
+                    id = id.toString(),
+                )
 
             _state.value = currentState.copy(transaction = updatedTransaction)
         }

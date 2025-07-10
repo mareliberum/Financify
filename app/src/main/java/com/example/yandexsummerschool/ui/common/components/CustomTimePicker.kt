@@ -16,15 +16,16 @@ fun CustomTimePickerDialog(
     onDismiss: () -> Unit,
 ) {
     val currentTime = Calendar.getInstance()
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
-        is24Hour = true,
-    )
+    val timePickerState =
+        rememberTimePickerState(
+            initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+            initialMinute = currentTime.get(Calendar.MINUTE),
+            is24Hour = true,
+        )
 
     TimePickerDialog(
         onDismiss = onDismiss,
-        onConfirm = { onConfirm(timePickerState.hour, timePickerState.minute) }
+        onConfirm = { onConfirm(timePickerState.hour, timePickerState.minute) },
     ) {
         TimePicker(
             state = timePickerState,
@@ -36,7 +37,7 @@ fun CustomTimePickerDialog(
 fun TimePickerDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -50,6 +51,6 @@ fun TimePickerDialog(
                 Text("Ок")
             }
         },
-        text = { content() }
+        text = { content() },
     )
 }

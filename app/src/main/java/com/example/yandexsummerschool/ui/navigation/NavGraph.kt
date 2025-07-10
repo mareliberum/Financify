@@ -56,7 +56,7 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
 
         composable(
             "AddTransactionScreen?isIncome={isIncome}",
-            arguments = listOf(navArgument("isIncome") { type = NavType.BoolType })
+            arguments = listOf(navArgument("isIncome") { type = NavType.BoolType }),
         ) { backStackEntry ->
             val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
             AddTransactionScreen(viewModelFactory, navController, isIncome)

@@ -40,7 +40,7 @@ import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 fun AddTransactionScreen(
     viewModelFactory: ViewModelProvider.Factory,
     navController: NavHostController,
-    isIncome: Boolean
+    isIncome: Boolean,
 ) {
     val viewModel: AddTransactionScreenViewModel = viewModel(factory = viewModelFactory)
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -64,7 +64,7 @@ fun AddTransactionScreen(
                 onOkClick = {
                     viewModel.createTransaction()
                     navController.popBackStack()
-                }
+                },
             )
         },
         bottomBar = { BottomNavigationBar(navController) },
@@ -93,18 +93,21 @@ fun AddTransactionScreen(
                         TextField(
                             value = currentState.transaction.amount,
                             onValueChange = { viewModel.changeAmount(it) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(ListItemSize.BIG.size),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(ListItemSize.BIG.size),
                             singleLine = true,
-                            keyboardOptions = KeyboardOptions(
-                                imeAction = ImeAction.Done,
-                                keyboardType = KeyboardType.Number
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onDone = { isEditingAmount = false }
-                            ),
-                            colors = textFieldColors()
+                            keyboardOptions =
+                                KeyboardOptions(
+                                    imeAction = ImeAction.Done,
+                                    keyboardType = KeyboardType.Number,
+                                ),
+                            keyboardActions =
+                                KeyboardActions(
+                                    onDone = { isEditingAmount = false },
+                                ),
+                            colors = textFieldColors(),
                         )
                     } else {
                         ListItem(
@@ -122,31 +125,34 @@ fun AddTransactionScreen(
                         listItemSize = ListItemSize.BIG,
                         onClick = {
                             showDatePicker = true
-                        }
+                        },
                     )
                     ListItem(
                         title = "Время",
                         trailingText = currentState.transaction.time,
                         trailingIcon = painterResource(R.drawable.icon_arrow_right),
                         listItemSize = ListItemSize.BIG,
-                        onClick = { showTimePicker = true }
+                        onClick = { showTimePicker = true },
                     )
                     if (isEditingComment) {
                         TextField(
                             value = currentState.transaction.comment.orEmpty(),
                             onValueChange = { viewModel.changeComment(it) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(ListItemSize.BIG.size),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(ListItemSize.BIG.size),
                             singleLine = false,
-                            keyboardOptions = KeyboardOptions(
-                                imeAction = ImeAction.Done,
-                                keyboardType = KeyboardType.Text
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onDone = { isEditingComment = false }
-                            ),
-                            colors = textFieldColors()
+                            keyboardOptions =
+                                KeyboardOptions(
+                                    imeAction = ImeAction.Done,
+                                    keyboardType = KeyboardType.Text,
+                                ),
+                            keyboardActions =
+                                KeyboardActions(
+                                    onDone = { isEditingComment = false },
+                                ),
+                            colors = textFieldColors(),
                         )
                     } else {
                         ListItem(
@@ -180,7 +186,7 @@ fun AddTransactionScreen(
                     }
                     if (showArticlesSheet) {
                         ModalBottomSheet(
-                            onDismissRequest = { showArticlesSheet = false }
+                            onDismissRequest = { showArticlesSheet = false },
                         ) {
                             val articles by viewModel.articles.collectAsStateWithLifecycle()
                             Column {
@@ -191,7 +197,7 @@ fun AddTransactionScreen(
                                         onClick = {
                                             viewModel.changeCategory(article)
                                             showArticlesSheet = false
-                                        }
+                                        },
                                     )
                                 }
                             }

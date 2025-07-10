@@ -47,15 +47,15 @@ fun IncomesScreen(
         bottomBar = { BottomNavigationBar(navController = navController) },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate("AddTransactionScreen?isIncome=true") }
+                onClick = { navController.navigate("AddTransactionScreen?isIncome=true") },
             )
         },
     ) { innerPadding ->
         Column(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
             when (val state = incomeState) {
                 is IncomesScreenState.Content -> {

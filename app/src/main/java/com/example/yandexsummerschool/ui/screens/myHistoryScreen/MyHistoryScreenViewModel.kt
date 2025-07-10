@@ -25,9 +25,9 @@ class MyHistoryScreenViewModel
         private val getIncomesUseCase: GetIncomesUseCase,
     ) : ViewModel() {
         private var transactionsType: TransactionType? = null // Историю чего мы отображаем - доходы или расходы
-    private val _startOfPeriod = MutableStateFlow(millsToUiDate(getStartOfMonth()))
+        private val _startOfPeriod = MutableStateFlow(millsToUiDate(getStartOfMonth()))
         val startOfPeriod = _startOfPeriod.asStateFlow()
-    private val _endOfPeriod = MutableStateFlow(millsToUiDate(System.currentTimeMillis()))
+        private val _endOfPeriod = MutableStateFlow(millsToUiDate(System.currentTimeMillis()))
         val endOfPeriod = _endOfPeriod.asStateFlow()
 
         private val _myHistoryScreenState = MutableStateFlow<HistoryScreenState>(HistoryScreenState.Loading)
