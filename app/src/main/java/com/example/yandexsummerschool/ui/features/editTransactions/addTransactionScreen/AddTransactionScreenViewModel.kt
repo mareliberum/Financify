@@ -9,9 +9,13 @@ import com.example.yandexsummerschool.domain.useCases.articles.GetArticlesUseCas
 import com.example.yandexsummerschool.domain.useCases.transactions.CreateTransactionUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies
 import com.example.yandexsummerschool.domain.utils.date.millsToUiDate
+import com.example.yandexsummerschool.ui.common.ErrorMessageResolver
 import com.example.yandexsummerschool.ui.common.uiModels.TransactionUiModel
 import com.example.yandexsummerschool.ui.common.uiModels.toTransactionDomainModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -49,6 +53,10 @@ class AddTransactionScreenViewModel @Inject constructor(
                 ),
             isIncome = isIncome ?: false,
         )
+    private val _errorEvent = MutableSharedFlow<String>()
+    val errorEvent: SharedFlow<String> = _errorEvent.asSharedFlow()
+    private val _successEvent = MutableSharedFlow<Unit>()
+    val successEvent = _successEvent.asSharedFlow()
 
     init {
         loadAccount()
@@ -60,8 +68,9 @@ class AddTransactionScreenViewModel @Inject constructor(
             viewModelScope.launch {
                 val result = createTransactionUseCase(currentState.transaction.toTransactionDomainModel())
                 if (result is Result.Failure) {
-                    _state.value =
-                        AddTransactionScreenState.Error(result.exception.message ?: "Undefined Error")
+                    _errorEvent.emit(ErrorMessageResolver.resolve(result.exception))
+                } else if (result is Result.Success) {
+                    _successEvent.emit(Unit)
                 }
             }
         }

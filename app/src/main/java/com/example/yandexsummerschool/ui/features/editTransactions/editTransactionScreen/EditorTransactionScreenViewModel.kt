@@ -6,14 +6,19 @@ import com.example.yandexsummerschool.domain.models.ArticleModel
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.articles.GetArticlesUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.DeleteTransactionUseCase
 import com.example.yandexsummerschool.domain.useCases.transactions.GetTransactionByIdUseCase
 import com.example.yandexsummerschool.domain.useCases.transactions.UpdateTransactionUseCase
 import com.example.yandexsummerschool.domain.utils.date.millsToUiDate
 import com.example.yandexsummerschool.ui.common.BaseViewModel
+import com.example.yandexsummerschool.ui.common.ErrorMessageResolver
 import com.example.yandexsummerschool.ui.common.uiModels.toCreatedTransactionDomainModel
 import com.example.yandexsummerschool.ui.common.uiModels.toTransactionUiModel
 import com.example.yandexsummerschool.ui.features.editTransactions.addTransactionScreen.AddTransactionScreenState
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -23,20 +28,58 @@ class EditorTransactionScreenViewModel @Inject constructor(
     private val updateTransactionUseCase: UpdateTransactionUseCase,
     private val getArticlesUseCase: GetArticlesUseCase,
     private val getTransactionByIdUseCase: GetTransactionByIdUseCase,
+    private val deleteTransactionUseCase: DeleteTransactionUseCase,
     override val userDelegate: UserDelegate,
     override val getAccountUseCase: GetAccountUseCase,
 ) : BaseViewModel() {
     private val _state = MutableStateFlow<EditorTransactionScreenState>(EditorTransactionScreenState.Loading)
     val state = _state.asStateFlow()
-
     private val _articles = MutableStateFlow<List<ArticleModel>>(emptyList())
     val articles = _articles.asStateFlow()
-
     private val _accountName = MutableStateFlow("Loading...")
     val accountName = _accountName.asStateFlow()
+    private val _errorEvent = MutableSharedFlow<String>()
+    val errorEvent: SharedFlow<String> = _errorEvent.asSharedFlow()
+    private val _successEvent = MutableSharedFlow<Unit>()
+    val successEvent = _successEvent.asSharedFlow()
 
     init {
         loadAccount()
+    }
+
+    fun updateTransaction() {
+        val currentState = state.value
+        if (currentState is EditorTransactionScreenState.Content) {
+            viewModelScope.launch {
+                val result =
+                    updateTransactionUseCase(
+                        transactionId = currentState.transaction.id.toInt(),
+                        transaction = currentState.transaction.toCreatedTransactionDomainModel(getAccountId()),
+                    )
+                if (result is Result.Failure) {
+                    _errorEvent.emit(ErrorMessageResolver.resolve(result.exception))
+                } else if (result is Result.Success) {
+                    _successEvent.emit(Unit)
+                }
+            }
+        }
+    }
+
+    fun deleteTransaction() {
+        val currentState = state.value
+        if (currentState is EditorTransactionScreenState.Content) {
+            viewModelScope.launch {
+                val result =
+                    deleteTransactionUseCase(
+                        transactionId = currentState.transaction.id.toInt(),
+                    )
+                if (result is Result.Failure) {
+                    _errorEvent.emit(ErrorMessageResolver.resolve(result.exception))
+                } else if (result is Result.Success) {
+                    _successEvent.emit(Unit)
+                }
+            }
+        }
     }
 
     fun initTransaction(id: Int) {
@@ -79,18 +122,6 @@ class EditorTransactionScreenViewModel @Inject constructor(
                 }
 
                 is Result.Failure -> _articles.value = emptyList()
-            }
-        }
-    }
-
-    fun updateTransaction() {
-        val currentState = state.value
-        if (currentState is EditorTransactionScreenState.Content) {
-            viewModelScope.launch {
-                updateTransactionUseCase(
-                    transactionId = currentState.transaction.id.toInt(),
-                    transaction = currentState.transaction.toCreatedTransactionDomainModel(getAccountId()),
-                )
             }
         }
     }

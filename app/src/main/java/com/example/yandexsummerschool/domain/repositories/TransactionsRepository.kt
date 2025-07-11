@@ -36,4 +36,8 @@ interface TransactionsRepository {
         transactionId: Int,
         transaction: CreatedTransactionDomainModel,
     ): Result<TransactionDomainModel>
+
+    suspend fun deleteTransactionById(
+        transactionId: Int,
+    ): Result<Unit>
 }

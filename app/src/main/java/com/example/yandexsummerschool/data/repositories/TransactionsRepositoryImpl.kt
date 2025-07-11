@@ -62,15 +62,18 @@ class TransactionsRepositoryImpl @Inject constructor(
 
     override suspend fun postTransaction(transaction: TransactionDomainModel): Result<TransactionDomainModel> {
         val transactionRequestDto = transaction.toTransactionRequestDto()
-
-        return withContext(Dispatchers.IO) {
-            val response = executeWIthRetries { api.postTransaction(transactionRequestDto) }
-            if (response.isSuccessful) {
-                Result.Success(transaction)
-            } else {
-                val error = parseError(response.errorBody())
-                Result.Failure(Exception(error.message))
+        return try {
+            withContext(Dispatchers.IO) {
+                val response = executeWIthRetries { api.postTransaction(transactionRequestDto) }
+                if (response.isSuccessful) {
+                    Result.Success(transaction)
+                } else {
+                    val error = parseError(response.errorBody())
+                    Result.Failure(Exception(error.message))
+                }
             }
+        } catch (e: Exception) {
+            Result.Failure(e)
         }
     }
 
@@ -79,17 +82,37 @@ class TransactionsRepositoryImpl @Inject constructor(
         transaction: CreatedTransactionDomainModel,
     ): Result<TransactionDomainModel> {
         val transactionRequestDto = transaction.toTransactionRequestDto()
-        return withContext(Dispatchers.IO) {
-            val response = executeWIthRetries { api.updateTransaction(transactionId, transactionRequestDto) }
-            if (response.isSuccessful) {
-                val transactionDomainModel =
-                    response.body()?.toTransactionDomainModel()
-                        ?: return@withContext Result.Failure(Exception("Server error - empty response body"))
-                Result.Success(transactionDomainModel)
-            } else {
-                val error = parseError(response.errorBody())
-                Result.Failure(Exception(error.message))
+        return try {
+            withContext(Dispatchers.IO) {
+                val response = executeWIthRetries { api.updateTransaction(transactionId, transactionRequestDto) }
+                if (response.isSuccessful) {
+                    val transactionDomainModel =
+                        response.body()?.toTransactionDomainModel()
+                            ?: return@withContext Result.Failure(Exception("Server error - empty response body"))
+                    Result.Success(transactionDomainModel)
+                } else {
+                    val error = parseError(response.errorBody())
+                    Result.Failure(Exception(error.message))
+                }
             }
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+    }
+
+    override suspend fun deleteTransactionById(transactionId: Int): Result<Unit> {
+        return try {
+            withContext(Dispatchers.IO) {
+                val response = executeWIthRetries { api.deleteTransactionById(transactionId) }
+                if (response.isSuccessful) {
+                    Result.Success(Unit)
+                } else {
+                    val error = parseError(response.errorBody())
+                    Result.Failure(Exception(error.message))
+                }
+            }
+        } catch (e: Exception) {
+            Result.Failure(e)
         }
     }
 

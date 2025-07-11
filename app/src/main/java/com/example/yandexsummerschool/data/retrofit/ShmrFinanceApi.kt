@@ -5,6 +5,7 @@ import com.example.yandexsummerschool.data.dto.transactions.TransactionDto
 import com.example.yandexsummerschool.data.dto.transactions.TransactionRequestDto
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -47,4 +48,9 @@ interface ShmrFinanceApi {
         @Path("id") id: Int,
         @Body updateTransactionRequestDto: TransactionRequestDto,
     ): Response<TransactionDto>
+
+    @DELETE("transactions/{id}")
+    suspend fun deleteTransactionById(
+        @Path("id") id: Int,
+    ): Response<Unit>
 }

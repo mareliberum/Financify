@@ -8,6 +8,7 @@ import com.example.yandexsummerschool.domain.useCases.expenses.GetExpensesUseCas
 import com.example.yandexsummerschool.domain.utils.calculateSum
 import com.example.yandexsummerschool.domain.utils.date.millisToIso
 import com.example.yandexsummerschool.ui.common.BaseViewModel
+import com.example.yandexsummerschool.ui.common.ErrorMessageResolver
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -61,7 +62,7 @@ class ExpensesScreenViewModel @Inject constructor(
 
                     is Result.Failure -> {
                         _expensesScreenState.value =
-                            ExpensesScreenState.Error(result.exception.message ?: "Неизвестная ошибка")
+                            ExpensesScreenState.Error(ErrorMessageResolver.resolve(result.exception))
                     }
                 }
                 _isRefreshing.value = false

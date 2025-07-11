@@ -4,6 +4,7 @@ import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 import com.example.yandexsummerschool.domain.utils.date.convertIsoToUiDate
 
 data class HistoryItem(
+    val id: String,
     val lead: String,
     val title: String,
     val sum: String,
@@ -14,6 +15,7 @@ data class HistoryItem(
 
 fun TransactionDomainModel.toHistoryItem(): HistoryItem {
     return HistoryItem(
+        id = id,
         lead = emoji ?: "",
         title = categoryName,
         sum = amount,
