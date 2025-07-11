@@ -1,5 +1,6 @@
 package com.example.yandexsummerschool.data.dto.transactions
 
+import com.example.yandexsummerschool.domain.models.CreatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 
 data class TransactionRequestDto(
@@ -13,6 +14,16 @@ data class TransactionRequestDto(
 fun TransactionDomainModel.toTransactionRequestDto(): TransactionRequestDto {
     return TransactionRequestDto(
         accountId = id.toInt(),
+        categoryId = categoryId,
+        amount = amount,
+        transactionDate = date,
+        comment = comment ?: "",
+    )
+}
+
+fun CreatedTransactionDomainModel.toTransactionRequestDto(): TransactionRequestDto {
+    return TransactionRequestDto(
+        accountId = accountId,
         categoryId = categoryId,
         amount = amount,
         transactionDate = date,

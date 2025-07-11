@@ -1,5 +1,6 @@
 package com.example.yandexsummerschool.domain.repositories
 
+import com.example.yandexsummerschool.domain.models.CreatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 
@@ -25,11 +26,14 @@ interface TransactionsRepository {
         endDate: String?,
     ): Result<List<TransactionDomainModel>>
 
+    suspend fun getTransactionById(id: Int): Result<TransactionDomainModel>
+
     suspend fun postTransaction(
         transaction: TransactionDomainModel,
     ): Result<TransactionDomainModel>
 
     suspend fun updateTransaction(
-        transaction: TransactionDomainModel,
+        transactionId: Int,
+        transaction: CreatedTransactionDomainModel,
     ): Result<TransactionDomainModel>
 }

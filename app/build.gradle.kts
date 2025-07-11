@@ -91,10 +91,10 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
-    // Hilt
-//    implementation(libs.androidx.hilt.navigation.compose)
-//    implementation(libs.hilt.android)
     // Ksp
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)
+
+    // immutable structures for compose stability
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
 }

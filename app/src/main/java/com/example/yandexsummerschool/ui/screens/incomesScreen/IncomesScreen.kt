@@ -89,6 +89,7 @@ fun IncomesScreen(
                             ListItem(
                                 listItemData = listItemData,
                                 modifier = Modifier.height(70.dp),
+                                onClick = { navController.navigate("EditorTransactionScreen/${income.id}") },
                             )
                         }
                     }

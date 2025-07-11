@@ -24,11 +24,14 @@ class AddTransactionScreenViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
 ) : ViewModel() {
     private var isIncome: Boolean? = null
+
     private val _state =
         MutableStateFlow<AddTransactionScreenState>(AddTransactionScreenState.Loading)
     val state = _state.asStateFlow()
+
     private val _accountName = MutableStateFlow("Loading...")
     val accountName = _accountName.asStateFlow()
+
     private val _articles = MutableStateFlow<List<ArticleModel>>(emptyList())
     val articles = _articles.asStateFlow()
 

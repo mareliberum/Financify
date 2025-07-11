@@ -4,6 +4,7 @@ import com.example.yandexsummerschool.data.dto.transactions.toTransactionDomainM
 import com.example.yandexsummerschool.data.dto.transactions.toTransactionRequestDto
 import com.example.yandexsummerschool.data.retrofit.ErrorParser.parseError
 import com.example.yandexsummerschool.data.retrofit.ShmrFinanceApi
+import com.example.yandexsummerschool.domain.models.CreatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 import com.example.yandexsummerschool.domain.repositories.TransactionsRepository
@@ -74,11 +75,12 @@ class TransactionsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateTransaction(
-        transaction: TransactionDomainModel,
+        transactionId: Int,
+        transaction: CreatedTransactionDomainModel,
     ): Result<TransactionDomainModel> {
         val transactionRequestDto = transaction.toTransactionRequestDto()
         return withContext(Dispatchers.IO) {
-            val response = executeWIthRetries { api.updateTransaction(transaction.id.toInt(), transactionRequestDto) }
+            val response = executeWIthRetries { api.updateTransaction(transactionId, transactionRequestDto) }
             if (response.isSuccessful) {
                 val transactionDomainModel =
                     response.body()?.toTransactionDomainModel()
@@ -90,4 +92,20 @@ class TransactionsRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun getTransactionById(id: Int): Result<TransactionDomainModel> =
+        withContext(Dispatchers.IO) {
+            val response = executeWIthRetries { api.getTransaction(id) }
+            if (response.isSuccessful) {
+                val transaction = response.body()?.toTransactionDomainModel()
+                if (transaction != null) {
+                    Result.Success(transaction)
+                } else {
+                    Result.Failure(Exception("Transaction not found"))
+                }
+            } else {
+                val error = parseError(response.errorBody())
+                Result.Failure(Exception(error.message))
+            }
+        }
 }

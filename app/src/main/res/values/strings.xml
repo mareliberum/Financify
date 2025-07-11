@@ -19,4 +19,6 @@
     <string name="currency">Валюта</string>
     <string name="try_later">попробуйте позднее</string>
     <string name="no_articles_now">Сейчас статей нет</string>
+    <string name="Edit_transaction">Редактировать транзакцию</string>
+    <string name="Delete_transaction">Удалить транзакцию</string>
 </resources>

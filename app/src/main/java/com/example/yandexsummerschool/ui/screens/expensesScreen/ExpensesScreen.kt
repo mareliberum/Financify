@@ -98,7 +98,8 @@ fun ExpensesScreen(
                                         trailingIcon = { TrailingIconArrowRight() },
                                     )
                                 ListItem(
-                                    listItemData,
+                                    listItemData = listItemData,
+                                    onClick = { navController.navigate("EditorTransactionScreen/${expense.id}") },
                                     modifier = Modifier.height(ListItemSize.BIG.size),
                                 )
                             }

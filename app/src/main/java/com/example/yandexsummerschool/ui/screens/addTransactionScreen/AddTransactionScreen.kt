@@ -35,8 +35,9 @@ import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
 import com.example.yandexsummerschool.ui.common.components.textFieldColors
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTransactionScreen(
     viewModelFactory: ViewModelProvider.Factory,
@@ -51,6 +52,7 @@ fun AddTransactionScreen(
     var isEditingAmount by remember { mutableStateOf(false) }
     var showArticlesSheet by remember { mutableStateOf(false) }
     var isEditingComment by remember { mutableStateOf(false) }
+    val articles by viewModel.articles.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.setIncomeType(isIncome)
@@ -90,7 +92,12 @@ fun AddTransactionScreen(
                         onShowDatePicker = { showDatePicker = it },
                         showArticlesSheet = showArticlesSheet,
                         onShowArticlesSheet = { showArticlesSheet = it },
-                        viewModel = viewModel,
+                        onAmountChange = viewModel::changeAmount,
+                        onCommentChange = viewModel::changeComment,
+                        onDateChange = viewModel::changeDate,
+                        onTimeChange = viewModel::changeTime,
+                        onCategoryChange = viewModel::changeCategory,
+                        articles = articles.toImmutableList(),
                     )
                 }
             }
@@ -113,7 +120,12 @@ fun AddTransactionScreenContent(
     onShowDatePicker: (Boolean) -> Unit,
     showArticlesSheet: Boolean,
     onShowArticlesSheet: (Boolean) -> Unit,
-    viewModel: AddTransactionScreenViewModel,
+    onAmountChange: (String) -> Unit,
+    onCommentChange: (String) -> Unit,
+    onDateChange: (Long) -> Unit,
+    onTimeChange: (Int, Int) -> Unit,
+    onCategoryChange: (ArticleModel) -> Unit,
+    articles: ImmutableList<ArticleModel>,
 ) {
     AccountSelector(accountName)
     CategorySelector(state.transaction.categoryName) { onShowArticlesSheet(true) }
@@ -121,7 +133,7 @@ fun AddTransactionScreenContent(
         amount = state.transaction.amount,
         isEditing = isEditingAmount,
         onEdit = onEditAmount,
-        onValueChange = { viewModel.changeAmount(it) },
+        onValueChange = onAmountChange,
     )
     DateSelector(
         date = state.transaction.date,
@@ -135,12 +147,12 @@ fun AddTransactionScreenContent(
         comment = state.transaction.comment,
         isEditing = isEditingComment,
         onEdit = onEditComment,
-        onValueChange = { viewModel.changeComment(it) },
+        onValueChange = onCommentChange,
     )
     if (showTimePicker) {
         CustomTimePickerDialog(
             onConfirm = { hour, minute ->
-                viewModel.changeTime(hour, minute)
+                onTimeChange(hour, minute)
                 onShowTimePicker(false)
             },
             onDismiss = { onShowTimePicker(false) },
@@ -150,7 +162,7 @@ fun AddTransactionScreenContent(
         DatePicker(
             selectedDate = System.currentTimeMillis(),
             onDateSelected = {
-                viewModel.changeDate(it ?: System.currentTimeMillis())
+                onDateChange(it ?: System.currentTimeMillis())
                 onShowDatePicker(false)
             },
             onDismiss = {
@@ -160,9 +172,9 @@ fun AddTransactionScreenContent(
     }
     if (showArticlesSheet) {
         ArticlesSheet(
-            viewModel = viewModel,
+            articles = articles,
             onSelect = {
-                viewModel.changeCategory(it)
+                onCategoryChange(it)
                 onShowArticlesSheet(false)
             },
             onDismiss = { onShowArticlesSheet(false) },
@@ -262,11 +274,10 @@ fun CommentEditor(comment: String?, isEditing: Boolean, onEdit: (Boolean) -> Uni
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticlesSheet(
-    viewModel: AddTransactionScreenViewModel,
+    articles: ImmutableList<ArticleModel>,
     onSelect: (ArticleModel) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val articles by viewModel.articles.collectAsStateWithLifecycle()
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column {
             articles.forEach { article ->

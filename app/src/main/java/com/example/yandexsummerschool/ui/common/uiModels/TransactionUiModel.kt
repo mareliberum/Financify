@@ -1,7 +1,10 @@
 package com.example.yandexsummerschool.ui.common.uiModels
 
+import com.example.yandexsummerschool.domain.models.CreatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel
+import com.example.yandexsummerschool.domain.utils.date.convertIsoToUiDate
 import com.example.yandexsummerschool.domain.utils.date.convertUiDateToIso
+import com.example.yandexsummerschool.domain.utils.date.getTimeFromIsoDate
 
 data class TransactionUiModel(
     val id: String,
@@ -24,8 +27,8 @@ fun TransactionDomainModel.toTransactionUiModel(): TransactionUiModel {
         categoryName = categoryName,
         amount = amount,
         currency = currency,
-        date = date,
-        time = "00:00",
+        date = convertIsoToUiDate(date),
+        time = getTimeFromIsoDate(date),
         isIncome = isIncome,
         emoji = emoji,
         comment = comment,
@@ -43,5 +46,15 @@ fun TransactionUiModel.toTransactionDomainModel(): TransactionDomainModel {
         isIncome = isIncome,
         emoji = emoji,
         comment = comment,
+    )
+}
+
+fun TransactionUiModel.toCreatedTransactionDomainModel(accountId: Int): CreatedTransactionDomainModel {
+    return CreatedTransactionDomainModel(
+        accountId = accountId,
+        categoryId = categoryId,
+        amount = amount,
+        comment = comment,
+        date = convertUiDateToIso(date, time),
     )
 }

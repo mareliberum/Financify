@@ -13,8 +13,8 @@ import androidx.navigation.navArgument
 import com.example.yandexsummerschool.domain.NetworkObserver
 import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
 import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreen
-import com.example.yandexsummerschool.ui.screens.accountScreen.editor.EditorAccountScreen
 import com.example.yandexsummerschool.ui.screens.addTransactionScreen.AddTransactionScreen
+import com.example.yandexsummerschool.ui.screens.addTransactionScreen.editor.EditorTransactionScreen
 import com.example.yandexsummerschool.ui.screens.articlesScreen.ArticlesScreen
 import com.example.yandexsummerschool.ui.screens.expensesScreen.ExpensesScreen
 import com.example.yandexsummerschool.ui.screens.incomesScreen.IncomesScreen
@@ -50,16 +50,20 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
             MyHistoryScreen(navController, type, viewModelFactory)
         }
 
-        composable(Routes.EditorAccountScreen.route) {
-            EditorAccountScreen(navController, viewModelFactory)
-        }
-
         composable(
             "AddTransactionScreen?isIncome={isIncome}",
             arguments = listOf(navArgument("isIncome") { type = NavType.BoolType }),
         ) { backStackEntry ->
             val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
             AddTransactionScreen(viewModelFactory, navController, isIncome)
+        }
+
+        composable(
+            Routes.EditorTransactionScreen.route,
+            arguments = listOf(navArgument("transactionId") { type = NavType.IntType }),
+        ) { backStackEntry ->
+            val transactionId = backStackEntry.arguments?.getInt("transactionId") ?: return@composable
+            EditorTransactionScreen(viewModelFactory, navController, transactionId)
         }
     }
 }
