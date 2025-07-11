@@ -10,17 +10,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.yandexsummerschool.ui.features.expensesScreen.di.ExpensesViewModelFactory
 import com.example.yandexsummerschool.domain.NetworkObserver
 import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
-import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreen
-import com.example.yandexsummerschool.ui.screens.addTransactionScreen.creator.AddTransactionScreen
-import com.example.yandexsummerschool.ui.screens.addTransactionScreen.editor.EditorTransactionScreen
-import com.example.yandexsummerschool.ui.screens.articlesScreen.ArticlesScreen
-import com.example.yandexsummerschool.ui.screens.expensesScreen.ExpensesScreen
-import com.example.yandexsummerschool.ui.screens.incomesScreen.IncomesScreen
-import com.example.yandexsummerschool.ui.screens.myHistoryScreen.MyHistoryScreen
-import com.example.yandexsummerschool.ui.screens.myHistoryScreen.TransactionType
-import com.example.yandexsummerschool.ui.screens.settings.SettingsScreen
+import com.example.yandexsummerschool.ui.features.accountScreen.account.AccountScreen
+import com.example.yandexsummerschool.ui.features.articlesScreen.ArticlesDiProvider
+import com.example.yandexsummerschool.ui.features.articlesScreen.ArticlesScreen
+import com.example.yandexsummerschool.ui.features.editTransactions.addTransactionScreen.AddTransactionScreen
+import com.example.yandexsummerschool.ui.features.editTransactions.editTransactionScreen.EditorTransactionScreen
+import com.example.yandexsummerschool.ui.features.expensesScreen.ExpensesDiProvider
+import com.example.yandexsummerschool.ui.features.expensesScreen.ExpensesScreen
+import com.example.yandexsummerschool.ui.features.incomesScreen.IncomesDiProvider
+import com.example.yandexsummerschool.ui.features.incomesScreen.IncomesScreen
+import com.example.yandexsummerschool.ui.features.myHistoryScreen.MyHistoryScreen
+import com.example.yandexsummerschool.ui.features.myHistoryScreen.TransactionType
+import com.example.yandexsummerschool.ui.features.settings.SettingsScreen
 
 @Composable
 fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
@@ -36,11 +40,22 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
     NetworkStatusToast(networkObserver)
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.ExpensesScreen.route) {
-        composable(Routes.ExpensesScreen.route) { ExpensesScreen(viewModelFactory, navController) }
-        composable(Routes.IncomesScreen.route) { IncomesScreen(navController, viewModelFactory) }
+        composable(Routes.ExpensesScreen.route) {
+            // Используем ExpensesDiProvider для создания фабрики
+            val expensesViewModelFactory: ExpensesViewModelFactory =
+                remember { ExpensesDiProvider.provideFactory(context) }
+            ExpensesScreen(viewModelFactory = expensesViewModelFactory, navController = navController)
+        }
+        composable(Routes.IncomesScreen.route) {
+            val incomesViewModelFactory = remember { IncomesDiProvider.provideFactory(context) }
+            IncomesScreen(navController = navController, viewModelFactory = incomesViewModelFactory)
+        }
         composable(Routes.SettingsScreen.route) { SettingsScreen(navController, viewModelFactory) }
         composable(Routes.AccountScreen.route) { AccountScreen(navController, viewModelFactory) }
-        composable(Routes.ExpenseArticleScreen.route) { ArticlesScreen(navController, viewModelFactory) }
+        composable(Routes.ExpenseArticleScreen.route) {
+            val articlesViewModelFactory = remember { ArticlesDiProvider.provideFactory(context) }
+            ArticlesScreen(navController = navController, viewModelFactory = articlesViewModelFactory)
+        }
         composable(
             Routes.MyHistoryScreen.route,
             arguments = listOf(navArgument("operationType") { type = NavType.StringType }),

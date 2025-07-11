@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
-import com.example.yandexsummerschool.ui.screens.myHistoryScreen.TransactionType
+import com.example.yandexsummerschool.ui.features.myHistoryScreen.TransactionType
 import com.example.yandexsummerschool.ui.theme.iconColor
 
 @OptIn(ExperimentalMaterial3Api::class)

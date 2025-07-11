@@ -19,7 +19,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.ui.navigation.Routes
-import com.example.yandexsummerschool.ui.screens.myHistoryScreen.TransactionType
+import com.example.yandexsummerschool.ui.features.myHistoryScreen.TransactionType
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {

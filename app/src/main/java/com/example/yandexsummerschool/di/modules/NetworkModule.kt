@@ -6,6 +6,7 @@ import com.example.yandexsummerschool.data.retrofit.ShmrArticlesApi
 import com.example.yandexsummerschool.data.retrofit.ShmrFinanceApi
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -62,14 +63,14 @@ object NetworkModule {
             .build()
 
     @Provides
-    @Singleton
+    @Reusable
     fun provideShmrFinanceApi(retrofit: Retrofit): ShmrFinanceApi = retrofit.create(ShmrFinanceApi::class.java)
 
     @Provides
-    @Singleton
+    @Reusable
     fun providesShmrAccountApi(retrofit: Retrofit): ShmrAccountApi = retrofit.create(ShmrAccountApi::class.java)
 
     @Provides
-    @Singleton
+    @Reusable
     fun providesShmrArticlesApi(retrofit: Retrofit): ShmrArticlesApi = retrofit.create(ShmrArticlesApi::class.java)
 }
