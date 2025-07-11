@@ -99,7 +99,11 @@ fun ExpensesScreen(
                                     )
                                 ListItem(
                                     listItemData = listItemData,
-                                    onClick = { navController.navigate("EditorTransactionScreen/${expense.id}") },
+                                    onClick = {
+                                        navController.navigate(
+                                            "EditorTransactionScreen/${expense.id}?isIncome=false",
+                                        )
+                                    },
                                     modifier = Modifier.height(ListItemSize.BIG.size),
                                 )
                             }

@@ -41,14 +41,13 @@ fun EditorTransactionScreen(
     viewModelFactory: ViewModelProvider.Factory,
     navController: NavHostController,
     transactionId: Int,
+    isIncome: Boolean,
 ) {
     val viewModel: EditorTransactionScreenViewModel = viewModel(factory = viewModelFactory)
-
     // TODO: когда появится БД и офлайн мод, можно будет не грузить из сети по новой
     LaunchedEffect(transactionId) {
         viewModel.initTransaction(transactionId)
     }
-
     val state by viewModel.state.collectAsStateWithLifecycle()
     val accountName by viewModel.accountName.collectAsStateWithLifecycle()
     var showTimePicker by remember { mutableStateOf(false) }
@@ -57,7 +56,6 @@ fun EditorTransactionScreen(
     var showArticlesSheet by remember { mutableStateOf(false) }
     var isEditingComment by remember { mutableStateOf(false) }
     val articles by viewModel.articles.collectAsStateWithLifecycle()
-
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
@@ -77,6 +75,7 @@ fun EditorTransactionScreen(
     Scaffold(
         topBar = {
             EditorTransactionScreenTopBar(
+                title = if (isIncome) stringResource(R.string.My_incomes) else stringResource(R.string.My_expenses),
                 onCancelClick = { navController.popBackStack() },
                 onOkClick = {
                     viewModel.updateTransaction()
@@ -147,9 +146,9 @@ fun EditorTransactionScreen(
 }
 
 @Composable
-fun EditorTransactionScreenTopBar(onCancelClick: () -> Unit, onOkClick: () -> Unit) {
+fun EditorTransactionScreenTopBar(title: String, onCancelClick: () -> Unit, onOkClick: () -> Unit) {
     TopAppBar(
-        title = stringResource(R.string.Edit_transaction),
+        title = title,
         leadingIcon = painterResource(R.drawable.x_icon),
         onLeadingClick = onCancelClick,
         trailingIcon = painterResource(R.drawable.ok_icon),

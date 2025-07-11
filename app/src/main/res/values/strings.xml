@@ -19,6 +19,8 @@
     <string name="currency">Валюта</string>
     <string name="try_later">попробуйте позднее</string>
     <string name="no_articles_now">Сейчас статей нет</string>
-    <string name="Edit_transaction">Редактировать транзакцию</string>
+    <string name="Edit_transaction">Редактировать</string>
     <string name="Delete_transaction">Удалить транзакцию</string>
+    <string name="My_incomes">Мои доходы</string>
+    <string name="My_expenses">Мои расходы</string>
 </resources>

@@ -131,7 +131,10 @@ fun MyHistoryScreen(
                             ListItem(
                                 listItemData = listItemData,
                                 modifier = Modifier.height(70.dp),
-                                onClick = { navController.navigate("EditorTransactionScreen/${item.id}") },
+                                onClick = {
+                                    val isIncome = transactionType == TransactionType.INCOME
+                                    navController.navigate("EditorTransactionScreen/${item.id}?isIncome=$isIncome")
+                                },
                             )
                         }
                     }

@@ -21,5 +21,5 @@ sealed class Routes(val route: String) {
 
     data object AddTransactionScreen : Routes("AddTransactionScreen?isIncome={isIncome}")
 
-    data object EditorTransactionScreen : Routes("EditorTransactionScreen/{transactionId}")
+    data object EditorTransactionScreen : Routes("EditorTransactionScreen/{transactionId}?isIncome={isIncome}")
 }

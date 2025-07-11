@@ -10,16 +10,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.yandexsummerschool.ui.features.expensesScreen.di.ExpensesViewModelFactory
 import com.example.yandexsummerschool.domain.NetworkObserver
 import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
 import com.example.yandexsummerschool.ui.features.accountScreen.account.AccountScreen
+import com.example.yandexsummerschool.ui.features.accountScreen.editor.EditorAccountScreen
 import com.example.yandexsummerschool.ui.features.articlesScreen.ArticlesDiProvider
 import com.example.yandexsummerschool.ui.features.articlesScreen.ArticlesScreen
 import com.example.yandexsummerschool.ui.features.editTransactions.addTransactionScreen.AddTransactionScreen
 import com.example.yandexsummerschool.ui.features.editTransactions.editTransactionScreen.EditorTransactionScreen
 import com.example.yandexsummerschool.ui.features.expensesScreen.ExpensesDiProvider
 import com.example.yandexsummerschool.ui.features.expensesScreen.ExpensesScreen
+import com.example.yandexsummerschool.ui.features.expensesScreen.di.ExpensesViewModelFactory
 import com.example.yandexsummerschool.ui.features.incomesScreen.IncomesDiProvider
 import com.example.yandexsummerschool.ui.features.incomesScreen.IncomesScreen
 import com.example.yandexsummerschool.ui.features.myHistoryScreen.MyHistoryScreen
@@ -65,6 +66,10 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
             MyHistoryScreen(navController, type, viewModelFactory)
         }
 
+        composable(Routes.EditorAccountScreen.route) {
+            EditorAccountScreen(navController, viewModelFactory)
+        }
+
         composable(
             "AddTransactionScreen?isIncome={isIncome}",
             arguments = listOf(navArgument("isIncome") { type = NavType.BoolType }),
@@ -75,10 +80,15 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
 
         composable(
             Routes.EditorTransactionScreen.route,
-            arguments = listOf(navArgument("transactionId") { type = NavType.IntType }),
+            arguments =
+                listOf(
+                    navArgument("transactionId") { type = NavType.IntType },
+                    navArgument("isIncome") { type = NavType.BoolType },
+                ),
         ) { backStackEntry ->
             val transactionId = backStackEntry.arguments?.getInt("transactionId") ?: return@composable
-            EditorTransactionScreen(viewModelFactory, navController, transactionId)
+            val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+            EditorTransactionScreen(viewModelFactory, navController, transactionId, isIncome)
         }
     }
 }
