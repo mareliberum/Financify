@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.ui.screens.addTransactionScreen
+package com.example.yandexsummerschool.ui.screens.addTransactionScreen.creator
 
 import com.example.yandexsummerschool.ui.common.uiModels.TransactionUiModel
 

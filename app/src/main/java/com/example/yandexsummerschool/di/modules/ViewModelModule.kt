@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreenViewModel
 import com.example.yandexsummerschool.ui.screens.accountScreen.editor.EditorAccountScreenViewModel
-import com.example.yandexsummerschool.ui.screens.addTransactionScreen.AddTransactionScreenViewModel
+import com.example.yandexsummerschool.ui.screens.addTransactionScreen.creator.AddTransactionScreenViewModel
 import com.example.yandexsummerschool.ui.screens.addTransactionScreen.editor.EditorTransactionScreenViewModel
 import com.example.yandexsummerschool.ui.screens.articlesScreen.ArticlesScreenViewModel
 import com.example.yandexsummerschool.ui.screens.expensesScreen.ExpensesScreenViewModel

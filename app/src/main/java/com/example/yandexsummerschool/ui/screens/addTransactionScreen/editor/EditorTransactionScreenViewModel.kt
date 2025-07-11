@@ -12,7 +12,7 @@ import com.example.yandexsummerschool.domain.utils.date.millsToUiDate
 import com.example.yandexsummerschool.ui.common.BaseViewModel
 import com.example.yandexsummerschool.ui.common.uiModels.toCreatedTransactionDomainModel
 import com.example.yandexsummerschool.ui.common.uiModels.toTransactionUiModel
-import com.example.yandexsummerschool.ui.screens.addTransactionScreen.AddTransactionScreenState
+import com.example.yandexsummerschool.ui.screens.addTransactionScreen.creator.AddTransactionScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

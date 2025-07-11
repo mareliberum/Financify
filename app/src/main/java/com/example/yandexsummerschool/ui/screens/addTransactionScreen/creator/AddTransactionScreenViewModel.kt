@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.ui.screens.addTransactionScreen
+package com.example.yandexsummerschool.ui.screens.addTransactionScreen.creator
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,18 +24,15 @@ class AddTransactionScreenViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
 ) : ViewModel() {
     private var isIncome: Boolean? = null
-
     private val _state =
         MutableStateFlow<AddTransactionScreenState>(AddTransactionScreenState.Loading)
     val state = _state.asStateFlow()
-
     private val _accountName = MutableStateFlow("Loading...")
     val accountName = _accountName.asStateFlow()
-
     private val _articles = MutableStateFlow<List<ArticleModel>>(emptyList())
     val articles = _articles.asStateFlow()
 
-    private val transactionModel =
+    private val newTransactionModel =
         TransactionUiModel(
             id = "0",
             categoryId = 0,
@@ -99,7 +96,7 @@ class AddTransactionScreenViewModel @Inject constructor(
                 }
 
                 is Result.Success -> {
-                    _state.value = AddTransactionScreenState.Content(transactionModel)
+                    _state.value = AddTransactionScreenState.Content(newTransactionModel)
                     _accountName.value = result.data.name
                     changeId(result.data.id)
                 }

@@ -13,7 +13,7 @@ import androidx.navigation.navArgument
 import com.example.yandexsummerschool.domain.NetworkObserver
 import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
 import com.example.yandexsummerschool.ui.screens.accountScreen.account.AccountScreen
-import com.example.yandexsummerschool.ui.screens.addTransactionScreen.AddTransactionScreen
+import com.example.yandexsummerschool.ui.screens.addTransactionScreen.creator.AddTransactionScreen
 import com.example.yandexsummerschool.ui.screens.addTransactionScreen.editor.EditorTransactionScreen
 import com.example.yandexsummerschool.ui.screens.articlesScreen.ArticlesScreen
 import com.example.yandexsummerschool.ui.screens.expensesScreen.ExpensesScreen

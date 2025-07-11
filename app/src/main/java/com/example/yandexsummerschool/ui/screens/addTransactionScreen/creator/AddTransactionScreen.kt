@@ -1,12 +1,8 @@
-package com.example.yandexsummerschool.ui.screens.addTransactionScreen.editor
+package com.example.yandexsummerschool.ui.screens.addTransactionScreen.creator
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,8 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,24 +21,15 @@ import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 import com.example.yandexsummerschool.ui.screens.addTransactionScreen.common.TransactionEditorScreenContent
-import com.example.yandexsummerschool.ui.screens.addTransactionScreen.creator.AddTransactionScreenState
-import com.example.yandexsummerschool.ui.theme.dangerAction
-import com.example.yandexsummerschool.ui.theme.white
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun EditorTransactionScreen(
+fun AddTransactionScreen(
     viewModelFactory: ViewModelProvider.Factory,
     navController: NavHostController,
-    transactionId: Int,
+    isIncome: Boolean,
 ) {
-    val viewModel: EditorTransactionScreenViewModel = viewModel(factory = viewModelFactory)
-
-    // TODO: когда появится БД и офлайн мод, можно будет не грузить из сети по новой
-    LaunchedEffect(transactionId) {
-        viewModel.initTransaction(transactionId)
-    }
-
+    val viewModel: AddTransactionScreenViewModel = viewModel(factory = viewModelFactory)
     val state by viewModel.state.collectAsStateWithLifecycle()
     val accountName by viewModel.accountName.collectAsStateWithLifecycle()
     var showTimePicker by remember { mutableStateOf(false) }
@@ -54,12 +39,18 @@ fun EditorTransactionScreen(
     var isEditingComment by remember { mutableStateOf(false) }
     val articles by viewModel.articles.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.setIncomeType(isIncome)
+        viewModel.loadArticles(isIncome)
+    }
+
     Scaffold(
         topBar = {
-            EditorTransactionScreenTopBar(
+            AddTransactionTopBar(
+                isIncome = isIncome,
                 onCancelClick = { navController.popBackStack() },
                 onOkClick = {
-                    viewModel.updateTransaction()
+                    viewModel.createTransaction()
                     navController.popBackStack()
                 },
             )
@@ -70,11 +61,11 @@ fun EditorTransactionScreen(
             modifier = Modifier.padding(paddingValues),
         ) {
             when (val currentState = state) {
-                is EditorTransactionScreenState.Error -> ErrorScreen(currentState.message)
-                EditorTransactionScreenState.Loading -> LoadingIndicator()
-                is EditorTransactionScreenState.Content -> {
+                is AddTransactionScreenState.Error -> ErrorScreen(currentState.message)
+                AddTransactionScreenState.Loading -> LoadingIndicator()
+                is AddTransactionScreenState.Content -> {
                     TransactionEditorScreenContent(
-                        state = AddTransactionScreenState.Content(currentState.transaction),
+                        state = currentState,
                         accountName = accountName,
                         isEditingAmount = isEditingAmount,
                         onEditAmount = { isEditingAmount = it },
@@ -93,24 +84,6 @@ fun EditorTransactionScreen(
                         onCategoryChange = viewModel::changeCategory,
                         articles = articles.toImmutableList(),
                     )
-                    Button(
-                        onClick = {
-                            navController.popBackStack()
-                        },
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp),
-                        colors =
-                            ButtonDefaults.buttonColors().copy(
-                                containerColor = dangerAction,
-                                contentColor = white,
-                                disabledContentColor = white,
-                                disabledContainerColor = dangerAction,
-                            ),
-                    ) {
-                        Text(stringResource(R.string.Delete_transaction))
-                    }
                 }
             }
         }
@@ -118,9 +91,9 @@ fun EditorTransactionScreen(
 }
 
 @Composable
-fun EditorTransactionScreenTopBar(onCancelClick: () -> Unit, onOkClick: () -> Unit) {
+fun AddTransactionTopBar(isIncome: Boolean, onCancelClick: () -> Unit, onOkClick: () -> Unit) {
     TopAppBar(
-        title = stringResource(R.string.Edit_transaction),
+        title = if (isIncome) "Мои доходы" else "Мои расходы",
         leadingIcon = painterResource(R.drawable.x_icon),
         onLeadingClick = onCancelClick,
         trailingIcon = painterResource(R.drawable.ok_icon),
