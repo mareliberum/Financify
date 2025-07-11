@@ -93,7 +93,7 @@ fun MyHistoryScreen(
                     Modifier
                         .background(MaterialTheme.colorScheme.secondary),
                 onClick = {
-                    pickerType = DateType.START
+                    pickerType = DateType.END
                     showPicker = true
                 },
             )

@@ -31,12 +31,14 @@ class AddTransactionScreenViewModel @Inject constructor(
     val accountName = _accountName.asStateFlow()
     private val _articles = MutableStateFlow<List<ArticleModel>>(emptyList())
     val articles = _articles.asStateFlow()
+
     private val transactionModel =
         TransactionUiModel(
             id = "0",
             categoryId = 0,
             categoryName = "",
             amount = "0",
+            // В целом валюта не важна,т.к. ее на этом экране поменять нельзя
             currency = Currencies.RUB.code,
             date = millsToUiDate(System.currentTimeMillis()),
             time =

@@ -1,15 +1,17 @@
 package com.example.yandexsummerschool.ui.screens.myHistoryScreen
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.yandexsummerschool.data.local.UserDelegate
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel
+import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.expenses.GetExpensesUseCase
 import com.example.yandexsummerschool.domain.useCases.incomes.GetIncomesUseCase
 import com.example.yandexsummerschool.domain.utils.calculateSum
 import com.example.yandexsummerschool.domain.utils.date.convertUiDateToIso
 import com.example.yandexsummerschool.domain.utils.date.getStartOfMonth
 import com.example.yandexsummerschool.domain.utils.date.millsToUiDate
+import com.example.yandexsummerschool.ui.common.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -23,7 +25,9 @@ class MyHistoryScreenViewModel
     constructor(
         private val getExpensesUseCase: GetExpensesUseCase,
         private val getIncomesUseCase: GetIncomesUseCase,
-    ) : ViewModel() {
+        override val userDelegate: UserDelegate,
+        override val getAccountUseCase: GetAccountUseCase,
+    ) : BaseViewModel() {
         private var transactionsType: TransactionType? = null // Историю чего мы отображаем - доходы или расходы
         private val _startOfPeriod = MutableStateFlow(millsToUiDate(getStartOfMonth()))
         val startOfPeriod = _startOfPeriod.asStateFlow()
@@ -55,7 +59,7 @@ class MyHistoryScreenViewModel
                         if (expenses.isEmpty()) {
                             _myHistoryScreenState.value = HistoryScreenState.Empty
                         } else {
-                            val history = expenses.map { it.toHistoryItem() }
+                            val history = expenses.map { it.toHistoryItem() }.reversed()
                             val content =
                                 HistoryScreenState.Content(
                                     history = history,
@@ -76,7 +80,7 @@ class MyHistoryScreenViewModel
             return when (type) {
                 TransactionType.INCOME -> {
                     getIncomesUseCase(
-                        1,
+                        getAccountId(),
                         convertUiDateToIso(startOfPeriod.value),
                         convertUiDateToIso(endOfPeriod.value),
                     )
@@ -84,7 +88,7 @@ class MyHistoryScreenViewModel
 
                 TransactionType.EXPENSE -> {
                     getExpensesUseCase(
-                        1,
+                        getAccountId(),
                         convertUiDateToIso(startOfPeriod.value),
                         convertUiDateToIso(endOfPeriod.value),
                     )
