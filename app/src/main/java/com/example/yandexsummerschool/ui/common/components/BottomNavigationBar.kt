@@ -19,7 +19,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.ui.navigation.Routes
-import com.example.yandexsummerschool.ui.screens.myHistoryScreen.TransactionType
+import com.example.yandexsummerschool.ui.features.myHistoryScreen.TransactionType
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -29,6 +29,7 @@ fun BottomNavigationBar(navController: NavController) {
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = backStackEntry?.destination?.route
         val operationType = backStackEntry?.arguments?.getString("operationType")
+        val isIncome = backStackEntry?.arguments?.getBoolean("isIncome")
 
         // TODO: Переделать навигацию с nested graph,должно быть удобнее
 
@@ -46,6 +47,20 @@ fun BottomNavigationBar(navController: NavController) {
                     }
                 }
                 Routes.EditorAccountScreen.route -> Routes.AccountScreen.route
+                Routes.AddTransactionScreen.route -> {
+                    when (isIncome) {
+                        true -> Routes.IncomesScreen.route
+                        false -> Routes.ExpensesScreen.route
+                        null -> null
+                    }
+                }
+                Routes.EditorTransactionScreen.route -> {
+                    when (isIncome) {
+                        true -> Routes.IncomesScreen.route
+                        false -> Routes.ExpensesScreen.route
+                        null -> null
+                    }
+                }
                 else -> currentRoute
             }
 

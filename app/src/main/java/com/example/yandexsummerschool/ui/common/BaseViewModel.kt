@@ -1,8 +1,8 @@
 package com.example.yandexsummerschool.ui.common
 
 import androidx.lifecycle.ViewModel
-import com.example.yandexsummerschool.data.dto.Result
 import com.example.yandexsummerschool.data.local.UserDelegate
+import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 
 abstract class BaseViewModel : ViewModel() {

@@ -1,7 +1,7 @@
 package com.example.yandexsummerschool.data.retrofit
 
-import com.example.yandexsummerschool.data.dto.AccountDto
-import com.example.yandexsummerschool.data.dto.AccountUpdateRequestDto
+import com.example.yandexsummerschool.data.dto.account.AccountDto
+import com.example.yandexsummerschool.data.dto.account.AccountUpdateRequestDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

@@ -1,7 +1,7 @@
 package com.example.yandexsummerschool.domain.useCases.incomes
 
-import com.example.yandexsummerschool.data.dto.Result
-import com.example.yandexsummerschool.domain.models.TransactionModel
+import com.example.yandexsummerschool.domain.models.Result
+import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 import com.example.yandexsummerschool.domain.repositories.TransactionsRepository
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class GetIncomesUseCase
             accountId: Int,
             startDate: String? = null,
             endDate: String? = null,
-        ): Result<List<TransactionModel>> {
+        ): Result<List<TransactionDomainModel>> {
             return try {
                 repository.getIncomeTransactions(accountId, startDate, endDate)
             } catch (e: Exception) {

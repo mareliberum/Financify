@@ -1,6 +1,6 @@
 package com.example.yandexsummerschool.domain.models
 
-import com.example.yandexsummerschool.ui.screens.articlesScreen.ArticleUiModel
+import com.example.yandexsummerschool.ui.features.articlesScreen.ArticleUiModel
 
 data class ArticleModel(
     val id: Int,

@@ -1,6 +1,6 @@
 package com.example.yandexsummerschool.data.retrofit
 
-import com.example.yandexsummerschool.data.dto.ArticleDto
+import com.example.yandexsummerschool.data.dto.article.ArticleDto
 import retrofit2.Response
 import retrofit2.http.GET
 

@@ -1,11 +1,11 @@
 package com.example.yandexsummerschool.domain.utils
 
-import com.example.yandexsummerschool.domain.models.TransactionModel
+import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 
-fun calculateSum(transactions: List<TransactionModel>): String {
+fun calculateSum(transactions: List<TransactionDomainModel>): String {
     val total =
         transactions.sumOf {
-            it.amount.replace(Regex("[^\\d]"), "").toLongOrNull() ?: 0L
+            it.amount.toDouble()
         }
     return "$total"
 }

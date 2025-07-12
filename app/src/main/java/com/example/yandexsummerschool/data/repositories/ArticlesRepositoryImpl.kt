@@ -1,9 +1,9 @@
 package com.example.yandexsummerschool.data.repositories
 
-import com.example.yandexsummerschool.data.dto.Result
-import com.example.yandexsummerschool.data.dto.toArticleModel
+import com.example.yandexsummerschool.data.dto.article.toArticleModel
 import com.example.yandexsummerschool.data.retrofit.ShmrArticlesApi
 import com.example.yandexsummerschool.domain.models.ArticleModel
+import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.repositories.ArticlesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

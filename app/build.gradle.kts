@@ -3,8 +3,10 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
-    id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.21"
+//    id("com.google.devtools.ksp")
+//    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.ksp)
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
 }
 val localProperties = Properties()
@@ -85,12 +87,14 @@ dependencies {
 
     implementation(libs.androidx.core.splashscreen)
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
-    // Hilt
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-    implementation("com.google.dagger:hilt-android:2.50")
-    ksp("com.google.dagger:hilt-android-compiler:2.50")
+    // Ksp
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
+
+    // immutable structures for compose stability
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
 }

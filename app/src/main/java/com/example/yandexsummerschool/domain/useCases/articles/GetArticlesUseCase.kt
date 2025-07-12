@@ -1,7 +1,7 @@
 package com.example.yandexsummerschool.domain.useCases.articles
 
-import com.example.yandexsummerschool.data.dto.Result
 import com.example.yandexsummerschool.domain.models.ArticleModel
+import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.repositories.ArticlesRepository
 import javax.inject.Inject
 
