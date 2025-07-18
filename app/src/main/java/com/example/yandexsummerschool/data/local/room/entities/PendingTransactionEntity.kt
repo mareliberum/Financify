@@ -35,5 +35,3 @@ fun PendingTransactionEntity.toCreatedTransactionDomainModel(): CreatedTransacti
         date = date,
     )
 }
-
-

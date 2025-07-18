@@ -89,7 +89,7 @@ class PendingTransactionsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertPendingUpdate(update: UpdatedTransactionDomainModel) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             dao.insertPendingUpdates(update.toPendingTransactionUpdateEntity())
         }
     }

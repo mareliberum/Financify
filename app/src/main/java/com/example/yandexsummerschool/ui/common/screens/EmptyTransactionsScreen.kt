@@ -45,18 +45,17 @@ fun EmptyTransactionsScreen(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 32.dp),
         )
-        if (subtitle != null)
-            {
-                Text(
-                    text = subtitle,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                    textAlign = TextAlign.Center,
-                    modifier =
-                        Modifier
-                            .padding(horizontal = 48.dp)
-                            .padding(top = 8.dp),
-                )
-            }
+        if (subtitle != null) {
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                textAlign = TextAlign.Center,
+                modifier =
+                    Modifier
+                        .padding(horizontal = 48.dp)
+                        .padding(top = 8.dp),
+            )
+        }
     }
 }

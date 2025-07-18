@@ -25,7 +25,7 @@ fun UpdatedTransactionDomainModel.toPendingTransactionUpdateEntity(): PendingTra
     )
 }
 
-fun PendingTransactionUpdateEntity.toUpdatedTransactionDomainModel(): UpdatedTransactionDomainModel{
+fun PendingTransactionUpdateEntity.toUpdatedTransactionDomainModel(): UpdatedTransactionDomainModel {
     return UpdatedTransactionDomainModel(
         transactionId,
         accountId,

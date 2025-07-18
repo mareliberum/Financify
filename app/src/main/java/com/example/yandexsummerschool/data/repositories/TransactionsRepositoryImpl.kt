@@ -48,7 +48,10 @@ class TransactionsRepositoryImpl @Inject constructor(
                     }
                 val response = executeWIthRetries { api.getTransactions(accountId, startDate, endDate) }
                 if (response.isSuccessful) {
-                    val transactionsList = response.body()?.map { it.toTransactionDomainModel() } ?: emptyList()
+                    val transactionsList =
+                        response.body()
+                            ?.map { it.toTransactionDomainModel(lastSyncDate = makeFullIsoDate(System.currentTimeMillis())) }
+                            ?: emptyList()
                     transactionsDao.insertAllTransactions(transactionsList.map { it.toTransactionEntity() })
                     Result.Success(transactionsList)
                 } else {
@@ -154,8 +157,11 @@ class TransactionsRepositoryImpl @Inject constructor(
             withContext(Dispatchers.IO) {
                 val response = executeWIthRetries { api.getTransaction(id) }
                 if (response.isSuccessful) {
-                    val transaction = response.body()?.toTransactionDomainModel()
+                    val transaction =
+                        response.body()
+                            ?.toTransactionDomainModel(lastSyncDate = makeFullIsoDate(System.currentTimeMillis()))
                     if (transaction != null) {
+                        transactionsDao.insertTransaction(transaction.toTransactionEntity())
                         Result.Success(transaction)
                     } else {
                         Result.Failure(Exception("Transaction not found"))

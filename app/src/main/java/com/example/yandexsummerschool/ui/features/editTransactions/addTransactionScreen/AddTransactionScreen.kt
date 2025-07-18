@@ -136,7 +136,6 @@ fun AddTransactionScreen(
     }
 }
 
-
 @Composable
 fun AddTransactionTopBar(isIncome: Boolean, onCancelClick: () -> Unit, onOkClick: () -> Unit) {
     TopAppBar(

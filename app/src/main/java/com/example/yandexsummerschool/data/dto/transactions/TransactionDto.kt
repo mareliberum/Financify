@@ -27,7 +27,7 @@ data class Category(
     val isIncome: Boolean,
 )
 
-fun TransactionDto.toTransactionDomainModel(): TransactionDomainModel {
+fun TransactionDto.toTransactionDomainModel(lastSyncDate: String = ""): TransactionDomainModel {
     return TransactionDomainModel(
         id = id.toString(),
         categoryId = category.id,
@@ -38,5 +38,6 @@ fun TransactionDto.toTransactionDomainModel(): TransactionDomainModel {
         comment = comment,
         isIncome = category.isIncome,
         date = transactionDate,
+        lastSyncDate = lastSyncDate,
     )
 }

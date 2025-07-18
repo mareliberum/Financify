@@ -22,19 +22,23 @@ private const val DB_NAME = "APP_DATABASE"
         AccountEntity::class,
         CategoryEntity::class,
         PendingTransactionEntity::class,
-        PendingTransactionUpdateEntity::class
+        PendingTransactionUpdateEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = false,
 )
 abstract class AppDataBase : RoomDatabase() {
     abstract fun getTransactionsDao(): TransactionsDao
+
     abstract fun getAccountDao(): AccountDao
+
     abstract fun getCategoriesDao(): CategoriesDao
+
     abstract fun getPendingTransactionsDao(): PendingTransactionsDao
 
     companion object {
         private var INSTANCE: AppDataBase? = null
+
         fun getInstance(context: Context): AppDataBase {
             synchronized(this) {
                 var instance = INSTANCE

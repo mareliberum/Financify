@@ -15,6 +15,7 @@ data class TransactionEntity(
     val emoji: String? = null,
     val comment: String? = null,
     val date: String = "",
+    val lastSyncDate: String = "",
 )
 
 fun TransactionEntity.toTransactionDomainModel(): TransactionDomainModel {
@@ -28,6 +29,7 @@ fun TransactionEntity.toTransactionDomainModel(): TransactionDomainModel {
         emoji = emoji,
         comment = comment,
         date = date,
+        lastSyncDate = lastSyncDate,
     )
 }
 
@@ -42,5 +44,6 @@ fun TransactionDomainModel.toTransactionEntity(): TransactionEntity {
         emoji = emoji,
         comment = comment,
         date = date,
+        lastSyncDate = lastSyncDate,
     )
 }

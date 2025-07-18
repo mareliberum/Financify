@@ -59,10 +59,11 @@ class EditorTransactionScreenViewModel @Inject constructor(
         if (currentState is EditorTransactionScreenState.Content) {
             viewModelScope.launch {
                 val transaction = currentState.transaction
-                val updatedTransactionDomainModel = transaction.toUpdatedTransactionDomainModel(
-                    currentState.transaction.id.toInt(),
-                    getAccountId(),
-                )
+                val updatedTransactionDomainModel =
+                    transaction.toUpdatedTransactionDomainModel(
+                        currentState.transaction.id.toInt(),
+                        getAccountId(),
+                    )
                 val transactionDomainModel = transaction.toTransactionDomainModel()
                 val result = updateTransactionUseCase(updatedTransactionDomainModel)
                 if (result is Result.Failure) {

@@ -7,7 +7,7 @@ import javax.inject.Inject
 class InsertPendingUpdateUseCase @Inject constructor(
     private val repository: PendingTransactionsRepository,
 ) {
-    suspend operator fun invoke(update: UpdatedTransactionDomainModel){
+    suspend operator fun invoke(update: UpdatedTransactionDomainModel) {
         repository.insertPendingUpdate(update)
     }
 }

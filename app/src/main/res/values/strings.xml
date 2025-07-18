@@ -32,4 +32,5 @@
     <string name="save">Сохранить</string>
     <string name="dont_save">Не сохранять</string>
     <string name="Error">Ошибка</string>
+    <string name="info">информация</string>
 </resources>

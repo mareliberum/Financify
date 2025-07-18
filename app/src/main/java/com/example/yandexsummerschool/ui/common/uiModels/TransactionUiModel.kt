@@ -19,6 +19,7 @@ data class TransactionUiModel(
     val isIncome: Boolean,
     val emoji: String? = null,
     val comment: String? = null,
+    val lastSyncDate: String = "",
 )
 
 fun TransactionDomainModel.toTransactionUiModel(): TransactionUiModel {
@@ -33,6 +34,7 @@ fun TransactionDomainModel.toTransactionUiModel(): TransactionUiModel {
         isIncome = isIncome,
         emoji = emoji,
         comment = comment,
+        lastSyncDate = lastSyncDate,
     )
 }
 
@@ -47,6 +49,7 @@ fun TransactionUiModel.toTransactionDomainModel(): TransactionDomainModel {
         isIncome = isIncome,
         emoji = emoji,
         comment = comment,
+        lastSyncDate = lastSyncDate,
     )
 }
 
@@ -62,7 +65,7 @@ fun TransactionUiModel.toCreatedTransactionDomainModel(accountId: Int): CreatedT
 
 fun TransactionUiModel.toUpdatedTransactionDomainModel(
     transactionId: Int,
-    accountId: Int
+    accountId: Int,
 ): UpdatedTransactionDomainModel {
     return UpdatedTransactionDomainModel(
         transactionId = transactionId,

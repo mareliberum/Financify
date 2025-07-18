@@ -47,11 +47,10 @@ class AnalysisScreenViewModel @Inject constructor(
             viewModelScope.launch {
                 loadTransactionsFromDb()
                 val transactions = loadTransactionsFromApi()
-                if (transactions is Result.Success)
-                    {
-                        val result = groupTransactionsByCategoriesUseCase(transactions.data).map { it.toAnalysisItem() }
-                        setContent(result)
-                    }
+                if (transactions is Result.Success) {
+                    val result = groupTransactionsByCategoriesUseCase(transactions.data).map { it.toAnalysisItem() }
+                    setContent(result)
+                }
             }
     }
 
@@ -89,10 +88,9 @@ class AnalysisScreenViewModel @Inject constructor(
         val sum = list.sumOf { it.amount }
         if (list.isNotEmpty()) {
             _state.value = AnalysisScreenState.Content(list, sum)
-        } else
-            {
-                _state.value = AnalysisScreenState.Empty
-            }
+        } else {
+            _state.value = AnalysisScreenState.Empty
+        }
     }
 
     fun setStartDate(dateMillis: Long?) {

@@ -59,8 +59,9 @@ class TransactionsDbRepositoryImpl @Inject constructor(
             dao.getSumByCategoryWithFilter(startDate, endDate, isIncome).map { it.toGroupedByCategoryTransactions() }
         }
     }
+
     override suspend fun deleteTransactionById(id: Int) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             dao.deleteTransaction(id)
         }
     }

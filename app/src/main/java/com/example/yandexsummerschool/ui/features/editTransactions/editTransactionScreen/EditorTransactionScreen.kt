@@ -1,10 +1,18 @@
 package com.example.yandexsummerschool.ui.features.editTransactions.editTransactionScreen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,6 +32,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.yandexsummerschool.R
+import com.example.yandexsummerschool.domain.utils.date.convertIsoToUiDate
+import com.example.yandexsummerschool.domain.utils.date.getTimeFromIsoDate
 import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.common.components.CustomErrorDialog
 import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
@@ -59,7 +70,7 @@ fun EditorTransactionScreen(
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var showSaveAndSendLaterDialog by remember { mutableStateOf(false) }
-
+    var showInfoDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
@@ -118,18 +129,26 @@ fun EditorTransactionScreen(
                             viewModel.deleteTransaction()
                         },
                         modifier =
-                        Modifier
-	                        .fillMaxWidth()
-	                        .padding(top = 16.dp),
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp),
                         colors =
-                        ButtonDefaults.buttonColors().copy(
-                            containerColor = dangerAction,
-                            contentColor = white,
-                            disabledContentColor = white,
-                            disabledContainerColor = dangerAction,
-                        ),
+                            ButtonDefaults.buttonColors().copy(
+                                containerColor = dangerAction,
+                                contentColor = white,
+                                disabledContentColor = white,
+                                disabledContainerColor = dangerAction,
+                            ),
                     ) {
                         Text(stringResource(R.string.Delete_transaction))
+                    }
+                    InfoBtn { showInfoDialog = true }
+                    if (showInfoDialog) {
+                        val date = currentState.transaction.lastSyncDate
+                        ShowInfoDialog(
+                            onClick = { showInfoDialog = false },
+                            text = convertIsoToUiDate(date) + " " + getTimeFromIsoDate(date),
+                        )
                     }
                 }
             }
@@ -173,5 +192,48 @@ fun EditorTransactionScreenTopBar(title: String, onCancelClick: () -> Unit, onOk
         onLeadingClick = onCancelClick,
         trailingIcon = painterResource(R.drawable.ok_icon),
         onTrailingClick = onOkClick,
+    )
+}
+
+@Composable
+fun InfoBtn(onClick: () -> Unit) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .padding(4.dp),
+    ) {
+        IconButton(
+            modifier = Modifier.align(Alignment.BottomEnd),
+            onClick = onClick,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Info,
+                contentDescription = stringResource(R.string.info),
+            )
+        }
+    }
+}
+
+@Composable
+fun ShowInfoDialog(onClick: () -> Unit, text: String) {
+    AlertDialog(
+        onDismissRequest = onClick,
+        title = {
+            Text(
+                text = "Последняя  синхронизация с сервером",
+                style = MaterialTheme.typography.titleMedium,
+            )
+        },
+        text = {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        },
+        confirmButton = {
+            Button(onClick = onClick) {
+                Text("ОК")
+            }
+        },
     )
 }

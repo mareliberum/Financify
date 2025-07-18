@@ -4,9 +4,9 @@ import com.example.yandexsummerschool.domain.repositories.TransactionsDbReposito
 import javax.inject.Inject
 
 class DeleteTransactionFromDbUseCase @Inject constructor(
-    private val repository: TransactionsDbRepository
-){
-    suspend operator fun invoke(id: Int){
+    private val repository: TransactionsDbRepository,
+) {
+    suspend operator fun invoke(id: Int) {
         repository.deleteTransactionById(id)
     }
 }

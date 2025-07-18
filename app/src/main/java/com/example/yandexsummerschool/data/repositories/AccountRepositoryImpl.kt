@@ -33,10 +33,9 @@ class AccountRepositoryImpl @Inject constructor(
                     accountDao.insertAccount(account.toAccountEntity())
                     Result.Success(account)
                 } else {
-                    if (accountFromDb != null)
-                        {
-                            Result.Success(accountFromDb.toAccountModel())
-                        }
+                    if (accountFromDb != null) {
+                        Result.Success(accountFromDb.toAccountModel())
+                    }
                     val error = parseError(response.errorBody())
                     Result.Failure(Exception(error.message))
                 }
@@ -44,13 +43,11 @@ class AccountRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             withContext(Dispatchers.IO) {
                 val accountFromDb = accountDao.getAccount()
-                if (accountFromDb != null)
-                    {
-                        return@withContext Result.Success(accountFromDb.toAccountModel())
-                    } else
-                    {
-                        return@withContext Result.Failure(e)
-                    }
+                if (accountFromDb != null) {
+                    return@withContext Result.Success(accountFromDb.toAccountModel())
+                } else {
+                    return@withContext Result.Failure(e)
+                }
             }
         }
 
