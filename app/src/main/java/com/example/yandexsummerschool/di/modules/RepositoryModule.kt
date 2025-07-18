@@ -1,5 +1,6 @@
 package com.example.yandexsummerschool.di.modules
 
+import com.example.yandexsummerschool.data.local.sharedPrefs.UserDelegate
 import com.example.yandexsummerschool.data.repositories.AccountRepositoryImpl
 import com.example.yandexsummerschool.data.repositories.ArticlesRepositoryImpl
 import com.example.yandexsummerschool.data.repositories.PendingTransactionsRepositoryImpl
@@ -10,6 +11,7 @@ import com.example.yandexsummerschool.domain.repositories.ArticlesRepository
 import com.example.yandexsummerschool.domain.repositories.PendingTransactionsRepository
 import com.example.yandexsummerschool.domain.repositories.TransactionsDbRepository
 import com.example.yandexsummerschool.domain.repositories.TransactionsRepository
+import com.example.yandexsummerschool.domain.repositories.UserCurrencyPrefs
 import dagger.Binds
 import dagger.Module
 import dagger.Reusable
@@ -37,4 +39,8 @@ interface RepositoryModule {
     fun bindsPendingTransactionsRepository(
         pendingTransactionsRepository: PendingTransactionsRepositoryImpl,
     ): PendingTransactionsRepository
+
+    @Binds
+    @Reusable
+    fun bindsUserCurrencyPrefs(userDelegate: UserDelegate): UserCurrencyPrefs
 }

@@ -6,6 +6,8 @@ import androidx.core.content.edit
 import com.example.yandexsummerschool.data.local.sharedPrefs.PreferencesConstants.ACCOUNT_PREFS_NAME
 import com.example.yandexsummerschool.data.local.sharedPrefs.PreferencesConstants.Keys.KEY_ACCOUNT_ID
 import com.example.yandexsummerschool.data.local.sharedPrefs.PreferencesConstants.Keys.KEY_CURRENCY
+import com.example.yandexsummerschool.domain.repositories.UserAccountIdPrefs
+import com.example.yandexsummerschool.domain.repositories.UserCurrencyPrefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.data.local.sharedPrefs
+package com.example.yandexsummerschool.domain.repositories
 
 interface UserCurrencyPrefs {
     suspend fun getCurrency(): String?

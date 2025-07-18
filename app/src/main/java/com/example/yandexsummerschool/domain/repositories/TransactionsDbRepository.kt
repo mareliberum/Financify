@@ -21,4 +21,6 @@ interface TransactionsDbRepository {
     ): List<GroupedByCategoryTransactions>
 
     suspend fun deleteTransactionById(id: Int)
+
+    suspend fun changeCurrency(currency: String)
 }

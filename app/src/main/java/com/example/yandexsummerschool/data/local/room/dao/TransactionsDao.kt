@@ -53,4 +53,7 @@ interface TransactionsDao {
         endDate: String,
         isIncome: Boolean,
     ): List<CategorySumResult>
+
+    @Query("update transactionentity set currency = :currency")
+    fun changeCurrency(currency: String)
 }

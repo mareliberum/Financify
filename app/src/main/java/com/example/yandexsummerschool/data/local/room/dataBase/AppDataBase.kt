@@ -24,7 +24,7 @@ private const val DB_NAME = "APP_DATABASE"
         PendingTransactionEntity::class,
         PendingTransactionUpdateEntity::class,
     ],
-    version = 7,
+    version = 8,
     exportSchema = false,
 )
 abstract class AppDataBase : RoomDatabase() {

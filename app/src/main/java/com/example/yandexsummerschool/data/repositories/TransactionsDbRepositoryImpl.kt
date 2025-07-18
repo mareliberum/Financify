@@ -65,4 +65,10 @@ class TransactionsDbRepositoryImpl @Inject constructor(
             dao.deleteTransaction(id)
         }
     }
+
+    override suspend fun changeCurrency(currency: String) {
+        withContext(Dispatchers.IO) {
+            dao.changeCurrency(currency)
+        }
+    }
 }
