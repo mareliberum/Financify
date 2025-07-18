@@ -10,4 +10,5 @@ data class TransactionDomainModel(
     val emoji: String? = null,
     val comment: String? = null,
     val date: String = "",
+    val lastSyncDate: String = "",
 )

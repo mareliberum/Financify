@@ -2,25 +2,29 @@ package com.example.yandexsummerschool.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.yandexsummerschool.domain.NetworkObserver
+import com.example.yandexsummerschool.ui.NetworkSyncHandler
 import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
 import com.example.yandexsummerschool.ui.features.accountScreen.account.AccountScreen
 import com.example.yandexsummerschool.ui.features.accountScreen.editor.EditorAccountScreen
+import com.example.yandexsummerschool.ui.features.analysisScreen.AnalysisScreen
+import com.example.yandexsummerschool.ui.features.analysisScreen.di.AnalysisDiProvider
 import com.example.yandexsummerschool.ui.features.articlesScreen.ArticlesDiProvider
 import com.example.yandexsummerschool.ui.features.articlesScreen.ArticlesScreen
 import com.example.yandexsummerschool.ui.features.editTransactions.addTransactionScreen.AddTransactionScreen
 import com.example.yandexsummerschool.ui.features.editTransactions.editTransactionScreen.EditorTransactionScreen
-import com.example.yandexsummerschool.ui.features.expensesScreen.ExpensesDiProvider
 import com.example.yandexsummerschool.ui.features.expensesScreen.ExpensesScreen
-import com.example.yandexsummerschool.ui.features.expensesScreen.di.ExpensesViewModelFactory
+import com.example.yandexsummerschool.ui.features.expensesScreen.di.ExpensesDiProvider
 import com.example.yandexsummerschool.ui.features.incomesScreen.IncomesDiProvider
 import com.example.yandexsummerschool.ui.features.incomesScreen.IncomesScreen
 import com.example.yandexsummerschool.ui.features.myHistoryScreen.MyHistoryScreen
@@ -31,22 +35,23 @@ import com.example.yandexsummerschool.ui.features.settings.SettingsScreen
 fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
     val context = LocalContext.current
     val networkObserver = remember { NetworkObserver(context) }
+    val isConnected by networkObserver.isConnected.collectAsStateWithLifecycle()
+
     DisposableEffect(Unit) {
         networkObserver.startObserving()
         onDispose {
             networkObserver.stopObserving()
         }
     }
-    // TODO перенести главный скаффолд в котором будет нав бар
-    NetworkStatusToast(networkObserver)
+    NetworkSyncHandler(isConnected)
+    NetworkStatusToast(isConnected)
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.ExpensesScreen.route) {
         composable(Routes.ExpensesScreen.route) {
-            // Используем ExpensesDiProvider для создания фабрики
-            val expensesViewModelFactory: ExpensesViewModelFactory =
-                remember { ExpensesDiProvider.provideFactory(context) }
-            ExpensesScreen(viewModelFactory = expensesViewModelFactory, navController = navController)
+            val factory = remember { ExpensesDiProvider.provideFactory(context) }
+            ExpensesScreen(factory, navController)
         }
+
         composable(Routes.IncomesScreen.route) {
             val incomesViewModelFactory = remember { IncomesDiProvider.provideFactory(context) }
             IncomesScreen(navController = navController, viewModelFactory = incomesViewModelFactory)
@@ -89,6 +94,15 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
             val transactionId = backStackEntry.arguments?.getInt("transactionId") ?: return@composable
             val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
             EditorTransactionScreen(viewModelFactory, navController, transactionId, isIncome)
+        }
+
+        composable(
+            Routes.AnalysisScreen.route,
+            arguments = listOf(navArgument("isIncome") { type = NavType.BoolType }),
+        ) { backStackEntry ->
+            val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+            val analysisViewModelFactory = AnalysisDiProvider.provideFactory(context)
+            AnalysisScreen(navController, isIncome, analysisViewModelFactory)
         }
     }
 }

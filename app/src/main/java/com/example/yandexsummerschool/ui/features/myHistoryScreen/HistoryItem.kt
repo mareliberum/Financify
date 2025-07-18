@@ -2,6 +2,7 @@ package com.example.yandexsummerschool.ui.features.myHistoryScreen
 
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 import com.example.yandexsummerschool.domain.utils.date.convertIsoToUiDate
+import com.example.yandexsummerschool.domain.utils.date.getTimeFromIsoDate
 
 data class HistoryItem(
     val id: String,
@@ -9,6 +10,7 @@ data class HistoryItem(
     val title: String,
     val sum: String,
     val currency: String,
+    val date: String,
     val time: String,
     val subtitle: String? = null,
 )
@@ -20,7 +22,8 @@ fun TransactionDomainModel.toHistoryItem(): HistoryItem {
         title = categoryName,
         sum = amount,
         currency = currency,
-        time = convertIsoToUiDate(date),
+        date = convertIsoToUiDate(date),
+        time = getTimeFromIsoDate(date),
         subtitle = comment,
     )
 }

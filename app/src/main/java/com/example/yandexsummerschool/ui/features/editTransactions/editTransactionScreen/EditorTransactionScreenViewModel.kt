@@ -1,20 +1,23 @@
 package com.example.yandexsummerschool.ui.features.editTransactions.editTransactionScreen
 
 import androidx.lifecycle.viewModelScope
-import com.example.yandexsummerschool.data.local.UserDelegate
+import com.example.yandexsummerschool.data.local.sharedPrefs.UserDelegate
 import com.example.yandexsummerschool.domain.models.ArticleModel
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.articles.GetArticlesUseCase
-import com.example.yandexsummerschool.domain.useCases.transactions.DeleteTransactionUseCase
-import com.example.yandexsummerschool.domain.useCases.transactions.GetTransactionByIdUseCase
-import com.example.yandexsummerschool.domain.useCases.transactions.UpdateTransactionUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.local.DeleteTransactionFromDbUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.local.insert.InsertPendingUpdateUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.local.insert.InsertTransactionToDbUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.remote.DeleteTransactionUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.remote.GetTransactionByIdUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.remote.UpdateTransactionUseCase
 import com.example.yandexsummerschool.domain.utils.date.millsToUiDate
 import com.example.yandexsummerschool.ui.common.BaseViewModel
 import com.example.yandexsummerschool.ui.common.ErrorMessageResolver
-import com.example.yandexsummerschool.ui.common.uiModels.toCreatedTransactionDomainModel
+import com.example.yandexsummerschool.ui.common.uiModels.toTransactionDomainModel
 import com.example.yandexsummerschool.ui.common.uiModels.toTransactionUiModel
-import com.example.yandexsummerschool.ui.features.editTransactions.addTransactionScreen.AddTransactionScreenState
+import com.example.yandexsummerschool.ui.common.uiModels.toUpdatedTransactionDomainModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -24,11 +27,15 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
+@Suppress("LongParameterList")
 class EditorTransactionScreenViewModel @Inject constructor(
     private val updateTransactionUseCase: UpdateTransactionUseCase,
     private val getArticlesUseCase: GetArticlesUseCase,
     private val getTransactionByIdUseCase: GetTransactionByIdUseCase,
     private val deleteTransactionUseCase: DeleteTransactionUseCase,
+    private val insertPendingUpdateUseCase: InsertPendingUpdateUseCase,
+    private val deleteTransactionFromDbUseCase: DeleteTransactionFromDbUseCase,
+    private val insertTransactionToDbUseCase: InsertTransactionToDbUseCase,
     override val userDelegate: UserDelegate,
     override val getAccountUseCase: GetAccountUseCase,
 ) : BaseViewModel() {
@@ -51,16 +58,34 @@ class EditorTransactionScreenViewModel @Inject constructor(
         val currentState = state.value
         if (currentState is EditorTransactionScreenState.Content) {
             viewModelScope.launch {
-                val result =
-                    updateTransactionUseCase(
-                        transactionId = currentState.transaction.id.toInt(),
-                        transaction = currentState.transaction.toCreatedTransactionDomainModel(getAccountId()),
+                val transaction = currentState.transaction
+                val updatedTransactionDomainModel =
+                    transaction.toUpdatedTransactionDomainModel(
+                        currentState.transaction.id.toInt(),
+                        getAccountId(),
                     )
+                val transactionDomainModel = transaction.toTransactionDomainModel()
+                val result = updateTransactionUseCase(updatedTransactionDomainModel)
                 if (result is Result.Failure) {
                     _errorEvent.emit(ErrorMessageResolver.resolve(result.exception))
                 } else if (result is Result.Success) {
+                    insertTransactionToDbUseCase(transactionDomainModel)
                     _successEvent.emit(Unit)
                 }
+            }
+        }
+    }
+
+    fun addPendingTransactionUpdate() {
+        viewModelScope.launch {
+            val currentState = state.value
+            if (currentState is EditorTransactionScreenState.Content) {
+                val transaction = currentState.transaction
+                val transactionDomainModel = transaction.toTransactionDomainModel()
+                val updatedTransaction =
+                    transaction.toUpdatedTransactionDomainModel(transaction.id.toInt(), getAccountId())
+                insertPendingUpdateUseCase(updatedTransaction)
+                insertTransactionToDbUseCase(transactionDomainModel)
             }
         }
     }
@@ -69,13 +94,12 @@ class EditorTransactionScreenViewModel @Inject constructor(
         val currentState = state.value
         if (currentState is EditorTransactionScreenState.Content) {
             viewModelScope.launch {
-                val result =
-                    deleteTransactionUseCase(
-                        transactionId = currentState.transaction.id.toInt(),
-                    )
+                val transactionId = currentState.transaction.id.toInt()
+                val result = deleteTransactionUseCase(transactionId)
                 if (result is Result.Failure) {
                     _errorEvent.emit(ErrorMessageResolver.resolve(result.exception))
                 } else if (result is Result.Success) {
+                    deleteTransactionFromDbUseCase(transactionId)
                     _successEvent.emit(Unit)
                 }
             }
@@ -104,7 +128,7 @@ class EditorTransactionScreenViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = getAccountUseCase()) {
                 is Result.Failure -> {
-                    AddTransactionScreenState.Error("Server is busy")
+                    _state.value = EditorTransactionScreenState.Error(ErrorMessageResolver.resolve(result.exception))
                 }
 
                 is Result.Success -> {

@@ -18,8 +18,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.yandexsummerschool.R
-import com.example.yandexsummerschool.ui.navigation.Routes
 import com.example.yandexsummerschool.ui.features.myHistoryScreen.TransactionType
+import com.example.yandexsummerschool.ui.navigation.Routes
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -55,6 +55,13 @@ fun BottomNavigationBar(navController: NavController) {
                     }
                 }
                 Routes.EditorTransactionScreen.route -> {
+                    when (isIncome) {
+                        true -> Routes.IncomesScreen.route
+                        false -> Routes.ExpensesScreen.route
+                        null -> null
+                    }
+                }
+                Routes.AnalysisScreen.route -> {
                     when (isIncome) {
                         true -> Routes.IncomesScreen.route
                         false -> Routes.ExpensesScreen.route

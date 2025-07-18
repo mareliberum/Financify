@@ -1,8 +1,8 @@
 package com.example.yandexsummerschool.domain.repositories
 
-import com.example.yandexsummerschool.domain.models.CreatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel
+import com.example.yandexsummerschool.domain.models.UpdatedTransactionDomainModel
 
 /**
  * Интерфейс репозитория для работы с транзакциями SHMR Finance API
@@ -33,8 +33,7 @@ interface TransactionsRepository {
     ): Result<TransactionDomainModel>
 
     suspend fun updateTransaction(
-        transactionId: Int,
-        transaction: CreatedTransactionDomainModel,
+        transaction: UpdatedTransactionDomainModel,
     ): Result<TransactionDomainModel>
 
     suspend fun deleteTransactionById(

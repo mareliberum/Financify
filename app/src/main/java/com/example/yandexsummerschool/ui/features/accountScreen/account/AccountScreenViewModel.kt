@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yandexsummerschool.domain.models.Result
+import com.example.yandexsummerschool.domain.useCases.ChangeCurrencyUseCase
+import com.example.yandexsummerschool.domain.useCases.account.GetAccountFromDbUseCase
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.account.UpdateAccountDataUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies
@@ -20,15 +22,14 @@ import javax.inject.Inject
 class AccountScreenViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
     private val updateAccountDataUseCase: UpdateAccountDataUseCase,
+    private val getAccountFromDbUseCase: GetAccountFromDbUseCase,
+    private val changeCurrencyUseCase: ChangeCurrencyUseCase,
 ) : ViewModel() {
     private var getAccountJob: Job? = null
-
     private val _accountState = MutableStateFlow<AccountScreenState>(AccountScreenState.Loading)
     val accountState: StateFlow<AccountScreenState> = _accountState
-
     private val _accountTitle = MutableStateFlow("")
     val accountTitle: StateFlow<String> = _accountTitle
-
     private val _currency = mutableStateOf(Currencies.RUB.code)
     val currency: State<String> = _currency
 
@@ -41,6 +42,12 @@ class AccountScreenViewModel @Inject constructor(
         _accountState.value = AccountScreenState.Loading
         getAccountJob =
             viewModelScope.launch {
+                val accountFromDb = getAccountFromDbUseCase()
+                if (accountFromDb is Result.Success) {
+                    _accountTitle.value = accountFromDb.data.name
+                    _accountState.value = AccountScreenState.Content(accountFromDb.data)
+                    _currency.value = accountFromDb.data.currency
+                }
                 when (val result = getAccountUseCase()) {
                     is Result.Success -> {
                         val accountModel = result.data
@@ -50,7 +57,10 @@ class AccountScreenViewModel @Inject constructor(
                     }
 
                     is Result.Failure -> {
-                        _accountState.value = AccountScreenState.Error(result.exception.message ?: "Неизвестная ошибка")
+                        if (accountFromDb is Result.Failure) {
+                            _accountState.value =
+                                AccountScreenState.Error(result.exception.message ?: "Неизвестная ошибка")
+                        }
                     }
                 }
             }
@@ -58,6 +68,9 @@ class AccountScreenViewModel @Inject constructor(
 
     fun updateCurrency(newValue: String) {
         _currency.value = newValue
+        viewModelScope.launch {
+            changeCurrencyUseCase(newValue)
+        }
         sendUpdates()
     }
 

@@ -151,6 +151,7 @@ fun ListItem(
     )
 }
 
+@Suppress("LongParameterList")
 @Composable
 fun ListItem(
     title: String,
@@ -261,6 +262,36 @@ fun ListItem(
                 }
             }
         }
+    }
+
+    HorizontalDivider(
+        thickness = 1.dp,
+        color = MaterialTheme.colorScheme.outlineVariant,
+    )
+}
+
+@Suppress("LongParameterList")
+@Composable
+fun ListItem(
+    modifier: Modifier = Modifier,
+    lead: @Composable() (() -> Unit)? = null,
+    body: @Composable (() -> Unit)? = null,
+    trail: @Composable (() -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
+    listItemSize: ListItemSize = ListItemSize.SMALL,
+) {
+    Row(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(listItemSize.size)
+                .clickable(enabled = onClick != null, onClick = { onClick?.invoke() })
+                .padding(vertical = 12.dp, horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        lead?.let { it() }
+        body?.let { it() }
+        trail?.let { it() }
     }
 
     HorizontalDivider(

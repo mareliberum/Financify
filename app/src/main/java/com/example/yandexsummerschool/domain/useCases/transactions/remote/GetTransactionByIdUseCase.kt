@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.domain.useCases.transactions
+package com.example.yandexsummerschool.domain.useCases.transactions.remote
 
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel

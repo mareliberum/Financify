@@ -7,8 +7,8 @@ import com.example.yandexsummerschool.ui.features.incomesScreen.di.IncomesViewMo
 
 object IncomesDiProvider {
     fun provideFactory(context: Context): IncomesViewModelFactory {
-        val dependencies = context.appComponent // AppComponent реализует IncomesDependencies
+        val dependencies = context.appComponent
         val incomesComponent = DaggerIncomesComponent.factory().create(dependencies)
-        return IncomesViewModelFactory(incomesComponent)
+        return incomesComponent.getIncomesViewModelFactory()
     }
 }

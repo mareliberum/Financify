@@ -8,6 +8,7 @@ import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.account.UpdateAccountDataUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies
+import com.example.yandexsummerschool.ui.common.ErrorMessageResolver
 import com.example.yandexsummerschool.ui.features.accountScreen.account.AccountScreenState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,16 +21,12 @@ class EditorAccountScreenViewModel @Inject constructor(
     private val updateAccountDataUseCase: UpdateAccountDataUseCase,
 ) : ViewModel() {
     private var getAccountJob: Job? = null
-
     private val _accountState = MutableStateFlow<AccountScreenState>(AccountScreenState.Loading)
     val accountState: StateFlow<AccountScreenState> = _accountState
-
     private val _accountName = mutableStateOf("")
     val accountName: State<String> = _accountName
-
     private val _balance = mutableStateOf("")
     val balance: State<String> = _balance
-
     private val _currency = mutableStateOf(Currencies.RUB.code)
     val currency: State<String> = _currency
 
@@ -37,8 +34,9 @@ class EditorAccountScreenViewModel @Inject constructor(
         loadAccountData()
     }
 
-    fun loadAccountData() {
+    private fun loadAccountData() {
         getAccountJob?.cancel()
+        _accountState.value = AccountScreenState.Loading
         getAccountJob =
             viewModelScope.launch {
                 when (val result = getAccountUseCase()) {
@@ -51,7 +49,8 @@ class EditorAccountScreenViewModel @Inject constructor(
                     }
 
                     is Result.Failure -> {
-                        _accountState.value = AccountScreenState.Error(result.exception.message ?: "Неизвестная ошибка")
+                        _accountState.value =
+                            AccountScreenState.Error(ErrorMessageResolver.resolve(result.exception))
                     }
                 }
             }

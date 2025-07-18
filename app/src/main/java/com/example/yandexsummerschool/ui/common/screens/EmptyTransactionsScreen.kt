@@ -15,13 +15,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.yandexsummerschool.R
 
 @Composable
-fun EmptyTransactionsScreen(modifier: Modifier = Modifier) {
+fun EmptyTransactionsScreen(
+    title: String,
+    modifier: Modifier = Modifier,
+    subtitle: String? = null,
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -37,22 +39,23 @@ fun EmptyTransactionsScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = stringResource(R.string.empty_transaction_screen_text),
+            text = title,
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 32.dp),
         )
-
-        Text(
-            text = stringResource(R.string.Empty_transaction_screen_subText),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-            textAlign = TextAlign.Center,
-            modifier =
-                Modifier
-                    .padding(horizontal = 48.dp)
-                    .padding(top = 8.dp),
-        )
+        if (subtitle != null) {
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                textAlign = TextAlign.Center,
+                modifier =
+                    Modifier
+                        .padding(horizontal = 48.dp)
+                        .padding(top = 8.dp),
+            )
+        }
     }
 }

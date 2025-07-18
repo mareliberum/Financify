@@ -4,10 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.yandexsummerschool.ui.features.accountScreen.account.AccountScreenViewModel
 import com.example.yandexsummerschool.ui.features.accountScreen.editor.EditorAccountScreenViewModel
-import com.example.yandexsummerschool.ui.features.articlesScreen.ArticlesScreenViewModel
 import com.example.yandexsummerschool.ui.features.editTransactions.addTransactionScreen.AddTransactionScreenViewModel
 import com.example.yandexsummerschool.ui.features.editTransactions.editTransactionScreen.EditorTransactionScreenViewModel
-import com.example.yandexsummerschool.ui.features.incomesScreen.IncomesScreenViewModel
 import com.example.yandexsummerschool.ui.features.myHistoryScreen.MyHistoryScreenViewModel
 import com.example.yandexsummerschool.ui.features.settings.SettingsScreenViewModel
 import dagger.Binds
@@ -28,16 +26,6 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(EditorTransactionScreenViewModel::class)
     fun bindsEditorTransactionScreenViewModel(vm: EditorTransactionScreenViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(IncomesScreenViewModel::class)
-    fun bindsIncomesScreenViewModel(vm: IncomesScreenViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(ArticlesScreenViewModel::class)
-    fun bindsArticlesScreenViewModel(vm: ArticlesScreenViewModel): ViewModel
 
     @Binds
     @IntoMap

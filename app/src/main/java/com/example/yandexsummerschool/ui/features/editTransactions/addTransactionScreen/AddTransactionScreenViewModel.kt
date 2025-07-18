@@ -6,11 +6,14 @@ import com.example.yandexsummerschool.domain.models.ArticleModel
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.articles.GetArticlesUseCase
-import com.example.yandexsummerschool.domain.useCases.transactions.CreateTransactionUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.local.insert.InsertPendingTransactionToDbUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.local.insert.InsertTransactionToDbUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.remote.CreateTransactionUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies
 import com.example.yandexsummerschool.domain.utils.date.millsToUiDate
 import com.example.yandexsummerschool.ui.common.ErrorMessageResolver
 import com.example.yandexsummerschool.ui.common.uiModels.TransactionUiModel
+import com.example.yandexsummerschool.ui.common.uiModels.toCreatedTransactionDomainModel
 import com.example.yandexsummerschool.ui.common.uiModels.toTransactionDomainModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +29,8 @@ class AddTransactionScreenViewModel @Inject constructor(
     private val createTransactionUseCase: CreateTransactionUseCase,
     private val getArticlesUseCase: GetArticlesUseCase,
     private val getAccountUseCase: GetAccountUseCase,
+    private val insertTransactionToDbUseCase: InsertTransactionToDbUseCase,
+    private val insertPendingTransactionToDbUseCase: InsertPendingTransactionToDbUseCase,
 ) : ViewModel() {
     private var isIncome: Boolean? = null
     private val _state =
@@ -66,12 +71,27 @@ class AddTransactionScreenViewModel @Inject constructor(
         val currentState = state.value
         if (currentState is AddTransactionScreenState.Content) {
             viewModelScope.launch {
-                val result = createTransactionUseCase(currentState.transaction.toTransactionDomainModel())
+                val transaction = currentState.transaction.toTransactionDomainModel()
+                val result = createTransactionUseCase(transaction)
                 if (result is Result.Failure) {
                     _errorEvent.emit(ErrorMessageResolver.resolve(result.exception))
                 } else if (result is Result.Success) {
+                    insertTransactionToDbUseCase(transaction)
                     _successEvent.emit(Unit)
                 }
+            }
+        }
+    }
+
+    fun addPendingTransaction() {
+        viewModelScope.launch {
+            val currentState = state.value
+            if (currentState is AddTransactionScreenState.Content) {
+                val transaction = currentState.transaction
+                val transactionDomainModel = transaction.toTransactionDomainModel()
+                val createdTransaction = transaction.toCreatedTransactionDomainModel(transaction.id.toInt())
+                insertPendingTransactionToDbUseCase(createdTransaction)
+                insertTransactionToDbUseCase(transactionDomainModel)
             }
         }
     }
@@ -104,7 +124,7 @@ class AddTransactionScreenViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = getAccountUseCase()) {
                 is Result.Failure -> {
-                    AddTransactionScreenState.Error("Server is busy")
+                    _state.value = AddTransactionScreenState.Error(ErrorMessageResolver.resolve(result.exception))
                 }
 
                 is Result.Success -> {

@@ -9,10 +9,6 @@ class GetArticlesUseCase @Inject constructor(
     private val repository: ArticlesRepository,
 ) {
     suspend operator fun invoke(): Result<List<ArticleModel>> {
-        return try {
-            repository.getArticles()
-        } catch (e: Exception) {
-            Result.Failure(e)
-        }
+        return repository.getArticles()
     }
 }

@@ -1,12 +1,12 @@
 package com.example.yandexsummerschool.ui.features.expensesScreen
 
 import androidx.lifecycle.viewModelScope
-import com.example.yandexsummerschool.data.local.UserDelegate
+import com.example.yandexsummerschool.data.local.sharedPrefs.UserDelegate
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.expenses.GetExpensesUseCase
 import com.example.yandexsummerschool.domain.utils.calculateSum
-import com.example.yandexsummerschool.domain.utils.date.millisToIso
+import com.example.yandexsummerschool.domain.utils.date.millsToIsoDateSimple
 import com.example.yandexsummerschool.ui.common.BaseViewModel
 import com.example.yandexsummerschool.ui.common.ErrorMessageResolver
 import kotlinx.coroutines.Job
@@ -25,10 +25,8 @@ class ExpensesScreenViewModel @Inject constructor(
     override val userDelegate: UserDelegate,
 ) : BaseViewModel() {
     private var fetchJob: Job? = null
-
     private val _expensesScreenState = MutableStateFlow<ExpensesScreenState>(ExpensesScreenState.Loading)
     val expensesScreenState: StateFlow<ExpensesScreenState> = _expensesScreenState
-
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
@@ -41,13 +39,13 @@ class ExpensesScreenViewModel @Inject constructor(
         _isRefreshing.value = true
         fetchJob =
             viewModelScope.launch {
+                val today = millsToIsoDateSimple(System.currentTimeMillis())
                 when (
                     val result =
                         getExpensesUseCase(
                             accountId = getAccountId(),
-                            // текущее время в мс минус 24 часа
-                            startDate = millisToIso(System.currentTimeMillis() - 24 * 60 * 60 * 1000),
-                            endDate = millisToIso(System.currentTimeMillis()),
+                            startDate = today,
+                            endDate = today,
                         )
                 ) {
                     is Result.Success -> {

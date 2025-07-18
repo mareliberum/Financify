@@ -7,17 +7,12 @@ import dagger.Component
 @IncomesScope
 @Component(
     dependencies = [IncomesDependencies::class],
-    modules = [IncomesModule::class],
+    modules = [IncomesViewModelModule::class],
 )
-interface IncomesComponent {
+interface IncomesComponent : IncomesDependencies {
     fun inject(viewModel: IncomesScreenViewModel)
 
-    // Методы для получения зависимостей
-    fun getIncomesUseCase(): com.example.yandexsummerschool.domain.useCases.incomes.GetIncomesUseCase
-
-    fun getAccountUseCase(): com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
-
-    fun getUserDelegate(): com.example.yandexsummerschool.data.local.UserDelegate
+    fun getIncomesViewModelFactory(): IncomesViewModelFactory
 
     @Component.Factory
     interface Factory {

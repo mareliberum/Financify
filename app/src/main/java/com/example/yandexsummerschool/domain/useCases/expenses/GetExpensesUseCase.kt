@@ -3,14 +3,12 @@ package com.example.yandexsummerschool.domain.useCases.expenses
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel
 import com.example.yandexsummerschool.domain.repositories.TransactionsRepository
-import com.example.yandexsummerschool.ui.features.expensesScreen.di.ExpensesScope
 import javax.inject.Inject
 
 /**
  * Возвращает список расходных транзакций
  * @param repository [TransactionsRepository]
  */
-@ExpensesScope
 class GetExpensesUseCase
     @Inject
     constructor(

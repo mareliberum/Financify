@@ -1,22 +1,25 @@
-package com.example.yandexsummerschool.data.local
+package com.example.yandexsummerschool.data.local.sharedPrefs
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.example.yandexsummerschool.data.local.PreferencesConstants.Keys.KEY_ACCOUNT_ID
-import com.example.yandexsummerschool.data.local.PreferencesConstants.Keys.KEY_CURRENCY
-import com.example.yandexsummerschool.data.local.PreferencesConstants.PREFS_NAME
+import com.example.yandexsummerschool.data.local.sharedPrefs.PreferencesConstants.ACCOUNT_PREFS_NAME
+import com.example.yandexsummerschool.data.local.sharedPrefs.PreferencesConstants.Keys.KEY_ACCOUNT_ID
+import com.example.yandexsummerschool.data.local.sharedPrefs.PreferencesConstants.Keys.KEY_CURRENCY
+import com.example.yandexsummerschool.domain.repositories.UserAccountIdPrefs
+import com.example.yandexsummerschool.domain.repositories.UserCurrencyPrefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+// TODO - разделить реализацию и интерфейс
 @Singleton
 class UserDelegate @Inject constructor(
     private val context: Context,
 ) : UserAccountIdPrefs, UserCurrencyPrefs {
     private val prefs: SharedPreferences
-        get() = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        get() = context.getSharedPreferences(ACCOUNT_PREFS_NAME, Context.MODE_PRIVATE)
 
     override suspend fun saveAccountId(accountId: Int) =
         withContext(Dispatchers.IO) {

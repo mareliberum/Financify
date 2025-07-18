@@ -12,6 +12,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,6 +23,7 @@ import com.example.yandexsummerschool.ui.common.components.CustomErrorDialog
 import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
+import com.example.yandexsummerschool.ui.features.editTransactions.common.SaveAndSendLaterDialog
 import com.example.yandexsummerschool.ui.features.editTransactions.common.TransactionEditorScreenContent
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
@@ -42,9 +44,9 @@ fun AddTransactionScreen(
     var showArticlesSheet by remember { mutableStateOf(false) }
     var isEditingComment by remember { mutableStateOf(false) }
     val articles by viewModel.articles.collectAsStateWithLifecycle()
-
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var showSaveAndSendLaterDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.setIncomeType(isIncome)
@@ -104,12 +106,30 @@ fun AddTransactionScreen(
             }
             if (errorMessage != null) {
                 CustomErrorDialog(
-                    message = errorMessage!!,
+                    title = stringResource(R.string.Error),
+                    message = errorMessage ?: stringResource(R.string.error),
                     onRetry = {
                         viewModel.createTransaction()
                         errorMessage = null
                     },
-                    onDismiss = { errorMessage = null },
+                    onDismiss = {
+                        showSaveAndSendLaterDialog = true
+                        errorMessage = null
+                    },
+                    confirmButtonText = "Повторить",
+                    dismissButtonText = "Закрыть",
+                )
+            }
+            if (showSaveAndSendLaterDialog) {
+                SaveAndSendLaterDialog(
+                    onRetry = {
+                        viewModel.addPendingTransaction()
+                        showSaveAndSendLaterDialog = false
+                        navController.popBackStack()
+                    },
+                    onDismiss = {
+                        showSaveAndSendLaterDialog = false
+                    },
                 )
             }
         }

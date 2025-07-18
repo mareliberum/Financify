@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.data.local
+package com.example.yandexsummerschool.domain.repositories
 
 interface UserAccountIdPrefs {
     suspend fun getAccountId(): Int?

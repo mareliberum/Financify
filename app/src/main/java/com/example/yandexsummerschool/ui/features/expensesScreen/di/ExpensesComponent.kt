@@ -1,28 +1,21 @@
 package com.example.yandexsummerschool.ui.features.expensesScreen.di
 
-import com.example.yandexsummerschool.data.local.UserDelegate
-import com.example.yandexsummerschool.di.components.appComponent.AppComponent
-import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
-import com.example.yandexsummerschool.domain.useCases.expenses.GetExpensesUseCase
+import com.example.yandexsummerschool.di.dependencies.ExpensesDependencies
 import com.example.yandexsummerschool.ui.features.expensesScreen.ExpensesScreenViewModel
 import dagger.Component
 
 @ExpensesScope
 @Component(
-    dependencies = [AppComponent::class],
+    dependencies = [ExpensesDependencies::class],
+    modules = [ExpensesViewModelModule::class],
 )
-interface ExpensesComponent {
+interface ExpensesComponent : ExpensesDependencies {
     fun inject(viewModel: ExpensesScreenViewModel)
 
-    // Методы для получения зависимостей
-    fun getExpensesUseCase(): GetExpensesUseCase
-
-    fun getAccountUseCase(): GetAccountUseCase
-
-    fun getUserDelegate(): UserDelegate
+    fun getExpensesViewModelFactory(): ExpensesViewModelFactory
 
     @Component.Factory
     interface Factory {
-        fun create(appComponent: AppComponent): ExpensesComponent
+        fun create(dependencies: ExpensesDependencies): ExpensesComponent
     }
 }
