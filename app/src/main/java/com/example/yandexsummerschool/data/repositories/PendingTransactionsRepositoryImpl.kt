@@ -12,6 +12,8 @@ import com.example.yandexsummerschool.domain.models.CreatedTransactionDomainMode
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.models.UpdatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.repositories.PendingTransactionsRepository
+import com.example.yandexsummerschool.domain.utils.date.compareIsoDates
+import com.example.yandexsummerschool.domain.utils.date.makeFullIsoDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -90,14 +92,16 @@ class PendingTransactionsRepositoryImpl @Inject constructor(
 
     override suspend fun insertPendingUpdate(update: UpdatedTransactionDomainModel) {
         withContext(Dispatchers.IO) {
-            dao.insertPendingUpdates(update.toPendingTransactionUpdateEntity())
+            val updatedAt = makeFullIsoDate(System.currentTimeMillis())
+            dao.insertPendingUpdates(update.toPendingTransactionUpdateEntity(updatedAt))
         }
     }
 
     override suspend fun updatePendingTransactions(update: UpdatedTransactionDomainModel): Result<Boolean> {
-        val transactionRequestDto = update.toTransactionRequestDto()
         return try {
             withContext(Dispatchers.IO) {
+                val transactionRequestDto = update.toTransactionRequestDto()
+                if (!checkIfUpdateActual(update)) return@withContext Result.Success(false)
                 val response =
                     executeWIthRetries { api.updateTransaction(update.transactionId, transactionRequestDto) }
                 if (response.isSuccessful) {
@@ -110,5 +114,18 @@ class PendingTransactionsRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Result.Failure(e)
         }
+    }
+
+    /**
+     * Проверяет, актуальна ли информация для обновления на случай конфликта с сервером
+     */
+    private suspend fun checkIfUpdateActual(update: UpdatedTransactionDomainModel): Boolean {
+        val transactionToUpdate = api.getTransaction(update.transactionId)
+        if (transactionToUpdate.isSuccessful) {
+            val updatedAtServer = transactionToUpdate.body()?.updatedAt ?: ""
+            val updatedLocally = update.updatedAt
+            return compareIsoDates(updatedLocally, updatedAtServer) > 0
+        }
+        return true
     }
 }

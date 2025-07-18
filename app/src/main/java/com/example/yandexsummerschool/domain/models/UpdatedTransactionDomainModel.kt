@@ -7,4 +7,5 @@ data class UpdatedTransactionDomainModel(
     val amount: String,
     val comment: String? = null,
     val date: String = "",
+    val updatedAt: String = "-1",
 )

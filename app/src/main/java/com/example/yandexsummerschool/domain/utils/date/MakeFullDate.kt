@@ -35,7 +35,6 @@ fun makeFullIsoDate(dateString: String?, atEndOfDay: Boolean = false): String {
         val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         outputFormat.timeZone = TimeZone.getTimeZone("UTC")
         val result = outputFormat.format(calendar.time)
-        println(result)
         result
     } catch (e: Exception) {
         ""

@@ -12,9 +12,10 @@ data class PendingTransactionUpdateEntity(
     val amount: String,
     val comment: String? = null,
     val date: String,
+    val updatedAt: String,
 )
 
-fun UpdatedTransactionDomainModel.toPendingTransactionUpdateEntity(): PendingTransactionUpdateEntity {
+fun UpdatedTransactionDomainModel.toPendingTransactionUpdateEntity(updatedAt: String): PendingTransactionUpdateEntity {
     return PendingTransactionUpdateEntity(
         transactionId,
         accountId,
@@ -22,6 +23,7 @@ fun UpdatedTransactionDomainModel.toPendingTransactionUpdateEntity(): PendingTra
         amount,
         comment,
         date,
+        updatedAt,
     )
 }
 
@@ -33,5 +35,6 @@ fun PendingTransactionUpdateEntity.toUpdatedTransactionDomainModel(): UpdatedTra
         amount,
         comment,
         date,
+        updatedAt,
     )
 }
