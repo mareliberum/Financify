@@ -11,6 +11,8 @@ fun CustomErrorDialog(
     message: String,
     onRetry: () -> Unit,
     onDismiss: () -> Unit,
+    confirmButtonText: String,
+    dismissButtonText: String,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -18,12 +20,12 @@ fun CustomErrorDialog(
         text = { Text(message) },
         confirmButton = {
             Button(onClick = onRetry) {
-                Text("Повторить")
+                Text(confirmButtonText)
             }
         },
         dismissButton = {
             OutlinedButton(onClick = onDismiss) {
-                Text("Закрыть")
+                Text(dismissButtonText)
             }
         },
     )

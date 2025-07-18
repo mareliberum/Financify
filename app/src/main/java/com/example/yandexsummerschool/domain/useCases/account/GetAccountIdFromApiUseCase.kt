@@ -4,12 +4,12 @@ import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.repositories.AccountRepository
 import javax.inject.Inject
 
-class GetAccountIdUseCase @Inject constructor(
+class GetAccountIdFromApiUseCase @Inject constructor(
     private val repository: AccountRepository,
 ) {
     suspend operator fun invoke(): Result<Int> {
         return try {
-            when (val result = repository.getAccount()) {
+            when (val result = repository.getAccountFromApi()) {
                 is Result.Failure -> Result.Failure(result.exception)
                 is Result.Success -> {
                     Result.Success(result.data.id)

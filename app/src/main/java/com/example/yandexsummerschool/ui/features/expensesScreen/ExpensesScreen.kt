@@ -112,7 +112,10 @@ fun ExpensesScreen(
 
                     is ExpensesScreenState.Error -> ErrorScreen(state.message)
                     ExpensesScreenState.Empty -> {
-                        EmptyTransactionsScreen()
+                        EmptyTransactionsScreen(
+                            title = stringResource(R.string.empty_transaction_screen_text),
+                            subtitle = stringResource(R.string.Empty_transaction_screen_subText),
+                        )
                     }
 
                     ExpensesScreenState.Loading -> LoadingIndicator()

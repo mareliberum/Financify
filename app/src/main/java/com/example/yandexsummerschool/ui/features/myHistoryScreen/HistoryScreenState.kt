@@ -16,4 +16,6 @@ sealed interface HistoryScreenState {
     data object Loading : HistoryScreenState
 
     data object Empty : HistoryScreenState
+
+    data class Error(val message: String) : HistoryScreenState
 }

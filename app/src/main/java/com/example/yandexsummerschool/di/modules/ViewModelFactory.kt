@@ -13,7 +13,8 @@ class ViewModelFactory @Inject constructor(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val viewModelProvider =
-            viewModels[modelClass] ?: throw IllegalArgumentException("Unknown model class $modelClass")
+            viewModels[modelClass]
+                ?: throw IllegalArgumentException("Unknown model class $modelClass")
 
         try {
             return viewModelProvider.get() as T

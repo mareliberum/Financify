@@ -41,7 +41,6 @@ import com.example.yandexsummerschool.ui.common.components.ListItemSize
 import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
 import com.example.yandexsummerschool.ui.common.components.textFieldColors
-import com.example.yandexsummerschool.ui.common.screens.EmptyTransactionsScreen
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 import com.example.yandexsummerschool.ui.features.accountScreen.account.AccountScreenState
 import com.example.yandexsummerschool.ui.features.accountScreen.components.BottomSheetContent
@@ -104,7 +103,7 @@ private fun EditorContent(
                 .padding(innerPadding),
     ) {
         when (state) {
-            AccountScreenState.Empty -> EmptyTransactionsScreen()
+            AccountScreenState.Empty -> ErrorScreen(stringResource(R.string.No_account_exception))
             is AccountScreenState.Error -> ErrorScreen(state.message)
             AccountScreenState.Loading -> LoadingIndicator()
             is AccountScreenState.Content -> {

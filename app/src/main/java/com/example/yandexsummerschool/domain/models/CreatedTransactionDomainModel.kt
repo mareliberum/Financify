@@ -6,4 +6,5 @@ data class CreatedTransactionDomainModel(
     val amount: String,
     val comment: String? = null,
     val date: String = "",
+    val id: Int = 0,
 )

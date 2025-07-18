@@ -44,7 +44,6 @@ fun EditorTransactionScreen(
     isIncome: Boolean,
 ) {
     val viewModel: EditorTransactionScreenViewModel = viewModel(factory = viewModelFactory)
-    // TODO: когда появится БД и офлайн мод, можно будет не грузить из сети по новой
     LaunchedEffect(transactionId) {
         viewModel.initTransaction(transactionId)
     }
@@ -139,6 +138,8 @@ fun EditorTransactionScreen(
                         errorMessage = null
                     },
                     onDismiss = { errorMessage = null },
+                    confirmButtonText = "Повторить",
+                    dismissButtonText = "Закрыть",
                 )
             }
         }

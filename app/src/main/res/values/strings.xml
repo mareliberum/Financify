@@ -23,4 +23,8 @@
     <string name="Delete_transaction">Удалить транзакцию</string>
     <string name="My_incomes">Мои доходы</string>
     <string name="My_expenses">Мои расходы</string>
+    <string name="no_transactions_for_period">Транзакций за этот период не было</string>
+    <string name="empty_analysis_subtitle">Когда появятся новые транзакции, анализ по ним появится здесь</string>
+    <string name="empty_history_subtitle">Когда траназакции появятся, они будут здесь</string>
+    <string name="error">Ошибка</string>
 </resources>

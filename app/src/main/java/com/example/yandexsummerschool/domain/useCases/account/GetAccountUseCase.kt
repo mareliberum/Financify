@@ -9,10 +9,6 @@ class GetAccountUseCase @Inject constructor(
     private val repository: AccountRepository,
 ) {
     suspend operator fun invoke(): Result<AccountModel> {
-        return try {
-            repository.getAccount()
-        } catch (e: Exception) {
-            Result.Failure(e)
-        }
+        return repository.getAccountFromApi()
     }
 }

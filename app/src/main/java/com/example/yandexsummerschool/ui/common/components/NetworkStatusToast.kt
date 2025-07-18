@@ -8,12 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.yandexsummerschool.domain.NetworkObserver
 
 @Composable
-fun NetworkStatusToast(networkObserver: NetworkObserver) {
-    val isConnected by networkObserver.isConnected.collectAsStateWithLifecycle()
+fun NetworkStatusToast(isConnected: Boolean) {
+//    val isConnected by networkObserver.isConnected.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     var wasConnected by remember { mutableStateOf(true) }

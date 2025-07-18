@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
@@ -25,14 +25,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.R
 import com.example.yandexsummerschool.domain.utils.Currencies
+import com.example.yandexsummerschool.ui.common.DateType
 import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
 import com.example.yandexsummerschool.ui.common.components.DatePicker
 import com.example.yandexsummerschool.ui.common.components.ListItem
 import com.example.yandexsummerschool.ui.common.components.ListItemData
 import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
-import com.example.yandexsummerschool.ui.common.components.TopAppBarElement
 import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRight
+import com.example.yandexsummerschool.ui.common.screens.EmptyTransactionsScreen
+import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 
 @Composable
 fun MyHistoryScreen(
@@ -48,14 +50,24 @@ fun MyHistoryScreen(
     val currentState = viewModel.myHistoryScreenState.collectAsStateWithLifecycle()
     val startItem = ListItemData(title = "Начало", trailingText = startOfPeriod)
     val endItem = ListItemData(title = "Конец", trailingText = endOfPeriod)
+    val isIncome = transactionType == TransactionType.INCOME
+
+    LaunchedEffect(Unit) {
+        viewModel.loadHistory(transactionType)
+    }
 
     Scaffold(
-        topBar = { TopAppBar(TopAppBarElement.MyHistory, navController) },
+        topBar = {
+            TopAppBar(
+                title = stringResource(R.string.My_History),
+                leadingIcon = painterResource(R.drawable.arrow_back),
+                onLeadingClick = { navController.popBackStack() },
+                trailingIcon = painterResource(R.drawable.analysis),
+                onTrailingClick = { navController.navigate("AnalysisScreen?isIncome=$isIncome") },
+            )
+        },
         bottomBar = { BottomNavigationBar(navController) },
     ) { padding ->
-        LaunchedEffect(Unit) {
-            viewModel.loadHistory(transactionType)
-        }
 
         Column(
             Modifier
@@ -99,7 +111,11 @@ fun MyHistoryScreen(
             )
             // контент
             when (val state = currentState.value) {
-                HistoryScreenState.Empty -> Text("Пусто")
+                HistoryScreenState.Empty ->
+                    EmptyTransactionsScreen(
+                        title = stringResource(R.string.no_transactions_for_period),
+                        subtitle = stringResource(R.string.Empty_transaction_screen_subText),
+                    )
                 HistoryScreenState.Loading -> LoadingIndicator()
                 is HistoryScreenState.Content -> {
                     val sumItem =
@@ -125,7 +141,7 @@ fun MyHistoryScreen(
                                     title = item.title,
                                     subtitle = item.subtitle,
                                     trailingText = item.sum + Currencies.resolve(item.currency),
-                                    trailingSubText = item.time,
+                                    trailingSubText = item.date,
                                     trailingIcon = { TrailingIconArrowRight() },
                                 )
                             ListItem(
@@ -139,12 +155,11 @@ fun MyHistoryScreen(
                         }
                     }
                 }
+
+                is HistoryScreenState.Error -> {
+                    ErrorScreen(state.message)
+                }
             }
         }
     }
-}
-
-enum class DateType {
-    START,
-    END,
 }

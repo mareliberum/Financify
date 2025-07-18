@@ -9,11 +9,8 @@ import dagger.Component
     dependencies = [ArticlesDependencies::class],
     modules = [ArticlesModule::class],
 )
-interface ArticlesComponent {
+interface ArticlesComponent : ArticlesDependencies {
     fun inject(viewModel: ArticlesScreenViewModel)
-
-    // Методы для получения зависимостей
-    fun getArticlesUseCase(): com.example.yandexsummerschool.domain.useCases.articles.GetArticlesUseCase
 
     @Component.Factory
     interface Factory {

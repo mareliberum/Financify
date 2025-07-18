@@ -2,6 +2,7 @@ package com.example.yandexsummerschool.ui.common.uiModels
 
 import com.example.yandexsummerschool.domain.models.CreatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.models.TransactionDomainModel
+import com.example.yandexsummerschool.domain.models.UpdatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.utils.date.convertIsoToUiDate
 import com.example.yandexsummerschool.domain.utils.date.convertUiDateToIso
 import com.example.yandexsummerschool.domain.utils.date.getTimeFromIsoDate
@@ -51,6 +52,17 @@ fun TransactionUiModel.toTransactionDomainModel(): TransactionDomainModel {
 
 fun TransactionUiModel.toCreatedTransactionDomainModel(accountId: Int): CreatedTransactionDomainModel {
     return CreatedTransactionDomainModel(
+        accountId = accountId,
+        categoryId = categoryId,
+        amount = amount,
+        comment = comment,
+        date = convertUiDateToIso(date, time),
+    )
+}
+
+fun TransactionUiModel.toUpdatedTransactionDomainModel(transactionId: Int, accountId: Int): UpdatedTransactionDomainModel {
+    return UpdatedTransactionDomainModel(
+        transactionId = transactionId,
         accountId = accountId,
         categoryId = categoryId,
         amount = amount,

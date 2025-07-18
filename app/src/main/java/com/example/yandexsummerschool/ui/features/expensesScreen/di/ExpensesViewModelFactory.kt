@@ -2,25 +2,23 @@ package com.example.yandexsummerschool.ui.features.expensesScreen.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.yandexsummerschool.ui.features.expensesScreen.ExpensesScreenViewModel
 import javax.inject.Inject
+import javax.inject.Provider
 
+@ExpensesScope
 class ExpensesViewModelFactory @Inject constructor(
-    private val expensesComponent: ExpensesComponent,
+    private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>,
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ExpensesScreenViewModel::class.java)) {
-            // Используем методы expensesComponent для получения зависимостей
-            val viewModel =
-                ExpensesScreenViewModel(
-                    expensesComponent.getExpensesUseCase(),
-                    expensesComponent.getAccountUseCase(),
-                    expensesComponent.getUserDelegate(),
-                )
-            expensesComponent.inject(viewModel)
-            return viewModel as T
+        val viewModelProvider =
+            viewModels[modelClass]
+                ?: throw IllegalArgumentException("Unknown model class $modelClass")
+
+        try {
+            return viewModelProvider.get() as T
+        } catch (e: Exception) {
+            throw RuntimeException(e)
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

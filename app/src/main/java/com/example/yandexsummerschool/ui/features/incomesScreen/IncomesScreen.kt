@@ -99,7 +99,12 @@ fun IncomesScreen(
                     }
                 }
 
-                IncomesScreenState.Empty -> EmptyTransactionsScreen()
+                IncomesScreenState.Empty ->
+                    EmptyTransactionsScreen(
+                        title = stringResource(R.string.empty_transaction_screen_text),
+                        subtitle = stringResource(R.string.Empty_transaction_screen_subText),
+                    )
+
                 IncomesScreenState.Loading -> LoadingIndicator()
                 is IncomesScreenState.Error -> ErrorScreen("Ошибка")
             }
