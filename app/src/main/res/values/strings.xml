@@ -27,4 +27,9 @@
     <string name="empty_analysis_subtitle">Когда появятся новые транзакции, анализ по ним появится здесь</string>
     <string name="empty_history_subtitle">Когда траназакции появятся, они будут здесь</string>
     <string name="error">Ошибка</string>
+    <string name="save_operation">Сохранить операцию?</string>
+    <string name="save_operation_message">Вы можете сохранить операцию. Она автоматически отправится позднее.</string>
+    <string name="save">Сохранить</string>
+    <string name="dont_save">Не сохранять</string>
+    <string name="Error">Ошибка</string>
 </resources>

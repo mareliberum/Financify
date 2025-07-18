@@ -106,6 +106,7 @@ fun AddTransactionScreen(
             }
             if (errorMessage != null) {
                 CustomErrorDialog(
+                    title = stringResource(R.string.Error),
                     message = errorMessage ?: stringResource(R.string.error),
                     onRetry = {
                         viewModel.createTransaction()

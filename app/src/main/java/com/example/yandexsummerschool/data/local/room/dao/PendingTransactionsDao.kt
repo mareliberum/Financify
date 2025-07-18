@@ -16,7 +16,11 @@ interface PendingTransactionsDao {
     fun insertPendingTransaction(pendingTransaction: PendingTransactionEntity)
 
     @Query("SELECT * FROM PendingTransactionEntity")
-    fun getPendingTransactions(): List<PendingTransactionEntity>
+    fun getAllPendingTransactions(): List<PendingTransactionEntity>
+
+    @Query("SELECT * FROM PendingTransactionEntity where date > :startDate and date < :endDate")
+    fun getPendingTransactions(startDate: String, endDate:String): List<PendingTransactionEntity>
+
 
     @Query("Delete from PendingTransactionEntity where id = :id")
     fun deletePendingTransaction(id: Int)

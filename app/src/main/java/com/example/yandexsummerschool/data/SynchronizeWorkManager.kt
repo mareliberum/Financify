@@ -17,7 +17,7 @@ import javax.inject.Inject
 /**
  * Загружает с API всю информацию об аккаунте: транзакции, категории, счет и тд
  */
-class SynchronizeWorkManager @Inject constructor(
+class SynchronizeWorkManager (
     private val context: Context,
     workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams) {

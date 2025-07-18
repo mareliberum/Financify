@@ -29,7 +29,7 @@ class PendingTransactionsRepositoryImpl @Inject constructor(
     override suspend fun getPendingTransactions(): Result<List<CreatedTransactionDomainModel>> {
         return try {
             withContext(Dispatchers.IO) {
-                val transactions = dao.getPendingTransactions().map { it.toCreatedTransactionDomainModel() }
+                val transactions = dao.getAllPendingTransactions().map { it.toCreatedTransactionDomainModel() }
                 Result.Success(transactions)
             }
         } catch (e: Exception) {

@@ -6,8 +6,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
+@Suppress("LongParameterList")
 @Composable
 fun CustomErrorDialog(
+    title: String,
     message: String,
     onRetry: () -> Unit,
     onDismiss: () -> Unit,
@@ -16,7 +18,7 @@ fun CustomErrorDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Ошибка") },
+        title = { Text(title) },
         text = { Text(message) },
         confirmButton = {
             Button(onClick = onRetry) {

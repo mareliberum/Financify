@@ -7,6 +7,7 @@ import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.articles.GetArticlesUseCase
 import com.example.yandexsummerschool.domain.useCases.transactions.local.insert.InsertPendingTransactionToDbUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.local.insert.InsertTransactionToDbUseCase
 import com.example.yandexsummerschool.domain.useCases.transactions.remote.CreateTransactionUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies
 import com.example.yandexsummerschool.domain.utils.date.millsToUiDate
@@ -28,6 +29,7 @@ class AddTransactionScreenViewModel @Inject constructor(
     private val createTransactionUseCase: CreateTransactionUseCase,
     private val getArticlesUseCase: GetArticlesUseCase,
     private val getAccountUseCase: GetAccountUseCase,
+    private val insertTransactionToDbUseCase: InsertTransactionToDbUseCase,
     private val insertPendingTransactionToDbUseCase: InsertPendingTransactionToDbUseCase,
 ) : ViewModel() {
     private var isIncome: Boolean? = null
@@ -69,10 +71,12 @@ class AddTransactionScreenViewModel @Inject constructor(
         val currentState = state.value
         if (currentState is AddTransactionScreenState.Content) {
             viewModelScope.launch {
-                val result = createTransactionUseCase(currentState.transaction.toTransactionDomainModel())
+                val transaction = currentState.transaction.toTransactionDomainModel()
+                val result = createTransactionUseCase(transaction)
                 if (result is Result.Failure) {
                     _errorEvent.emit(ErrorMessageResolver.resolve(result.exception))
                 } else if (result is Result.Success) {
+                    insertTransactionToDbUseCase(transaction)
                     _successEvent.emit(Unit)
                 }
             }
@@ -84,8 +88,10 @@ class AddTransactionScreenViewModel @Inject constructor(
             val currentState = state.value
             if (currentState is AddTransactionScreenState.Content) {
                 val transaction = currentState.transaction
+                val transactionDomainModel = transaction.toTransactionDomainModel()
                 val createdTransaction = transaction.toCreatedTransactionDomainModel(transaction.id.toInt())
                 insertPendingTransactionToDbUseCase(createdTransaction)
+                insertTransactionToDbUseCase(transactionDomainModel)
             }
         }
     }

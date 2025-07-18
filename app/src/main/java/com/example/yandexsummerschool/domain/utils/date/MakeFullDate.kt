@@ -11,7 +11,7 @@ import java.util.TimeZone
  * @param atEndOfDay если true — конец дня (23:59:59.999), иначе — начало (00:00:00.000)
  * @return ISO-строка в формате yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
  */
-fun makeFullIsoDate(dateString: String, atEndOfDay: Boolean = false): String {
+fun makeFullIsoDate(dateString: String?, atEndOfDay: Boolean = false): String {
     return try {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")

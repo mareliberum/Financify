@@ -2,6 +2,7 @@ package com.example.yandexsummerschool.data.repositories
 
 import com.example.yandexsummerschool.data.dto.transactions.toTransactionDomainModel
 import com.example.yandexsummerschool.data.dto.transactions.toTransactionRequestDto
+import com.example.yandexsummerschool.data.local.room.dao.PendingTransactionsDao
 import com.example.yandexsummerschool.data.local.room.dao.TransactionsDao
 import com.example.yandexsummerschool.data.local.room.entities.toTransactionDomainModel
 import com.example.yandexsummerschool.data.local.room.entities.toTransactionEntity
@@ -27,6 +28,7 @@ const val RETRY_DELAY = 2000L
 class TransactionsRepositoryImpl @Inject constructor(
     private val api: ShmrFinanceApi,
     private val transactionsDao: TransactionsDao,
+    private val pendingTransactionsDao: PendingTransactionsDao,
 ) : TransactionsRepository {
     override suspend fun getTransactions(
         accountId: Int,
@@ -35,7 +37,6 @@ class TransactionsRepositoryImpl @Inject constructor(
     ): Result<List<TransactionDomainModel>> =
         try {
             withContext(Dispatchers.IO) {
-                // TODO пусть выгружает еще pending transactions
                 val transactionsFromDb =
                     if (startDate != null && endDate != null) {
                         transactionsDao.getAllTransactions(

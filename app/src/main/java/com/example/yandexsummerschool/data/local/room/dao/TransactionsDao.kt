@@ -1,7 +1,6 @@
 package com.example.yandexsummerschool.data.local.room.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -34,8 +33,8 @@ interface TransactionsDao {
     )
     fun insertAllTransactions(transactions: List<TransactionEntity>)
 
-    @Delete
-    fun deleteTransaction(transaction: TransactionEntity)
+    @Query("delete from TransactionEntity where id = :id ")
+    fun deleteTransaction(id: Int)
 
     @Query(
         """

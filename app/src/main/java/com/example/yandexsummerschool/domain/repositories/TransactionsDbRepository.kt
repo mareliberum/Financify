@@ -19,4 +19,6 @@ interface TransactionsDbRepository {
         endDate: String,
         isIncome: Boolean,
     ): List<GroupedByCategoryTransactions>
+
+    suspend fun deleteTransactionById(id: Int)
 }
