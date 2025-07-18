@@ -1,14 +1,16 @@
 package com.example.yandexsummerschool.data.repositories
 
-import android.util.Log
 import com.example.yandexsummerschool.data.dto.transactions.toTransactionRequestDto
 import com.example.yandexsummerschool.data.local.room.dao.PendingTransactionsDao
 import com.example.yandexsummerschool.data.local.room.entities.toCreatedTransactionDomainModel
 import com.example.yandexsummerschool.data.local.room.entities.toPendingTransactionEntity
+import com.example.yandexsummerschool.data.local.room.entities.toPendingTransactionUpdateEntity
+import com.example.yandexsummerschool.data.local.room.entities.toUpdatedTransactionDomainModel
 import com.example.yandexsummerschool.data.retrofit.ErrorParser.parseError
 import com.example.yandexsummerschool.data.retrofit.ShmrFinanceApi
 import com.example.yandexsummerschool.domain.models.CreatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.models.Result
+import com.example.yandexsummerschool.domain.models.UpdatedTransactionDomainModel
 import com.example.yandexsummerschool.domain.repositories.PendingTransactionsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -46,6 +48,15 @@ class PendingTransactionsRepositoryImpl @Inject constructor(
                     }
                 }
             }
+            val pendingUpdates = getPendingUpdates()
+            if (pendingUpdates is Result.Success) {
+                pendingUpdates.data.forEach {
+                    val result = updatePendingTransactions(it)
+                    if (result is Result.Success) {
+                        dao.deletePendingUpdates(it.transactionId)
+                    }
+                }
+            }
         }
     }
 
@@ -55,11 +66,45 @@ class PendingTransactionsRepositoryImpl @Inject constructor(
             withContext(Dispatchers.IO) {
                 val response = executeWIthRetries { api.postTransaction(transactionRequestDto) }
                 if (response.isSuccessful) {
-                    Log.d("PendingRepo", "Pending transactions sent ${transaction.id}")
                     return@withContext Result.Success(true)
                 } else {
                     val error = parseError(response.errorBody())
                     return@withContext Result.Failure(Exception(error.message))
+                }
+            }
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+    }
+
+    override suspend fun getPendingUpdates(): Result<List<UpdatedTransactionDomainModel>> {
+        return try {
+            withContext(Dispatchers.IO) {
+                val result = dao.getPendingUpdates().map { it.toUpdatedTransactionDomainModel() }
+                Result.Success(result)
+            }
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
+    }
+
+    override suspend fun insertPendingUpdate(update: UpdatedTransactionDomainModel) {
+        withContext(Dispatchers.IO){
+            dao.insertPendingUpdates(update.toPendingTransactionUpdateEntity())
+        }
+    }
+
+    override suspend fun updatePendingTransactions(update: UpdatedTransactionDomainModel): Result<Boolean> {
+        val transactionRequestDto = update.toTransactionRequestDto()
+        return try {
+            withContext(Dispatchers.IO) {
+                val response =
+                    executeWIthRetries { api.updateTransaction(update.transactionId, transactionRequestDto) }
+                if (response.isSuccessful) {
+                    Result.Success(true)
+                } else {
+                    val error = parseError(response.errorBody())
+                    Result.Failure(Exception(error.message))
                 }
             }
         } catch (e: Exception) {

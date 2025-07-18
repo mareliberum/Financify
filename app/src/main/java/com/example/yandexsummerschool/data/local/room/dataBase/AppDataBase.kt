@@ -11,27 +11,30 @@ import com.example.yandexsummerschool.data.local.room.dao.TransactionsDao
 import com.example.yandexsummerschool.data.local.room.entities.AccountEntity
 import com.example.yandexsummerschool.data.local.room.entities.CategoryEntity
 import com.example.yandexsummerschool.data.local.room.entities.PendingTransactionEntity
+import com.example.yandexsummerschool.data.local.room.entities.PendingTransactionUpdateEntity
 import com.example.yandexsummerschool.data.local.room.entities.TransactionEntity
 
 private const val DB_NAME = "APP_DATABASE"
 
 @Database(
-    entities = [TransactionEntity::class, AccountEntity::class, CategoryEntity::class, PendingTransactionEntity::class],
-    version = 5,
+    entities = [
+        TransactionEntity::class,
+        AccountEntity::class,
+        CategoryEntity::class,
+        PendingTransactionEntity::class,
+        PendingTransactionUpdateEntity::class
+    ],
+    version = 6,
     exportSchema = false,
 )
 abstract class AppDataBase : RoomDatabase() {
     abstract fun getTransactionsDao(): TransactionsDao
-
     abstract fun getAccountDao(): AccountDao
-
     abstract fun getCategoriesDao(): CategoriesDao
-
     abstract fun getPendingTransactionsDao(): PendingTransactionsDao
 
     companion object {
         private var INSTANCE: AppDataBase? = null
-
         fun getInstance(context: Context): AppDataBase {
             synchronized(this) {
                 var instance = INSTANCE

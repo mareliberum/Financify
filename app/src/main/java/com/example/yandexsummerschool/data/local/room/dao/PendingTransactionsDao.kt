@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.yandexsummerschool.data.local.room.entities.PendingTransactionEntity
+import com.example.yandexsummerschool.data.local.room.entities.PendingTransactionUpdateEntity
 
 @Dao
 interface PendingTransactionsDao {
@@ -19,4 +20,18 @@ interface PendingTransactionsDao {
 
     @Query("Delete from PendingTransactionEntity where id = :id")
     fun deletePendingTransaction(id: Int)
+
+
+    @Insert(
+        entity = PendingTransactionUpdateEntity::class,
+        onConflict = OnConflictStrategy.REPLACE,
+    )
+    fun insertPendingUpdates(pendingTransaction: PendingTransactionUpdateEntity)
+
+    @Query("SELECT * FROM PendingTransactionUpdateEntity")
+    fun getPendingUpdates(): List<PendingTransactionUpdateEntity>
+
+    @Query("Delete from PendingTransactionUpdateEntity where transactionId = :id")
+    fun deletePendingUpdates(id: Int)
+
 }

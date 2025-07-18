@@ -23,6 +23,7 @@ import com.example.yandexsummerschool.ui.common.components.CustomErrorDialog
 import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
+import com.example.yandexsummerschool.ui.features.editTransactions.common.SaveAndSendLaterDialog
 import com.example.yandexsummerschool.ui.features.editTransactions.common.TransactionEditorScreenContent
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
@@ -118,36 +119,22 @@ fun AddTransactionScreen(
                     dismissButtonText = "Закрыть",
                 )
             }
-            if (showSaveAndSendLaterDialog)
-                {
-                    SaveAndSendLaterDialog(
-                        onRetry = {
-                            viewModel.addPendingTransaction()
-                            showSaveAndSendLaterDialog = false
-                            navController.popBackStack()
-                        },
-                        onDismiss = {
-                            showSaveAndSendLaterDialog = false
-                        },
-                    )
-                }
+            if (showSaveAndSendLaterDialog) {
+                SaveAndSendLaterDialog(
+                    onRetry = {
+                        viewModel.addPendingTransaction()
+                        showSaveAndSendLaterDialog = false
+                        navController.popBackStack()
+                    },
+                    onDismiss = {
+                        showSaveAndSendLaterDialog = false
+                    },
+                )
+            }
         }
     }
 }
 
-@Composable
-fun SaveAndSendLaterDialog(
-    onRetry: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    CustomErrorDialog(
-        message = "Вы можете сохранить операцию. Она автоматически отправится позднее.",
-        onRetry = onRetry,
-        onDismiss = onDismiss,
-        confirmButtonText = "Сохранить",
-        dismissButtonText = "Не сохранять",
-    )
-}
 
 @Composable
 fun AddTransactionTopBar(isIncome: Boolean, onCancelClick: () -> Unit, onOkClick: () -> Unit) {

@@ -60,7 +60,10 @@ fun TransactionUiModel.toCreatedTransactionDomainModel(accountId: Int): CreatedT
     )
 }
 
-fun TransactionUiModel.toUpdatedTransactionDomainModel(transactionId: Int, accountId: Int): UpdatedTransactionDomainModel {
+fun TransactionUiModel.toUpdatedTransactionDomainModel(
+    transactionId: Int,
+    accountId: Int
+): UpdatedTransactionDomainModel {
     return UpdatedTransactionDomainModel(
         transactionId = transactionId,
         accountId = accountId,

@@ -6,6 +6,7 @@ import com.example.yandexsummerschool.domain.models.ArticleModel
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.articles.GetArticlesUseCase
+import com.example.yandexsummerschool.domain.useCases.transactions.local.insert.InsertPendingUpdateUseCase
 import com.example.yandexsummerschool.domain.useCases.transactions.remote.DeleteTransactionUseCase
 import com.example.yandexsummerschool.domain.useCases.transactions.remote.GetTransactionByIdUseCase
 import com.example.yandexsummerschool.domain.useCases.transactions.remote.UpdateTransactionUseCase
@@ -28,6 +29,7 @@ class EditorTransactionScreenViewModel @Inject constructor(
     private val getArticlesUseCase: GetArticlesUseCase,
     private val getTransactionByIdUseCase: GetTransactionByIdUseCase,
     private val deleteTransactionUseCase: DeleteTransactionUseCase,
+    private val insertPendingUpdateUseCase: InsertPendingUpdateUseCase,
     override val userDelegate: UserDelegate,
     override val getAccountUseCase: GetAccountUseCase,
 ) : BaseViewModel() {
@@ -53,16 +55,28 @@ class EditorTransactionScreenViewModel @Inject constructor(
                 val result =
                     updateTransactionUseCase(
                         transaction =
-                            currentState.transaction.toUpdatedTransactionDomainModel(
-                                currentState.transaction.id.toInt(),
-                                getAccountId(),
-                            ),
+                        currentState.transaction.toUpdatedTransactionDomainModel(
+                            currentState.transaction.id.toInt(),
+                            getAccountId(),
+                        ),
                     )
                 if (result is Result.Failure) {
                     _errorEvent.emit(ErrorMessageResolver.resolve(result.exception))
                 } else if (result is Result.Success) {
                     _successEvent.emit(Unit)
                 }
+            }
+        }
+    }
+
+    fun addPendingTransactionUpdate() {
+        viewModelScope.launch {
+            val currentState = state.value
+            if (currentState is EditorTransactionScreenState.Content) {
+                val transaction = currentState.transaction
+                val updatedTransaction =
+                    transaction.toUpdatedTransactionDomainModel(transaction.id.toInt(), getAccountId())
+                insertPendingUpdateUseCase(updatedTransaction)
             }
         }
     }

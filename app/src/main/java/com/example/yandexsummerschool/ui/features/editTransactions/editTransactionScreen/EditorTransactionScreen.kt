@@ -29,6 +29,7 @@ import com.example.yandexsummerschool.ui.common.components.LoadingIndicator
 import com.example.yandexsummerschool.ui.common.components.TopAppBar
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 import com.example.yandexsummerschool.ui.features.editTransactions.addTransactionScreen.AddTransactionScreenState
+import com.example.yandexsummerschool.ui.features.editTransactions.common.SaveAndSendLaterDialog
 import com.example.yandexsummerschool.ui.features.editTransactions.common.TransactionEditorScreenContent
 import com.example.yandexsummerschool.ui.theme.dangerAction
 import com.example.yandexsummerschool.ui.theme.white
@@ -57,6 +58,8 @@ fun EditorTransactionScreen(
     val articles by viewModel.articles.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var showSaveAndSendLaterDialog by remember { mutableStateOf(false) }
+
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
@@ -115,16 +118,16 @@ fun EditorTransactionScreen(
                             viewModel.deleteTransaction()
                         },
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 16.dp),
+                        Modifier
+	                        .fillMaxWidth()
+	                        .padding(top = 16.dp),
                         colors =
-                            ButtonDefaults.buttonColors().copy(
-                                containerColor = dangerAction,
-                                contentColor = white,
-                                disabledContentColor = white,
-                                disabledContainerColor = dangerAction,
-                            ),
+                        ButtonDefaults.buttonColors().copy(
+                            containerColor = dangerAction,
+                            contentColor = white,
+                            disabledContentColor = white,
+                            disabledContainerColor = dangerAction,
+                        ),
                     ) {
                         Text(stringResource(R.string.Delete_transaction))
                     }
@@ -132,14 +135,29 @@ fun EditorTransactionScreen(
             }
             if (errorMessage != null) {
                 CustomErrorDialog(
-                    message = errorMessage!!,
+                    message = errorMessage ?: stringResource(R.string.error),
                     onRetry = {
                         viewModel.updateTransaction()
                         errorMessage = null
                     },
-                    onDismiss = { errorMessage = null },
+                    onDismiss = {
+                        showSaveAndSendLaterDialog = true
+                        errorMessage = null
+                    },
                     confirmButtonText = "Повторить",
                     dismissButtonText = "Закрыть",
+                )
+            }
+            if (showSaveAndSendLaterDialog) {
+                SaveAndSendLaterDialog(
+                    onRetry = {
+                        viewModel.addPendingTransactionUpdate()
+                        showSaveAndSendLaterDialog = false
+                        navController.popBackStack()
+                    },
+                    onDismiss = {
+                        showSaveAndSendLaterDialog = false
+                    },
                 )
             }
         }
