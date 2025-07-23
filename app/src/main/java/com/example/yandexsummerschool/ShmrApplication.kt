@@ -5,9 +5,9 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.yandexsummerschool.data.SynchronizeWorkManager
 import com.example.yandexsummerschool.di.components.appComponent.AppComponent
 import com.example.yandexsummerschool.di.components.appComponent.DaggerAppComponent
+import com.example.yandexsummerschool.work_manager.SynchronizeWorkManager
 import java.util.concurrent.TimeUnit
 
 class ShmrApplication : Application() {

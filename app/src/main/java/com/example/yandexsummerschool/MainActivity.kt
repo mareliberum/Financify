@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
-import com.example.yandexsummerschool.ui.navigation.AppNavGraph
 import com.example.yandexsummerschool.ui.theme.YandexSummerSchoolTheme
 import javax.inject.Inject
 

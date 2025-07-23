@@ -65,6 +65,18 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
+    implementation(project(":core:common"))
+    implementation(project(":features:expenses"))
+    implementation(project(":features:account"))
+    implementation(project(":features:incomes"))
+    implementation(project(":features:articles"))
+    implementation(project(":features:settings"))
+    implementation(project(":features:analysis"))
+    implementation(project(":features:editTransactions"))
+    implementation(project(":features:myHistory"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -85,17 +97,15 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.splashscreen)
-    // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
 
     // dagger
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)
 
-    // immutable structures for compose stability
-    implementation(libs.kotlinx.collections.immutable)
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     // Room
     implementation(libs.androidx.room.runtime)
