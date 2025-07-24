@@ -1,24 +1,18 @@
 plugins {
-	alias(libs.plugins.android.application)
+	alias(libs.plugins.android.library)
 	alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.gradle.plugin)
 }
 
 android {
-	namespace = "com.example.yandexsummerschool.chart"
+	namespace = "com.example.yandexsummerschool.charts"
 	compileSdk = 35
 
 	defaultConfig {
-		applicationId = "com.example.yandexsummerschool.chart"
-		minSdk = 24
-		targetSdk = 34
-		versionCode = 1
-		versionName = "1.0"
+        minSdk = 24
 
-		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-		vectorDrawables {
-			useSupportLibrary = true
-		}
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
 	}
 
 	buildTypes {
@@ -43,15 +37,12 @@ android {
 	composeOptions {
 		kotlinCompilerExtensionVersion = "1.5.1"
 	}
-	packaging {
-		resources {
-			excludes += "/META-INF/{AL2.0,LGPL2.1}"
-		}
-	}
+
 }
 
 dependencies {
     implementation(project(":core:common"))
+    implementation("androidx.startup:startup-runtime:1.2.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
