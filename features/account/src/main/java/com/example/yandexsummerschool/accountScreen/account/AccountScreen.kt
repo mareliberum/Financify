@@ -3,12 +3,15 @@ package com.example.yandexsummerschool.accountScreen.account
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,10 +20,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.yandexsummerschool.chart.ColumnChart
 import com.example.yandexsummerschool.common.R
 import com.example.yandexsummerschool.domain.utils.Currencies
 import com.example.yandexsummerschool.features.accountScreen.account.AccountScreenViewModel
@@ -33,6 +38,7 @@ import com.example.yandexsummerschool.ui.common.components.TopAppBar
 import com.example.yandexsummerschool.ui.common.components.TrailingIconArrowRight
 import com.example.yandexsummerschool.ui.common.screens.ErrorScreen
 import com.example.yandexsummerschool.ui.navigation.Routes
+import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,9 +50,11 @@ fun AccountScreen(
     val accountState by viewModel.accountState.collectAsStateWithLifecycle()
     var showBottomSheet by remember { mutableStateOf(false) }
     val title by viewModel.accountTitle.collectAsStateWithLifecycle()
+    val statistic by viewModel.statistics.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.loadAccountData()
+        viewModel.getStatistics()
     }
 
     Scaffold(
@@ -102,6 +110,15 @@ fun AccountScreen(
                         onClick = { showBottomSheet = true },
                     )
 
+                    ColumnChart(
+                        values = statistic.toImmutableList(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                            .height(250.dp)
+                    )
+
+                    MockChart()     // TODO Убрать моковый график,
                     if (showBottomSheet) {
                         ModalBottomSheet(
                             onDismissRequest = { showBottomSheet = false },
@@ -113,8 +130,26 @@ fun AccountScreen(
                         }
                     }
                 }
-
             }
         }
     }
+}
+
+@Composable
+fun MockChart() {
+    val data = remember {
+        listOf(
+            10f, -25f, 12f, 18f, 35f, -15f, 10f, 45f, 22f, 8f, 0f, 5f,
+        )
+    }
+    val labels = remember { emptyList<String>() }
+
+    Text("Mock example")
+    ColumnChart(
+        values = data.toImmutableList(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .height(300.dp)
+    )
 }

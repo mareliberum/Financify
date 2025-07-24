@@ -22,12 +22,12 @@ import kotlin.math.abs
 @Composable
 fun ColumnChart(
     values: ImmutableList<Float>,
-    labels: ImmutableList<String>,
     modifier: Modifier = Modifier,
 ) {
     val maxPositive = values.maxOrNull()?.coerceAtLeast(0f) ?: 0f
     val maxNegative = values.minOrNull()?.coerceAtMost(0f)?.let { -it } ?: 0f
     val maxValue = maxPositive + maxNegative
+    val labels = listOf("Янв", "Июль", "Дек")
 
     Canvas(
         modifier = modifier
@@ -87,7 +87,6 @@ fun ColumnChart(
             val y = chartHeight + 20.dp.toPx()
 
             nativeCanvas.save()
-//            nativeCanvas.rotate(-45f, x, y)
             nativeCanvas.drawText(label, x, y, labelPaint)
             nativeCanvas.restore()
         }
@@ -100,11 +99,8 @@ fun preview(){
     val data = listOf(
         10f, -25f, 12f, 18f, 35f, -15f, 10f, 45f, 22f, 8f, 0f, 5f,
     )
-    val labels = listOf("янв", "июнь", "дек")
-
     ColumnChart(
         values = data.toImmutableList(),
-        labels = labels.toImmutableList(),
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp)

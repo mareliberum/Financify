@@ -2,18 +2,21 @@ package com.example.yandexsummerschool.features.accountScreen.account
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yandexsummerschool.accountScreen.account.AccountScreenState
+import com.example.yandexsummerschool.data.local.sharedPrefs.UserDelegate
 import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.ChangeCurrencyUseCase
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountFromDbUseCase
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
+import com.example.yandexsummerschool.domain.useCases.account.GetStatisticsForChart
 import com.example.yandexsummerschool.domain.useCases.account.UpdateAccountDataUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies
+import com.example.yandexsummerschool.ui.common.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,11 +24,14 @@ import javax.inject.Inject
  * ViewModel для экрана аккаунта. Хранит состояние аккаунта пользователя [AccountScreenState].
  */
 class AccountScreenViewModel @Inject constructor(
-    private val getAccountUseCase: GetAccountUseCase,
     private val updateAccountDataUseCase: UpdateAccountDataUseCase,
     private val getAccountFromDbUseCase: GetAccountFromDbUseCase,
     private val changeCurrencyUseCase: ChangeCurrencyUseCase,
-) : ViewModel() {
+    private val getStatisticsForChart: GetStatisticsForChart,
+    override val userDelegate: UserDelegate,
+    override val getAccountUseCase: GetAccountUseCase,
+
+    ) : BaseViewModel() {
     private var getAccountJob: Job? = null
     private val _accountState = MutableStateFlow<AccountScreenState>(AccountScreenState.Loading)
     val accountState: StateFlow<AccountScreenState> = _accountState
@@ -34,8 +40,12 @@ class AccountScreenViewModel @Inject constructor(
     private val _currency = mutableStateOf(Currencies.RUB.code)
     val currency: State<String> = _currency
 
+    private val _statistics = MutableStateFlow<List<Float>>(emptyList())
+    val statistics = _statistics.asStateFlow()
+
     init {
         loadAccountData()
+
     }
 
     fun loadAccountData() {
@@ -85,6 +95,17 @@ class AccountScreenViewModel @Inject constructor(
                     )
                 updateAccountDataUseCase(newAccountModel)
             }
+        }
+    }
+
+    fun getStatistics(){
+        viewModelScope.launch {
+            val result = getStatisticsForChart(getAccountId())
+            println(result) // TODO delete
+            if(result is Result.Success){
+                _statistics.value = result.data
+            }
+
         }
     }
 }
