@@ -1,6 +1,4 @@
-package com.example.yandexsummerschool.features.accountScreen.account
-
-import com.example.yandexsummerschool.domain.models.AccountModel
+package com.example.yandexsummerschool.accountScreen.account
 
 /**
  * Состояния экрана аккаунта: содержимое, загрузка, пусто.

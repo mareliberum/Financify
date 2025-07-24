@@ -35,7 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.common.R
 import com.example.yandexsummerschool.domain.utils.Currencies
-import com.example.yandexsummerschool.features.accountScreen.account.AccountScreenState
+import com.example.yandexsummerschool.accountScreen.account.AccountScreenState
 import com.example.yandexsummerschool.features.accountScreen.components.BottomSheetContent
 import com.example.yandexsummerschool.features.accountScreen.editor.EditorAccountScreenViewModel
 import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
@@ -90,12 +90,12 @@ private fun EditorTopBar(navController: NavController, onTrailingClick: () -> Un
 @Suppress("LongParameterList")
 @Composable
 private fun EditorContent(
-    state: AccountScreenState,
-    viewModel: EditorAccountScreenViewModel,
-    innerPadding: PaddingValues,
-    showBottomSheet: Boolean,
-    onBottomSheetDismiss: () -> Unit,
-    onCurrencyClick: () -> Unit,
+	state: AccountScreenState,
+	viewModel: EditorAccountScreenViewModel,
+	innerPadding: PaddingValues,
+	showBottomSheet: Boolean,
+	onBottomSheetDismiss: () -> Unit,
+	onCurrencyClick: () -> Unit,
 ) {
     Column(
         modifier =

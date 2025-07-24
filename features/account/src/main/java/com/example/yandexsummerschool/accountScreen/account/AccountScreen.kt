@@ -23,7 +23,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandexsummerschool.common.R
 import com.example.yandexsummerschool.domain.utils.Currencies
-import com.example.yandexsummerschool.features.accountScreen.account.AccountScreenState
 import com.example.yandexsummerschool.features.accountScreen.account.AccountScreenViewModel
 import com.example.yandexsummerschool.features.accountScreen.components.BottomSheetContent
 import com.example.yandexsummerschool.ui.common.components.BottomNavigationBar
@@ -102,6 +101,7 @@ fun AccountScreen(
                         modifier = Modifier.background(color = MaterialTheme.colorScheme.secondary),
                         onClick = { showBottomSheet = true },
                     )
+
                     if (showBottomSheet) {
                         ModalBottomSheet(
                             onDismissRequest = { showBottomSheet = false },
@@ -114,7 +114,6 @@ fun AccountScreen(
                     }
                 }
 
-                else -> {}
             }
         }
     }

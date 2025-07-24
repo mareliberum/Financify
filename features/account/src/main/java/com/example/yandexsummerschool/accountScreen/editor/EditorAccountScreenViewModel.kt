@@ -8,7 +8,7 @@ import com.example.yandexsummerschool.domain.models.Result
 import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
 import com.example.yandexsummerschool.domain.useCases.account.UpdateAccountDataUseCase
 import com.example.yandexsummerschool.domain.utils.Currencies
-import com.example.yandexsummerschool.features.accountScreen.account.AccountScreenState
+import com.example.yandexsummerschool.accountScreen.account.AccountScreenState
 import com.example.yandexsummerschool.ui.common.ErrorMessageResolver
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -24,5 +24,9 @@ val darkTertiary = Color(0xFF3B3C43)
 val darkBackground = Color(0xFF121016)
 val darkIconColor = Color(0xFFE6E0E9)
 
+
+// Общие цвета
 val dangerAction = Color(0xffe46962)
 val white = Color(0xFFFFFFFF)
+val negativeAmount = Color(0xFFFF5722)
+val positiveAmount = Color(0xFF00E676)
