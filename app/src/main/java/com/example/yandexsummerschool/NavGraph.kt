@@ -19,7 +19,7 @@ import com.example.yandexsummerschool.articlesScreen.ArticlesScreen
 import com.example.yandexsummerschool.articlesScreen.di.ArticlesDiProvider
 import com.example.yandexsummerschool.expensesScreen.ExpensesScreen
 import com.example.yandexsummerschool.expensesScreen.di.ExpensesDiProvider
-import com.example.yandexsummerschool.features.analysisScreen.AnalysisScreen
+import com.example.yandexsummerschool.analysisScreen.AnalysisScreen
 import com.example.yandexsummerschool.editTransactions.addTransactionScreen.AddTransactionScreen
 import com.example.yandexsummerschool.editTransactions.editTransactionScreen.EditorTransactionScreen
 import com.example.yandexsummerschool.incomesScreen.IncomesScreen

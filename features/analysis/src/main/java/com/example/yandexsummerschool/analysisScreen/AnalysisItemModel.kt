@@ -1,5 +1,6 @@
 package com.example.yandexsummerschool.analysisScreen
 
+import com.example.yandexsummerschool.chart.CategoryForPieChartUiModel
 import com.example.yandexsummerschool.domain.models.GroupedByCategoryTransactions
 
 data class AnalysisItemModel(
@@ -17,3 +18,13 @@ fun GroupedByCategoryTransactions.toAnalysisItem(): AnalysisItemModel {
         amount = amount,
     )
 }
+
+fun AnalysisItemModel.toCategoryForPieChartUiModel(sum: Double): CategoryForPieChartUiModel {
+    return CategoryForPieChartUiModel(
+        emoji = leadingEmoji,
+        name = categoryName,
+        amount = amount.toString(),
+        percent = (amount/sum).toFloat()
+    )
+}
+

@@ -1,12 +1,14 @@
-package com.example.yandexsummerschool.features.analysisScreen
+package com.example.yandexsummerschool.analysisScreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -30,9 +32,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.yandexsummerschool.analysisScreen.AnalysisItemModel
-import com.example.yandexsummerschool.analysisScreen.AnalysisScreenState
-import com.example.yandexsummerschool.analysisScreen.AnalysisScreenViewModel
+import com.example.yandexsummerschool.chart.PieChart
 import com.example.yandexsummerschool.common.R
 import com.example.yandexsummerschool.domain.utils.date.millsToUiDate
 import com.example.yandexsummerschool.ui.common.DateType
@@ -136,6 +136,17 @@ fun AnalysisScreenContent(sum: Double, categoryItems: ImmutableList<AnalysisItem
         trailingText = sum.toString(),
         listItemSize = ListItemSize.SMALL,
     )
+    val pieChartElements = categoryItems.map { it.toCategoryForPieChartUiModel(sum) }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        PieChart(
+            pieChartData =  pieChartElements.toImmutableList(),
+            modifier = Modifier.padding(vertical = 8.dp).size(200.dp)
+        )
+    }
     LazyColumn {
         items(categoryItems) { item ->
             val itemData =
@@ -143,7 +154,7 @@ fun AnalysisScreenContent(sum: Double, categoryItems: ImmutableList<AnalysisItem
                     lead = item.leadingEmoji,
                     title = item.categoryName,
                     trailingText = item.amount.toString(),
-                    trailingSubText = "${(item.amount / sum * 100).toInt()} %", // TODO в viewmodel
+                    trailingSubText = trailingSubText(item.amount, sum),
                     trailingIcon = { TrailingIconArrowRight() },
                 )
             ListItem(itemData, Modifier.height(ListItemSize.BIG.size))
@@ -180,14 +191,14 @@ private fun PeriodListItem(
 private fun DateItem(text: String) {
     Box(
         modifier =
-            Modifier
-                .padding(start = 8.dp)
-                .wrapContentWidth()
-                .background(
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = CircleShape,
-                )
-                .padding(horizontal = 16.dp, vertical = 6.dp),
+        Modifier
+	        .padding(start = 8.dp)
+	        .wrapContentWidth()
+	        .background(
+		        color = MaterialTheme.colorScheme.primary,
+		        shape = CircleShape,
+	        )
+	        .padding(horizontal = 16.dp, vertical = 6.dp),
     ) {
         Text(
             text = text,
@@ -197,4 +208,10 @@ private fun DateItem(text: String) {
             overflow = TextOverflow.Ellipsis,
         )
     }
+}
+
+private fun trailingSubText(amount: Double, sum: Double): String {
+    val str = "${(amount/sum * 100).toInt()} %"
+    return if(str != "0 %") str else "<0 %"
+
 }
