@@ -2,7 +2,7 @@ package com.example.yandexsummerschool.settings.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.yandexsummerschool.settings.SettingsScreenViewModel
+import com.example.yandexsummerschool.settings.ui.SettingsScreenViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module

@@ -50,7 +50,7 @@ private val LightColorScheme =
 @Composable
 fun YandexSummerSchoolTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
+    accentColor: Color = GreenPrimary,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
@@ -60,8 +60,8 @@ fun YandexSummerSchoolTheme(
                 val context = LocalContext.current
                 if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
             }
-            darkTheme -> DarkColorScheme
-            else -> LightColorScheme
+            darkTheme -> DarkColorScheme.copy(primary = accentColor)
+            else -> LightColorScheme.copy(primary = accentColor)
         }
 
     MaterialTheme(

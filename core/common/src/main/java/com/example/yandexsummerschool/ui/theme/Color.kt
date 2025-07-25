@@ -30,3 +30,9 @@ val dangerAction = Color(0xffe46962)
 val white = Color(0xFFFFFFFF)
 val negativeAmount = Color(0xFFFF5722)
 val positiveAmount = Color(0xFF00E676)
+
+// акцентные цвета
+val blue = Color(0xFF2196F3)
+val orange = Color(0xFFFF9800)
+val purple = Color(0xFF9C27B0)
+val red = Color(0xFFF44336)

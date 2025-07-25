@@ -25,8 +25,7 @@ import com.example.yandexsummerschool.expensesScreen.di.ExpensesDiProvider
 import com.example.yandexsummerschool.incomesScreen.IncomesScreen
 import com.example.yandexsummerschool.incomesScreen.di.IncomesDiProvider
 import com.example.yandexsummerschool.myHistoryScreen.MyHistoryScreen
-import com.example.yandexsummerschool.settings.SettingsScreen
-import com.example.yandexsummerschool.settings.di.SettingsDiProvider
+import com.example.yandexsummerschool.settings.navigation.settingsNavGraph
 import com.example.yandexsummerschool.ui.NetworkObserver
 import com.example.yandexsummerschool.ui.common.TransactionType
 import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
@@ -49,6 +48,7 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
     NetworkSyncHandler(isConnected)
     NetworkStatusToast(isConnected)
     val navController = rememberNavController()
+
     NavHost(navController = navController, startDestination = Routes.ExpensesScreen.route) {
         composable(Routes.ExpensesScreen.route) {
             val factory = remember { ExpensesDiProvider.provideFactory(appComponent) }
@@ -59,10 +59,9 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
             val incomesViewModelFactory = remember { IncomesDiProvider.provideFactory(appComponent) }
             IncomesScreen(navController = navController, viewModelFactory = incomesViewModelFactory)
         }
-        composable(Routes.SettingsScreen.route) {
-            val settingsViewModelFactory = remember { SettingsDiProvider.provideFactory(context) }
-            SettingsScreen(navController, settingsViewModelFactory)
-        }
+
+        settingsNavGraph(navController)
+
         composable(Routes.AccountScreen.route) { AccountScreen(navController, viewModelFactory) }
         composable(Routes.ExpenseArticleScreen.route) {
             val articlesViewModelFactory = remember { ArticlesDiProvider.provideFactory(appComponent) }

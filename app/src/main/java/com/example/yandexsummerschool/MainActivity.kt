@@ -5,11 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.yandexsummerschool.settings.SettingsScreenViewModel
 import com.example.yandexsummerschool.settings.di.DaggerSettingsComponent
+import com.example.yandexsummerschool.settings.ui.SettingsScreenViewModel
+import com.example.yandexsummerschool.ui.theme.GreenPrimary
 import com.example.yandexsummerschool.ui.theme.YandexSummerSchoolTheme
 import javax.inject.Inject
 
@@ -27,14 +29,17 @@ class MainActivity : ComponentActivity() {
         }
 
         installSplashScreen().setKeepOnScreenCondition {
-            settingsViewModel.isDarkTheme.value == null
+            settingsViewModel.isDarkTheme.value == null &&
+                settingsViewModel.accentColor.value == null
         }
 
         enableEdgeToEdge()
         setContent {
+            val accentColor by settingsViewModel.accentColor.collectAsStateWithLifecycle()
             val isDarkTheme by settingsViewModel.isDarkTheme.collectAsStateWithLifecycle()
             YandexSummerSchoolTheme(
                 darkTheme = isDarkTheme ?: false,
+                accentColor = Color(accentColor?.toULong() ?: GreenPrimary.value),
             ) {
                 AppNavGraph(viewModelFactory)
             }
