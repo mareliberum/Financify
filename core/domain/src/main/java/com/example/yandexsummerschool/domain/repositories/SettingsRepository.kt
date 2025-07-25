@@ -1,5 +1,6 @@
 package com.example.yandexsummerschool.domain.repositories
 
+import com.example.yandexsummerschool.domain.models.AppLocale
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
@@ -14,6 +15,10 @@ interface SettingsRepository {
     suspend fun setSyncFrequency(newFreq: Int)
 
     fun getSyncFrequencyFlow(): Flow<Int>
+
+    suspend fun setAppLocale(locale: AppLocale)
+
+    fun getAppLocale() : Flow<AppLocale>
 
 
 }

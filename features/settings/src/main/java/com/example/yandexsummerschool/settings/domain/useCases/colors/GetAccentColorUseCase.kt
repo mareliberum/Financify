@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.settings.domain.colors
+package com.example.yandexsummerschool.settings.domain.useCases.colors
 
 import com.example.yandexsummerschool.domain.repositories.SettingsRepository
 import kotlinx.coroutines.flow.Flow

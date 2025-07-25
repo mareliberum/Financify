@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.settings.domain.syncFrequency
+package com.example.yandexsummerschool.settings.domain.useCases.syncFrequency
 
 import com.example.yandexsummerschool.domain.repositories.SettingsRepository
 import kotlinx.coroutines.flow.Flow

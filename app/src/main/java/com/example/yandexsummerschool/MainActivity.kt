@@ -1,9 +1,9 @@
 package com.example.yandexsummerschool
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,10 +28,9 @@ import com.example.yandexsummerschool.work_manager.SynchronizeWorkManager
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
@@ -39,11 +38,11 @@ class MainActivity : ComponentActivity() {
             val component = DaggerSettingsComponent.factory().create(applicationContext)
             component.getSettingsViewModelFactory().create(SettingsScreenViewModel::class.java)
         }
-
         installSplashScreen().setKeepOnScreenCondition {
             settingsViewModel.isDarkTheme.value == null &&
                 settingsViewModel.accentColor.value == null
         }
+
 
         enableEdgeToEdge()
         setContent {
@@ -58,15 +57,14 @@ class MainActivity : ComponentActivity() {
                 val context = LocalContext.current
                 val networkObserver = remember { NetworkObserver(context) }
                 val isConnected by networkObserver.isConnected.collectAsStateWithLifecycle()
-
                 DisposableEffect(Unit) {
                     networkObserver.startObserving()
                     onDispose {
                         networkObserver.stopObserving()
                     }
                 }
+
                 LaunchedEffect(syncFrequency) {
-                    println(syncFrequency)
                     val workerRequest =
                         PeriodicWorkRequestBuilder<SynchronizeWorkManager>(
                             syncFrequency?.toLong() ?: 60,
@@ -88,3 +86,5 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+

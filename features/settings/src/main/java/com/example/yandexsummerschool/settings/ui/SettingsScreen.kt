@@ -76,6 +76,12 @@ fun SettingsScreen(
                 onClick = { navController.navigate(SettingsRoutes.SettingSyncFrequencyScreen.route) }
             )
             ListItem(
+                title = "Язык",
+                trailingIcon = painterResource(R.drawable.icon_arrow_right_filled),
+                listItemSize = ListItemSize.SMALL,
+                onClick = { navController.navigate(SettingsRoutes.SettingsLanguage.route) }
+            )
+            ListItem(
                 title = "О приложении",
                 trailingIcon = painterResource(R.drawable.icon_arrow_right_filled),
                 listItemSize = ListItemSize.SMALL,
