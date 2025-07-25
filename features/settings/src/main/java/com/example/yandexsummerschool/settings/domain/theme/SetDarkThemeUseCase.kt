@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.settings.domain
+package com.example.yandexsummerschool.settings.domain.theme
 
 import com.example.yandexsummerschool.domain.repositories.SettingsRepository
 import javax.inject.Inject

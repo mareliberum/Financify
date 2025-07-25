@@ -3,6 +3,7 @@ package com.example.yandexsummerschool.settings.data.repository
 import android.content.Context
 import com.example.yandexsummerschool.domain.repositories.SettingsRepository
 import com.example.yandexsummerschool.settings.data.dataStore.ColorPreferences
+import com.example.yandexsummerschool.settings.data.dataStore.SyncFrequencyPreferences
 import com.example.yandexsummerschool.settings.data.dataStore.ThemePreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -30,4 +31,14 @@ class SettingsRepositoryImpl @Inject constructor(
     override fun getAccentColor(): Flow<Long> =
         ColorPreferences.getAccentColor(context)
 
+    override suspend fun setSyncFrequency(newFreq: Int) {
+        withContext(Dispatchers.IO){
+            SyncFrequencyPreferences.saveSyncFrequency(context, newFreq)
+        }
+    }
+
+    override fun getSyncFrequencyFlow(): Flow<Int> {
+        return SyncFrequencyPreferences.getSyncFrequencyFlow(context)
+    }
+    
 }

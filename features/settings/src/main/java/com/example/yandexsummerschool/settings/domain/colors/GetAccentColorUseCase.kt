@@ -1,14 +1,13 @@
-package com.example.yandexsummerschool.settings.domain
+package com.example.yandexsummerschool.settings.domain.colors
 
 import com.example.yandexsummerschool.domain.repositories.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetDarkThemeUseCase @Inject constructor(
+class GetAccentColorUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository,
-) {
-
-    operator fun invoke(): Flow<Boolean> {
-        return settingsRepository.isDarkTheme()
+){
+    operator fun invoke(): Flow<Long> {
+        return settingsRepository.getAccentColor()
     }
 }

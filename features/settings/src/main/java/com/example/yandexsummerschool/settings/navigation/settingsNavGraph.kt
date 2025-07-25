@@ -10,6 +10,7 @@ import com.example.yandexsummerschool.settings.di.SettingsDiProvider
 import com.example.yandexsummerschool.settings.ui.AboutAppScreen
 import com.example.yandexsummerschool.settings.ui.ColorPickerScreen
 import com.example.yandexsummerschool.settings.ui.SettingsScreen
+import com.example.yandexsummerschool.settings.ui.SyncFrequencyScreen
 import com.example.yandexsummerschool.ui.navigation.Routes
 
 fun NavGraphBuilder.settingsNavGraph(
@@ -32,6 +33,11 @@ fun NavGraphBuilder.settingsNavGraph(
         composable(SettingsRoutes.SettingAboutAppScreen.route){
             AboutAppScreen { navController.popBackStack() }
         }
+        composable(SettingsRoutes.SettingSyncFrequencyScreen.route) {
+            val context = LocalContext.current
+            val viewModelFactory = remember { SettingsDiProvider.provideFactory(context) }
+            SyncFrequencyScreen(viewModelFactory) { navController.popBackStack() }
+        }
     }
 }
 
@@ -39,4 +45,5 @@ sealed class SettingsRoutes(val route: String) {
     data object SettingsMainScreen : SettingsRoutes("settings/main")
     data object SettingsColorPickerScreen : SettingsRoutes("settings/color_picker")
     data object SettingAboutAppScreen : SettingsRoutes("settings/about_app")
+    data object SettingSyncFrequencyScreen : SettingsRoutes("settings/sync_frequency")
 }

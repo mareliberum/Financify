@@ -14,6 +14,8 @@ import com.example.yandexsummerschool.domain.useCases.transactions.SendPendingTr
 import com.example.yandexsummerschool.domain.useCases.transactions.SynchronizeTransactionsUseCase
 import javax.inject.Inject
 
+const val PERIODICAL_SYNC_WORK = "PERIODICAL_SYNC_WORK"
+
 /**
  * Загружает с API всю информацию об аккаунте: транзакции, категории, счет и тд
  */

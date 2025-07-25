@@ -1,12 +1,10 @@
 package com.example.yandexsummerschool
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,27 +24,14 @@ import com.example.yandexsummerschool.incomesScreen.IncomesScreen
 import com.example.yandexsummerschool.incomesScreen.di.IncomesDiProvider
 import com.example.yandexsummerschool.myHistoryScreen.MyHistoryScreen
 import com.example.yandexsummerschool.settings.navigation.settingsNavGraph
-import com.example.yandexsummerschool.ui.NetworkObserver
 import com.example.yandexsummerschool.ui.common.TransactionType
-import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
 import com.example.yandexsummerschool.ui.navigation.Routes
-import com.example.yandexsummerschool.work_manager.NetworkSyncHandler
 
 @Composable
 fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
     val context = LocalContext.current
     val appComponent = context.appComponent
-    val networkObserver = remember { NetworkObserver(context) }
-    val isConnected by networkObserver.isConnected.collectAsStateWithLifecycle()
 
-    DisposableEffect(Unit) {
-        networkObserver.startObserving()
-        onDispose {
-            networkObserver.stopObserving()
-        }
-    }
-    NetworkSyncHandler(isConnected)
-    NetworkStatusToast(isConnected)
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Routes.ExpensesScreen.route) {

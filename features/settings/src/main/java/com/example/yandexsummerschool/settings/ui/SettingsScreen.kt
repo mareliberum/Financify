@@ -33,7 +33,6 @@ fun SettingsScreen(
 ) {
     val viewModel: SettingsScreenViewModel = viewModel(factory = viewModelFactory)
     val isDarkTheme by viewModel.isDarkTheme.collectAsStateWithLifecycle()
-//    var checkedState by remember { mutableStateOf(isDarkTheme) }
     Scaffold(
         topBar = { TopAppBar(TopAppBarElement.Settings, navController) },
         bottomBar = { BottomNavigationBar(navController = navController) },
@@ -41,8 +40,8 @@ fun SettingsScreen(
         Column(
             modifier =
             Modifier
-	            .fillMaxSize()
-	            .padding(innerPadding),
+                .fillMaxSize()
+                .padding(innerPadding),
         ) {
             ListItem(
                 ListItemData(
@@ -69,6 +68,12 @@ fun SettingsScreen(
                 trailingIcon = painterResource(R.drawable.icon_arrow_right_filled),
                 listItemSize = ListItemSize.SMALL,
                 onClick = { navController.navigate(SettingsRoutes.SettingsColorPickerScreen.route) }
+            )
+            ListItem(
+                title = "Настройка частоты синхронизации",
+                trailingIcon = painterResource(R.drawable.icon_arrow_right_filled),
+                listItemSize = ListItemSize.SMALL,
+                onClick = { navController.navigate(SettingsRoutes.SettingSyncFrequencyScreen.route) }
             )
             ListItem(
                 title = "О приложении",

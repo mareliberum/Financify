@@ -10,4 +10,10 @@ interface SettingsRepository {
     suspend fun setAccentColor(color: Long)
 
     fun getAccentColor():Flow<Long>
+
+    suspend fun setSyncFrequency(newFreq: Int)
+
+    fun getSyncFrequencyFlow(): Flow<Int>
+
+
 }
