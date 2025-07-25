@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -87,13 +88,13 @@ fun AccountScreen(
                     val balanceBlock =
                         ListItemData(
                             lead = "💰",
-                            title = "Баланс",
+                            title = stringResource(R.string.Balance),
                             trailingText = state.model.balance + " $currencySymbol",
                             trailingIcon = { TrailingIconArrowRight() },
                         )
                     val currencyBlock =
                         ListItemData(
-                            title = "Валюта",
+                            title = stringResource(R.string.currency),
                             trailingText = currencySymbol,
                             trailingIcon = { TrailingIconArrowRight() },
                         )

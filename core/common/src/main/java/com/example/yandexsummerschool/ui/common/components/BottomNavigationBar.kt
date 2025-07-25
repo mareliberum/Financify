@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -38,7 +39,7 @@ fun BottomNavigationBar(navController: NavController) {
          * нужный элемент нав бара
          */
 
-        val rootRoute =
+        var rootRoute =
             when (currentRoute) {
                 Routes.MyHistoryScreen.route -> {
                     when (operationType) {
@@ -71,6 +72,7 @@ fun BottomNavigationBar(navController: NavController) {
                 }
                 else -> currentRoute
             }
+        if(currentRoute?.startsWith("settings/") == true) rootRoute = Routes.SettingsScreen.route
 
         Row(modifier = Modifier.padding(horizontal = 4.dp)) {
             NavBarItems.BarItems.forEach { navItem ->
@@ -93,12 +95,12 @@ fun BottomNavigationBar(navController: NavController) {
                     icon = {
                         Icon(
                             painter = painterResource(navItem.image),
-                            contentDescription = navItem.title,
+                            contentDescription = null,
                         )
                     },
                     label = {
                         Text(
-                            text = navItem.title,
+                            text = stringResource(navItem.title),
                             maxLines = 1,
                             color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.labelMedium,
@@ -121,27 +123,27 @@ object NavBarItems {
     val BarItems =
         listOf(
             BarItem(
-                title = "Расходы",
+                title = R.string.Expenses,
                 image = R.drawable.expenses_icon,
                 route = Routes.ExpensesScreen.route,
             ),
             BarItem(
-                title = "Доходы",
+                title = R.string.incomes,
                 image = R.drawable.incomes,
                 route = Routes.IncomesScreen.route,
             ),
             BarItem(
-                title = "Счет",
+                title = R.string.Account,
                 image = R.drawable.calculator,
                 route = Routes.AccountScreen.route,
             ),
             BarItem(
-                title = "Статьи",
+                title = R.string.categories,
                 image = R.drawable.articles,
                 route = Routes.ExpenseArticleScreen.route,
             ),
             BarItem(
-                title = "Настройки",
+                title = R.string.settings,
                 image = R.drawable.settings,
                 route = Routes.SettingsScreen.route,
             ),
@@ -149,7 +151,7 @@ object NavBarItems {
 }
 
 data class BarItem(
-    val title: String,
+    val title: Int,
     val image: Int,
     val route: String,
 )

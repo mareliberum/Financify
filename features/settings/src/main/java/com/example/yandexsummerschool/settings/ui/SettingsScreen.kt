@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -45,7 +46,7 @@ fun SettingsScreen(
         ) {
             ListItem(
                 ListItemData(
-                    title = "Тёмная тема",
+                    title = stringResource(com.example.yandexsummerschool.settings.R.string.dark_theme),
                     trailingIcon = {
                         Switch(
                             checked = isDarkTheme == true,
@@ -64,25 +65,25 @@ fun SettingsScreen(
                 modifier = Modifier.height(55.dp),
             )
             ListItem(
-                title = "Акцентный цвет",
+                title = stringResource(com.example.yandexsummerschool.settings.R.string.Accent_color),
                 trailingIcon = painterResource(R.drawable.icon_arrow_right_filled),
                 listItemSize = ListItemSize.SMALL,
                 onClick = { navController.navigate(SettingsRoutes.SettingsColorPickerScreen.route) }
             )
             ListItem(
-                title = "Настройка частоты синхронизации",
+                title = stringResource(com.example.yandexsummerschool.settings.R.string.Frequency_Setting),
                 trailingIcon = painterResource(R.drawable.icon_arrow_right_filled),
                 listItemSize = ListItemSize.SMALL,
                 onClick = { navController.navigate(SettingsRoutes.SettingSyncFrequencyScreen.route) }
             )
             ListItem(
-                title = "Язык",
+                title = stringResource(com.example.yandexsummerschool.settings.R.string.Language),
                 trailingIcon = painterResource(R.drawable.icon_arrow_right_filled),
                 listItemSize = ListItemSize.SMALL,
                 onClick = { navController.navigate(SettingsRoutes.SettingsLanguage.route) }
             )
             ListItem(
-                title = "О приложении",
+                title = stringResource(com.example.yandexsummerschool.settings.R.string.About_App),
                 trailingIcon = painterResource(R.drawable.icon_arrow_right_filled),
                 listItemSize = ListItemSize.SMALL,
                 onClick = { navController.navigate(SettingsRoutes.SettingAboutAppScreen.route) }

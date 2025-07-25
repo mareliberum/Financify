@@ -49,8 +49,14 @@ fun MyHistoryScreen(
     val startOfPeriod by viewModel.startOfPeriod.collectAsStateWithLifecycle()
     val endOfPeriod by viewModel.endOfPeriod.collectAsStateWithLifecycle()
     val currentState = viewModel.myHistoryScreenState.collectAsStateWithLifecycle()
-    val startItem = ListItemData(title = "Начало", trailingText = startOfPeriod)
-    val endItem = ListItemData(title = "Конец", trailingText = endOfPeriod)
+    val startItem = ListItemData(
+        title = stringResource(com.example.yandexsummerschool.myHistory.R.string.Start),
+        trailingText = startOfPeriod
+    )
+    val endItem = ListItemData(
+        title = stringResource(com.example.yandexsummerschool.myHistory.R.string.End),
+        trailingText = endOfPeriod
+    )
     val isIncome = transactionType == TransactionType.INCOME
 
     LaunchedEffect(Unit) {
@@ -70,9 +76,9 @@ fun MyHistoryScreen(
         bottomBar = { BottomNavigationBar(navController) },
     ) { padding ->
         Column(
-            Modifier
-                .fillMaxSize()
-                .padding(padding),
+	        Modifier
+		        .fillMaxSize()
+		        .padding(padding),
         ) {
             if (showPicker) {
                 DatePicker(

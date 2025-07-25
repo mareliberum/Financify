@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Account">Account</string>
+    <string name="Category">Category</string>
+    <string name="Sum">Sum</string>
+    <string name="Date">Date</string>
+    <string name="Time">Time</string>
+    <string name="Comment">Comment</string>
+</resources>

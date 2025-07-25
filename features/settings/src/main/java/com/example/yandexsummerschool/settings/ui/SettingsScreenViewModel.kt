@@ -1,5 +1,6 @@
 package com.example.yandexsummerschool.settings.ui
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yandexsummerschool.domain.models.AppLocale
@@ -11,6 +12,7 @@ import com.example.yandexsummerschool.settings.domain.useCases.syncFrequency.Get
 import com.example.yandexsummerschool.settings.domain.useCases.syncFrequency.SetFrequencyUseCase
 import com.example.yandexsummerschool.settings.domain.useCases.theme.GetDarkThemeUseCase
 import com.example.yandexsummerschool.settings.domain.useCases.theme.SetDarkThemeUseCase
+import com.yariksoffice.lingver.Lingver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -71,9 +73,12 @@ class SettingsScreenViewModel @Inject constructor(
         }
     }
 
-    fun setLocale(locale: AppLocale) {
+    fun setLocale(locale: AppLocale, context: Context) {
+        Lingver.getInstance().setLocale(context, locale.code)
+
         viewModelScope.launch(Dispatchers.IO) {
             setLocaleUseCase(locale)
         }
     }
+
 }

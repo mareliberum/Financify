@@ -10,6 +10,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.yandexsummerschool.common.R
@@ -101,7 +102,7 @@ fun TransactionEditorScreenContent(
 @Composable
 fun AccountSelector(accountName: String) {
     ListItem(
-        title = "Счет",
+        title = stringResource(com.example.yandexsummerschool.editTransactions.R.string.Account),
         trailingText = accountName,
         trailingIcon = painterResource(R.drawable.icon_arrow_right),
         listItemSize = ListItemSize.BIG,
@@ -111,7 +112,7 @@ fun AccountSelector(accountName: String) {
 @Composable
 fun CategorySelector(categoryName: String, onClick: () -> Unit) {
     ListItem(
-        title = "Статья",
+        title = stringResource(com.example.yandexsummerschool.editTransactions.R.string.Category),
         trailingText = categoryName,
         trailingIcon = painterResource(R.drawable.icon_arrow_right),
         listItemSize = ListItemSize.BIG,
@@ -125,7 +126,9 @@ fun AmountEditor(amount: String, isEditing: Boolean, onEdit: (Boolean) -> Unit, 
         TextField(
             value = amount,
             onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth().height(ListItemSize.BIG.size),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(ListItemSize.BIG.size),
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Number),
             keyboardActions = androidx.compose.foundation.text.KeyboardActions(onDone = { onEdit(false) }),
@@ -133,7 +136,7 @@ fun AmountEditor(amount: String, isEditing: Boolean, onEdit: (Boolean) -> Unit, 
         )
     } else {
         ListItem(
-            title = "Сумма",
+            title = stringResource(com.example.yandexsummerschool.editTransactions.R.string.Sum),
             trailingText = amount,
             trailingIcon = painterResource(R.drawable.icon_arrow_right),
             listItemSize = ListItemSize.BIG,
@@ -145,7 +148,7 @@ fun AmountEditor(amount: String, isEditing: Boolean, onEdit: (Boolean) -> Unit, 
 @Composable
 fun DateSelector(date: String, onClick: () -> Unit) {
     ListItem(
-        title = "Дата",
+        title = stringResource(com.example.yandexsummerschool.editTransactions.R.string.Date),
         trailingText = date,
         trailingIcon = painterResource(R.drawable.icon_arrow_right),
         listItemSize = ListItemSize.BIG,
@@ -156,7 +159,7 @@ fun DateSelector(date: String, onClick: () -> Unit) {
 @Composable
 fun TimeSelector(time: String, onClick: () -> Unit) {
     ListItem(
-        title = "Время",
+        title = stringResource(com.example.yandexsummerschool.editTransactions.R.string.Time),
         trailingText = time,
         trailingIcon = painterResource(R.drawable.icon_arrow_right),
         listItemSize = ListItemSize.BIG,
@@ -170,7 +173,9 @@ fun CommentEditor(comment: String?, isEditing: Boolean, onEdit: (Boolean) -> Uni
         TextField(
             value = comment.orEmpty(),
             onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth().height(ListItemSize.BIG.size),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(ListItemSize.BIG.size),
             singleLine = false,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Text),
             keyboardActions = androidx.compose.foundation.text.KeyboardActions(onDone = { onEdit(false) }),
@@ -178,7 +183,7 @@ fun CommentEditor(comment: String?, isEditing: Boolean, onEdit: (Boolean) -> Uni
         )
     } else {
         ListItem(
-            title = "Комментарий",
+            title = stringResource(com.example.yandexsummerschool.editTransactions.R.string.Comment),
             trailingText = comment.orEmpty(),
             trailingIcon = painterResource(R.drawable.icon_arrow_right),
             listItemSize = ListItemSize.BIG,

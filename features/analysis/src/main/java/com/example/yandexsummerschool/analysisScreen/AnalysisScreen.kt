@@ -69,7 +69,7 @@ fun AnalysisScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = "Анализ",
+                title = stringResource(com.example.yandexsummerschool.analysis.R.string.Analysis),
                 leadingIcon = painterResource(R.drawable.arrow_back),
                 onLeadingClick = { navController.popBackStack() },
             )
@@ -78,7 +78,7 @@ fun AnalysisScreen(
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             PeriodListItem(
-                title = "Период: начало",
+                title = stringResource(com.example.yandexsummerschool.analysis.R.string.Period_start),
                 dateText = millsToUiDate(startDate),
                 onClick = {
                     pickerType = DateType.START
@@ -86,7 +86,7 @@ fun AnalysisScreen(
                 },
             )
             PeriodListItem(
-                title = "Период: конец",
+                title = stringResource(com.example.yandexsummerschool.analysis.R.string.Period_end),
                 dateText = millsToUiDate(endDate),
                 onClick = {
                     pickerType = DateType.END
@@ -144,7 +144,9 @@ fun AnalysisScreenContent(sum: Double, categoryItems: ImmutableList<AnalysisItem
     ) {
         PieChart(
             pieChartData =  pieChartElements.toImmutableList(),
-            modifier = Modifier.padding(vertical = 8.dp).size(200.dp)
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .size(200.dp)
         )
     }
     LazyColumn {
@@ -192,13 +194,13 @@ private fun DateItem(text: String) {
     Box(
         modifier =
         Modifier
-	        .padding(start = 8.dp)
-	        .wrapContentWidth()
-	        .background(
-		        color = MaterialTheme.colorScheme.primary,
-		        shape = CircleShape,
-	        )
-	        .padding(horizontal = 16.dp, vertical = 6.dp),
+            .padding(start = 8.dp)
+            .wrapContentWidth()
+            .background(
+                color = MaterialTheme.colorScheme.primary,
+                shape = CircleShape,
+            )
+            .padding(horizontal = 16.dp, vertical = 6.dp),
     ) {
         Text(
             text = text,

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Analysis">Анализ</string>
+    <string name="Period_start">Период: начало</string>
+    <string name="Period_end">Период: конец</string>
+</resources>

@@ -113,4 +113,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
+
+    // test lingver
+    implementation("com.github.YarikSOffice:lingver:1.3.0")
 }

@@ -1,11 +1,12 @@
 package com.example.yandexsummerschool
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
@@ -25,12 +26,16 @@ import com.example.yandexsummerschool.ui.theme.YandexSummerSchoolTheme
 import com.example.yandexsummerschool.work_manager.NetworkSyncHandler
 import com.example.yandexsummerschool.work_manager.PERIODICAL_SYNC_WORK
 import com.example.yandexsummerschool.work_manager.SynchronizeWorkManager
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+val LocalLanguage = compositionLocalOf { Locale.getDefault() }
+
+class MainActivity : ComponentActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
@@ -38,23 +43,33 @@ class MainActivity : AppCompatActivity() {
             val component = DaggerSettingsComponent.factory().create(applicationContext)
             component.getSettingsViewModelFactory().create(SettingsScreenViewModel::class.java)
         }
+
         installSplashScreen().setKeepOnScreenCondition {
             settingsViewModel.isDarkTheme.value == null &&
                 settingsViewModel.accentColor.value == null
         }
-
-
         enableEdgeToEdge()
         setContent {
+//            val context = LocalContext.current
             val accentColor by settingsViewModel.accentColor.collectAsStateWithLifecycle()
             val isDarkTheme by settingsViewModel.isDarkTheme.collectAsStateWithLifecycle()
             val syncFrequency by settingsViewModel.getSyncFrequency.collectAsStateWithLifecycle()
-
+//            val currentLanguage by settingsViewModel.appLocale.collectAsStateWithLifecycle()
+//            LaunchedEffect(currentLanguage) {
+//                when(val locale = currentLanguage){
+//                    AppLocale.RUSSIAN -> Lingver.getInstance().setLocale(context, locale.code)
+//                    AppLocale.ENGLISH -> Lingver.getInstance().setLocale(context, locale.code)
+//                    null -> Lingver.getInstance().setLocale(context, "en")
+//                }
+//            }
             YandexSummerSchoolTheme(
                 darkTheme = isDarkTheme ?: false,
                 accentColor = Color(accentColor?.toULong() ?: GreenPrimary.value),
             ) {
                 val context = LocalContext.current
+                val currentLocale = LocalLanguage.current
+                // Установка локали для работы со строками
+                context.resources.configuration.setLocale(currentLocale)
                 val networkObserver = remember { NetworkObserver(context) }
                 val isConnected by networkObserver.isConnected.collectAsStateWithLifecycle()
                 DisposableEffect(Unit) {
@@ -86,5 +101,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-

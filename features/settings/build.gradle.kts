@@ -69,4 +69,7 @@ dependencies {
     // Data store
     implementation(libs.androidx.datastore.preferences)
 
+    // lingver
+    implementation("com.github.YarikSOffice:lingver:1.3.0")
+
 }

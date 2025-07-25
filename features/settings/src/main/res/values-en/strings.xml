@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_version">App version: %1$s  %2$s</string>
+    <string name="last_update">Last update: %1$s</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="Accent_color">Accent Color</string>
+    <string name="Frequency_Setting">Sync Frequency Setting</string>
+    <string name="Language">Language</string>
+    <string name="About_App">About the App</string>
+</resources>
+

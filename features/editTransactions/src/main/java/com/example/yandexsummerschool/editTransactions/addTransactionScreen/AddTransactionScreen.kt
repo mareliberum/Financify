@@ -139,7 +139,7 @@ fun AddTransactionScreen(
 @Composable
 fun AddTransactionTopBar(isIncome: Boolean, onCancelClick: () -> Unit, onOkClick: () -> Unit) {
     TopAppBar(
-        title = if (isIncome) "Мои доходы" else "Мои расходы",
+        title = if (isIncome) stringResource(R.string.My_incomes) else stringResource(R.string.My_expenses),
         leadingIcon = painterResource(R.drawable.x_icon),
         onLeadingClick = onCancelClick,
         trailingIcon = painterResource(R.drawable.ok_icon),

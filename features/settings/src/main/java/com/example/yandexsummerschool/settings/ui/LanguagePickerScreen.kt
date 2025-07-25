@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +32,7 @@ fun LanguagePickerScreen(
 ) {
     val viewModel: SettingsScreenViewModel = viewModel(factory = viewModelFactory)
     val currentLocale by viewModel.appLocale.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -51,13 +53,13 @@ fun LanguagePickerScreen(
                 label = "Русский",
                 selected = currentLocale == AppLocale.RUSSIAN
             ) {
-                viewModel.setLocale(AppLocale.RUSSIAN)
+                viewModel.setLocale(AppLocale.RUSSIAN, context)
             }
             LanguageOption(
                 label = "English",
                 selected = currentLocale == AppLocale.ENGLISH
             ) {
-                viewModel.setLocale(AppLocale.ENGLISH)
+                viewModel.setLocale(AppLocale.ENGLISH, context)
             }
         }
     }

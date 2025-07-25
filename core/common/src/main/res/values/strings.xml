@@ -33,4 +33,9 @@
     <string name="dont_save">Не сохранять</string>
     <string name="Error">Ошибка</string>
     <string name="info">информация</string>
+    <string name="Expenses">Расходы</string>
+    <string name="incomes">Доходы</string>
+    <string name="Account">Счет</string>
+    <string name="categories">Статьи</string>
+    <string name="settings">Настройки</string>
 </resources>
