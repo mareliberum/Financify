@@ -1,9 +1,10 @@
-package com.example.yandexsummerschool.data.repositories
+package com.example.yandexsummerschool.data.repositories.articles
 
 import com.example.yandexsummerschool.data.dto.article.toArticleModel
 import com.example.yandexsummerschool.data.local.room.dao.CategoriesDao
 import com.example.yandexsummerschool.data.local.room.entities.toArticleModel
 import com.example.yandexsummerschool.data.local.room.entities.toCategoryEntity
+import com.example.yandexsummerschool.data.repositories.executeWIthRetries
 import com.example.yandexsummerschool.data.retrofit.ShmrArticlesApi
 import com.example.yandexsummerschool.domain.models.ArticleModel
 import com.example.yandexsummerschool.domain.models.Result

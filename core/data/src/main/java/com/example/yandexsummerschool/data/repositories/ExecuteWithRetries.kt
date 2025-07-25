@@ -1,5 +1,7 @@
 package com.example.yandexsummerschool.data.repositories
 
+import com.example.yandexsummerschool.data.repositories.transactions.MAX_CONNECTION_RETRIES
+import com.example.yandexsummerschool.data.repositories.transactions.RETRY_DELAY
 import kotlinx.coroutines.delay
 import retrofit2.Response
 

@@ -4,12 +4,12 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +28,7 @@ fun ColumnChart(
     val maxNegative = values.minOrNull()?.coerceAtMost(0f)?.let { -it } ?: 0f
     val maxValue = maxPositive + maxNegative
     val labels = listOf("Янв", "Июль", "Дек")
+    val xAxisColor = MaterialTheme.colorScheme.onBackground
 
     Canvas(
         modifier = modifier
@@ -58,9 +59,10 @@ fun ColumnChart(
             )
         }
 
+
         // X axis line
         drawLine(
-            color = Color.Black,
+            color = xAxisColor,
             start = Offset(0f, zeroY),
             end = Offset(size.width, zeroY),
             strokeWidth = 2.dp.toPx()

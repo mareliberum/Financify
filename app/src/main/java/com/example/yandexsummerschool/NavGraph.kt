@@ -14,18 +14,19 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.yandexsummerschool.accountScreen.account.AccountScreen
 import com.example.yandexsummerschool.accountScreen.editor.EditorAccountScreen
+import com.example.yandexsummerschool.analysisScreen.AnalysisScreen
 import com.example.yandexsummerschool.analysisScreen.di.AnalysisDiProvider
 import com.example.yandexsummerschool.articlesScreen.ArticlesScreen
 import com.example.yandexsummerschool.articlesScreen.di.ArticlesDiProvider
-import com.example.yandexsummerschool.expensesScreen.ExpensesScreen
-import com.example.yandexsummerschool.expensesScreen.di.ExpensesDiProvider
-import com.example.yandexsummerschool.analysisScreen.AnalysisScreen
 import com.example.yandexsummerschool.editTransactions.addTransactionScreen.AddTransactionScreen
 import com.example.yandexsummerschool.editTransactions.editTransactionScreen.EditorTransactionScreen
+import com.example.yandexsummerschool.expensesScreen.ExpensesScreen
+import com.example.yandexsummerschool.expensesScreen.di.ExpensesDiProvider
 import com.example.yandexsummerschool.incomesScreen.IncomesScreen
 import com.example.yandexsummerschool.incomesScreen.di.IncomesDiProvider
 import com.example.yandexsummerschool.myHistoryScreen.MyHistoryScreen
 import com.example.yandexsummerschool.settings.SettingsScreen
+import com.example.yandexsummerschool.settings.di.SettingsDiProvider
 import com.example.yandexsummerschool.ui.NetworkObserver
 import com.example.yandexsummerschool.ui.common.TransactionType
 import com.example.yandexsummerschool.ui.common.components.NetworkStatusToast
@@ -58,7 +59,10 @@ fun AppNavGraph(viewModelFactory: ViewModelProvider.Factory) {
             val incomesViewModelFactory = remember { IncomesDiProvider.provideFactory(appComponent) }
             IncomesScreen(navController = navController, viewModelFactory = incomesViewModelFactory)
         }
-        composable(Routes.SettingsScreen.route) { SettingsScreen(navController, viewModelFactory) }
+        composable(Routes.SettingsScreen.route) {
+            val settingsViewModelFactory = remember { SettingsDiProvider.provideFactory(context) }
+            SettingsScreen(navController, settingsViewModelFactory)
+        }
         composable(Routes.AccountScreen.route) { AccountScreen(navController, viewModelFactory) }
         composable(Routes.ExpenseArticleScreen.route) {
             val articlesViewModelFactory = remember { ArticlesDiProvider.provideFactory(appComponent) }

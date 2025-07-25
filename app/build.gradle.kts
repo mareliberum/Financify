@@ -76,6 +76,7 @@ dependencies {
     implementation(project(":features:analysis"))
     implementation(project(":features:editTransactions"))
     implementation(project(":features:myHistory"))
+    implementation(project(":features:settings"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

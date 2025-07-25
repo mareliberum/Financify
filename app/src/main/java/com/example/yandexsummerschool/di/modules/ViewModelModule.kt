@@ -7,7 +7,6 @@ import com.example.yandexsummerschool.editTransactions.editTransactionScreen.Edi
 import com.example.yandexsummerschool.features.accountScreen.account.AccountScreenViewModel
 import com.example.yandexsummerschool.features.accountScreen.editor.EditorAccountScreenViewModel
 import com.example.yandexsummerschool.myHistoryScreen.MyHistoryScreenViewModel
-import com.example.yandexsummerschool.settings.SettingsScreenViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -41,9 +40,4 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(AccountScreenViewModel::class)
     fun bindsAccountScreenViewModel(vm: AccountScreenViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SettingsScreenViewModel::class)
-    fun bindsSettingsScreenViewModel(vm: SettingsScreenViewModel): ViewModel
 }

@@ -1,4 +1,4 @@
-package com.example.yandexsummerschool.data.repositories
+package com.example.yandexsummerschool.data.repositories.transactions
 
 import com.example.yandexsummerschool.data.local.room.dao.TransactionsDao
 import com.example.yandexsummerschool.data.local.room.entities.toGroupedByCategoryTransactions
