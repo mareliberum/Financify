@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">YandexSummerSchool</string>
+    <string name="Expenses_today">Expenses Today</string>
+    <string name="expenses_today">Expenses Today</string>
+    <string name="Incomes_today">Incomes Today</string>
+    <string name="My_account">My Account</string>
+    <string name="Settings">Settings</string>
+    <string name="My_articles">My Articles</string>
+    <string name="Sum">Total</string>
+    <string name="Balance">Balance</string>
+    <string name="Currency">Currency</string>
+    <string name="My_History">My History</string>
+    <string name="Empty_transaction_screen_subText">When new transactions appear, they will be displayed here</string>
+    <string name="empty_transaction_screen_text">No transactions today</string>
+    <string name="No_account_exception">You do not have an account</string>
+    <string name="delete_account">Delete account</string>
+    <string name="dont_delete_account_message">Dont delete the account yet, its not possible to create a new one)</string>
+    <string name="name">Name</string>
+    <string name="currency">Currency</string>
+    <string name="try_later">Try again later</string>
+    <string name="no_articles_now">There are no articles right now</string>
+    <string name="Edit_transaction">Edit</string>
+    <string name="Delete_transaction">Delete transaction</string>
+    <string name="My_incomes">My Incomes</string>
+    <string name="My_expenses">My Expenses</string>
+    <string name="no_transactions_for_period">No transactions during this period</string>
+    <string name="empty_analysis_subtitle">When new transactions appear, analysis will be available here</string>
+    <string name="empty_history_subtitle">When transactions appear, they will be listed here</string>
+    <string name="error">Error</string>
+    <string name="save_operation">Save operation?</string>
+    <string name="save_operation_message">You can save the operation. It will be automatically sent later.</string>
+    <string name="save">Save</string>
+    <string name="dont_save">Do not save</string>
+    <string name="Error">Error</string>
+    <string name="info">Info</string>
+    <string name="Expenses">Expenses</string>
+    <string name="incomes">Incomes</string>
+    <string name="Account">Account</string>
+    <string name="categories">Articles</string>
+    <string name="settings">Settings</string>
+</resources>

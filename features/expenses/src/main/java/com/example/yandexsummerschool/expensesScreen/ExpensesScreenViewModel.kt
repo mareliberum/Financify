@@ -1,0 +1,69 @@
+package com.example.yandexsummerschool.expensesScreen
+
+import androidx.lifecycle.viewModelScope
+import com.example.yandexsummerschool.data.local.sharedPrefs.UserDelegate
+import com.example.yandexsummerschool.domain.models.Result
+import com.example.yandexsummerschool.domain.useCases.account.GetAccountUseCase
+import com.example.yandexsummerschool.domain.useCases.expenses.GetExpensesUseCase
+import com.example.yandexsummerschool.domain.utils.calculateSum
+import com.example.yandexsummerschool.domain.utils.date.millsToIsoDateSimple
+import com.example.yandexsummerschool.ui.common.BaseViewModel
+import com.example.yandexsummerschool.ui.common.ErrorMessageResolver
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+/**
+ * ViewModel для экрана расходов. Загружает и хранит состояние расходов [ExpensesScreenState].
+ */
+class ExpensesScreenViewModel @Inject constructor(
+    private val getExpensesUseCase: GetExpensesUseCase,
+    override val getAccountUseCase: GetAccountUseCase,
+    override val userDelegate: UserDelegate,
+) : BaseViewModel() {
+    private var fetchJob: Job? = null
+    private val _expensesScreenState = MutableStateFlow<ExpensesScreenState>(ExpensesScreenState.Loading)
+    val expensesScreenState: StateFlow<ExpensesScreenState> = _expensesScreenState
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    init {
+        loadExpenses()
+    }
+
+    fun loadExpenses() {
+        fetchJob?.cancel()
+        _isRefreshing.value = true
+        fetchJob =
+            viewModelScope.launch {
+                val today = millsToIsoDateSimple(System.currentTimeMillis())
+                when (
+                    val result =
+                        getExpensesUseCase(
+                            accountId = getAccountId(),
+                            startDate = today,
+                            endDate = today,
+                        )
+                ) {
+                    is Result.Success -> {
+                        val expenses = result.data
+                        if (expenses.isEmpty()) {
+                            _expensesScreenState.value = ExpensesScreenState.Empty
+                        } else {
+                            val sum = calculateSum(expenses)
+                            _expensesScreenState.value = ExpensesScreenState.Content(expenses, sum)
+                        }
+                    }
+
+                    is Result.Failure -> {
+                        _expensesScreenState.value =
+                            ExpensesScreenState.Error(ErrorMessageResolver.resolve(result.exception))
+                    }
+                }
+                _isRefreshing.value = false
+            }
+    }
+}

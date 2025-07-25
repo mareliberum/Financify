@@ -1,11 +1,11 @@
 package com.example.yandexsummerschool.di.modules
 
 import com.example.yandexsummerschool.data.local.sharedPrefs.UserDelegate
-import com.example.yandexsummerschool.data.repositories.AccountRepositoryImpl
-import com.example.yandexsummerschool.data.repositories.ArticlesRepositoryImpl
-import com.example.yandexsummerschool.data.repositories.PendingTransactionsRepositoryImpl
-import com.example.yandexsummerschool.data.repositories.TransactionsDbRepositoryImpl
-import com.example.yandexsummerschool.data.repositories.TransactionsRepositoryImpl
+import com.example.yandexsummerschool.data.repositories.account.AccountRepositoryImpl
+import com.example.yandexsummerschool.data.repositories.articles.ArticlesRepositoryImpl
+import com.example.yandexsummerschool.data.repositories.transactions.PendingTransactionsRepositoryImpl
+import com.example.yandexsummerschool.data.repositories.transactions.TransactionsDbRepositoryImpl
+import com.example.yandexsummerschool.data.repositories.transactions.TransactionsRepositoryImpl
 import com.example.yandexsummerschool.domain.repositories.AccountRepository
 import com.example.yandexsummerschool.domain.repositories.ArticlesRepository
 import com.example.yandexsummerschool.domain.repositories.PendingTransactionsRepository

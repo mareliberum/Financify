@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_version">Версия приложения: %1$s  %2$s</string>
+    <string name="last_update">Последнее обновление: %1$s</string>
+    <string name="dark_theme">Тёмная тема</string>
+    <string name="Accent_color">Акцентный цвет</string>
+    <string name="Frequency_Setting">Настройка частоты синхронизации</string>
+    <string name="Language">Язык</string>
+    <string name="About_App">О приложении</string>
+</resources>

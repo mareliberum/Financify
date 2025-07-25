@@ -1,36 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YandexSummerSchool</string>
-    <string name="Expenses_today">Расходы сегодня</string>
-    <string name="expenses_today">Расходы сегодня</string>
-    <string name="Incomes_today">Доходы сегодня</string>
-    <string name="My_account">Мой Счет</string>
-    <string name="Settings">Настройки</string>
-    <string name="My_articles">Мои статьи</string>
-    <string name="Sum">Всего</string>
-    <string name="Balance">Баланс</string>
-    <string name="Currency">Валюта</string>
-    <string name="My_History">Моя история</string>
-    <string name="Empty_transaction_screen_subText">Когда появятся новые транзакции, они отобразятся здесь</string>
-    <string name="empty_transaction_screen_text">Сегодня транзакций не было</string>
-    <string name="No_account_exception">У вас нет аккаунта</string>
-    <string name="delete_account">Удалить счет</string>
-    <string name="dont_delete_account_message">Не удаляй аккаунт, пока нельзя создать новый)</string>
-    <string name="name">Название</string>
-    <string name="currency">Валюта</string>
-    <string name="try_later">попробуйте позднее</string>
-    <string name="no_articles_now">Сейчас статей нет</string>
-    <string name="Edit_transaction">Редактировать</string>
-    <string name="Delete_transaction">Удалить транзакцию</string>
-    <string name="My_incomes">Мои доходы</string>
-    <string name="My_expenses">Мои расходы</string>
-    <string name="no_transactions_for_period">Транзакций за этот период не было</string>
-    <string name="empty_analysis_subtitle">Когда появятся новые транзакции, анализ по ним появится здесь</string>
-    <string name="empty_history_subtitle">Когда траназакции появятся, они будут здесь</string>
-    <string name="error">Ошибка</string>
-    <string name="save_operation">Сохранить операцию?</string>
-    <string name="save_operation_message">Вы можете сохранить операцию. Она автоматически отправится позднее.</string>
-    <string name="save">Сохранить</string>
-    <string name="dont_save">Не сохранять</string>
-    <string name="Error">Ошибка</string>
-    <string name="info">информация</string>
+
+    <string name="androidx_startup" translatable="false">androidx.startup</string>
+
 </resources>
