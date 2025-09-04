@@ -1,6 +1,6 @@
 root = true
 
-[*]
+[*.{kt,kts}]
 indent_style = space
 indent_size = 4
 max_line_length = 120
@@ -9,7 +9,6 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{kt,kts}]
 android = true
 ktlint_standard = enabled
 ktlint_standard_multiline-expression-wrapping = enabled

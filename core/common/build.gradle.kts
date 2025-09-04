@@ -53,10 +53,12 @@ dependencies {
 //    implementation(libs.navigation.compose.jvmstubs)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material3.android)
+    implementation(libs.ui.tooling.preview)
     testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
     //retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    debugImplementation(libs.ui.tooling)
 }
