@@ -46,7 +46,10 @@ dependencies {
 	implementation(libs.material)
     implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
-	androidTestImplementation(libs.androidx.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
 
     //retrofit

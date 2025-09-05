@@ -16,7 +16,9 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.yandexsummerschool.common.R
 import com.example.yandexsummerschool.ui.common.TransactionType
 import com.example.yandexsummerschool.ui.theme.iconColor
@@ -169,4 +171,10 @@ sealed class TopAppBarElement(
             iconResource = R.drawable.analysis,
             navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
         )
+}
+
+@Preview
+@Composable
+fun Prev() {
+    TopAppBar(TopAppBarElement.Settings, rememberNavController())
 }
