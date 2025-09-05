@@ -6,7 +6,7 @@ import com.example.yandexsummerschool.data.local.room.entities.toCreatedTransact
 import com.example.yandexsummerschool.data.local.room.entities.toPendingTransactionEntity
 import com.example.yandexsummerschool.data.local.room.entities.toPendingTransactionUpdateEntity
 import com.example.yandexsummerschool.data.local.room.entities.toUpdatedTransactionDomainModel
-import com.example.yandexsummerschool.data.repositories.executeWIthRetries
+import com.example.yandexsummerschool.data.repositories.executeWithRetries
 import com.example.yandexsummerschool.data.retrofit.ErrorParser.parseError
 import com.example.yandexsummerschool.data.retrofit.ShmrFinanceApi
 import com.example.yandexsummerschool.domain.models.CreatedTransactionDomainModel
@@ -67,7 +67,7 @@ class PendingTransactionsRepositoryImpl @Inject constructor(
         val transactionRequestDto = transaction.toTransactionRequestDto()
         return try {
             withContext(Dispatchers.IO) {
-                val response = executeWIthRetries { api.postTransaction(transactionRequestDto) }
+                val response = executeWithRetries { api.postTransaction(transactionRequestDto) }
                 if (response.isSuccessful) {
                     return@withContext Result.Success(true)
                 } else {
@@ -104,7 +104,7 @@ class PendingTransactionsRepositoryImpl @Inject constructor(
                 val transactionRequestDto = update.toTransactionRequestDto()
                 if (!checkIfUpdateActual(update)) return@withContext Result.Success(false)
                 val response =
-                    executeWIthRetries { api.updateTransaction(update.transactionId, transactionRequestDto) }
+                    executeWithRetries { api.updateTransaction(update.transactionId, transactionRequestDto) }
                 if (response.isSuccessful) {
                     Result.Success(true)
                 } else {

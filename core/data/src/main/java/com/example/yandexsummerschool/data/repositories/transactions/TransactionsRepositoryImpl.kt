@@ -5,7 +5,7 @@ import com.example.yandexsummerschool.data.dto.transactions.toTransactionRequest
 import com.example.yandexsummerschool.data.local.room.dao.TransactionsDao
 import com.example.yandexsummerschool.data.local.room.entities.toTransactionDomainModel
 import com.example.yandexsummerschool.data.local.room.entities.toTransactionEntity
-import com.example.yandexsummerschool.data.repositories.executeWIthRetries
+import com.example.yandexsummerschool.data.repositories.executeWithRetries
 import com.example.yandexsummerschool.data.retrofit.ErrorParser.parseError
 import com.example.yandexsummerschool.data.retrofit.ShmrFinanceApi
 import com.example.yandexsummerschool.domain.models.Result
@@ -45,7 +45,7 @@ class TransactionsRepositoryImpl @Inject constructor(
                     } else {
                         null
                     }
-                val response = executeWIthRetries { api.getTransactions(accountId, startDate, endDate) }
+                val response = executeWithRetries { api.getTransactions(accountId, startDate, endDate) }
                 if (response.isSuccessful) {
                     val transactionsList =
                         response.body()
@@ -99,7 +99,7 @@ class TransactionsRepositoryImpl @Inject constructor(
         val transactionRequestDto = transaction.toTransactionRequestDto()
         return try {
             withContext(Dispatchers.IO) {
-                val response = executeWIthRetries { api.postTransaction(transactionRequestDto) }
+                val response = executeWithRetries { api.postTransaction(transactionRequestDto) }
                 if (response.isSuccessful) {
                     Result.Success(transaction)
                 } else {
@@ -119,7 +119,7 @@ class TransactionsRepositoryImpl @Inject constructor(
         return try {
             withContext(Dispatchers.IO) {
                 val response =
-                    executeWIthRetries { api.updateTransaction(transaction.transactionId, transactionRequestDto) }
+                    executeWithRetries { api.updateTransaction(transaction.transactionId, transactionRequestDto) }
                 if (response.isSuccessful) {
                     val transactionDomainModel =
                         response.body()?.toTransactionDomainModel()
@@ -138,7 +138,7 @@ class TransactionsRepositoryImpl @Inject constructor(
     override suspend fun deleteTransactionById(transactionId: Int): Result<Unit> {
         return try {
             withContext(Dispatchers.IO) {
-                val response = executeWIthRetries { api.deleteTransactionById(transactionId) }
+                val response = executeWithRetries { api.deleteTransactionById(transactionId) }
                 if (response.isSuccessful) {
                     Result.Success(Unit)
                 } else {
@@ -154,7 +154,7 @@ class TransactionsRepositoryImpl @Inject constructor(
     override suspend fun getTransactionById(id: Int): Result<TransactionDomainModel> =
         try {
             withContext(Dispatchers.IO) {
-                val response = executeWIthRetries { api.getTransaction(id) }
+                val response = executeWithRetries { api.getTransaction(id) }
                 if (response.isSuccessful) {
                     val transaction =
                         response.body()

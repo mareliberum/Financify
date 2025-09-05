@@ -4,7 +4,7 @@ import com.example.yandexsummerschool.data.dto.article.toArticleModel
 import com.example.yandexsummerschool.data.local.room.dao.CategoriesDao
 import com.example.yandexsummerschool.data.local.room.entities.toArticleModel
 import com.example.yandexsummerschool.data.local.room.entities.toCategoryEntity
-import com.example.yandexsummerschool.data.repositories.executeWIthRetries
+import com.example.yandexsummerschool.data.repositories.executeWithRetries
 import com.example.yandexsummerschool.data.retrofit.ShmrArticlesApi
 import com.example.yandexsummerschool.domain.models.ArticleModel
 import com.example.yandexsummerschool.domain.models.Result
@@ -20,7 +20,7 @@ class ArticlesRepositoryImpl @Inject constructor(
     override suspend fun getArticles(): Result<List<ArticleModel>> =
         withContext(Dispatchers.IO) {
             try {
-                val response = executeWIthRetries { articlesApi.getArticles() }
+                val response = executeWithRetries { articlesApi.getArticles() }
                 if (response.isSuccessful) {
                     val articlesList = response.body()?.map { it.toArticleModel() } ?: emptyList()
                     dao.insertCategories(articlesList.map { it.toCategoryEntity() })

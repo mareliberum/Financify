@@ -5,7 +5,7 @@ import com.example.yandexsummerschool.data.dto.account.toAccountModel
 import com.example.yandexsummerschool.data.local.room.dao.AccountDao
 import com.example.yandexsummerschool.data.local.room.entities.toAccountEntity
 import com.example.yandexsummerschool.data.local.room.entities.toAccountModel
-import com.example.yandexsummerschool.data.repositories.executeWIthRetries
+import com.example.yandexsummerschool.data.repositories.executeWithRetries
 import com.example.yandexsummerschool.data.retrofit.ErrorParser.parseError
 import com.example.yandexsummerschool.data.retrofit.ShmrAccountApi
 import com.example.yandexsummerschool.domain.models.AccountModel
@@ -23,7 +23,7 @@ class AccountRepositoryImpl @Inject constructor(
         try {
             withContext(Dispatchers.IO) {
                 val accountFromDb = accountDao.getAccount()
-                val response = executeWIthRetries { accountApi.getAccount() }
+                val response = executeWithRetries { accountApi.getAccount() }
                 if (response.isSuccessful) {
                     val account =
                         response.body()?.first()?.toAccountModel() ?: return@withContext Result.Failure(
