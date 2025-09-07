@@ -1,0 +1,191 @@
+{
+  "templates": {
+    "input_text_borderless": {
+      "type": "input",
+      "width": {
+        "type": "match_parent"
+      },
+      "height": {
+        "type": "wrap_content"
+      },
+      "margins": {
+        "left": 16,
+        "top": 20,
+        "right": 16,
+        "bottom": 16
+      },
+      "paddings": {
+        "left": 16,
+        "top": 10,
+        "right": 16,
+        "bottom": 10
+      },
+      "alignment_horizontal": "center",
+      "alignment_vertical": "center",
+      "font_size": 16,
+      "font_weight": "medium",
+      "text_color": "#000000",
+      "hint_color": "#888888",
+      "highlight_color": "#e0bae3",
+      "line_height": 22
+    },
+    "input_text": {
+      "type": "input_text_borderless",
+      "background": [
+        {
+          "type": "solid",
+          "color": "#0e000000"
+        }
+      ],
+      "border": {
+        "corner_radius": 8
+      }
+    },
+    "categoryCard": {
+      "type": "container",
+      "orientation": "vertical",
+      "items": [
+        {
+          "type": "container",
+          "orientation": "horizontal",
+          "height": {
+            "type": "fixed",
+            "value": 56
+          },
+          "items": [
+            {
+              "type": "text",
+              "font_size": 24,
+              "width": {
+                "type": "wrap_content"
+              },
+              "margins": {
+                "left": 16,
+                "right": 12,
+                "top": 8,
+                "bottom": 8
+              },
+              "$text": "emoji"
+            },
+            {
+              "type": "text",
+              "font_size": 16,
+              "text_color": "#000000",
+              "line_height": 20,
+              "margins": {
+                "top": 16,
+                "bottom": 16
+              },
+              "$text": "title"
+            }
+          ]
+        },
+        {
+          "type": "separator",
+          "color": "#DDDDDD",
+          "height": 1,
+          "margins": {
+            "left": 16,
+            "right": 16
+          }
+        }
+      ]
+    }
+  },
+  "card": {
+    "log_id": "articles_screen_mock",
+    "variables": [
+      {
+        "name": "my_single_text",
+        "type": "string",
+        "value": ""
+      }
+    ],
+    "states": [
+      {
+        "state_id": 0,
+        "div": {
+          "type": "container",
+          "orientation": "vertical",
+          "background": [
+            {
+              "color": "#FFFFFF"
+            }
+          ],
+          "items": [
+            {
+              "type": "input_text",
+              "text_variable": "my_single_text",
+              "hint_text": "Поиск",
+              "keyboard_type": "single_line_text",
+              "enter_key_type": "done",
+              "enter_key_actions": [
+                {
+                  "log_id": "clear focus",
+                  "typed": {
+                    "type": "clear_focus"
+                  }
+                },
+                {
+                  "log_id": "change_button_1_state",
+                  "url": "div-action://set_variable?name=my_single_text&value=Enter key tapped!"
+                }
+              ]
+            },
+            {
+              "type": "container",
+              "orientation": "vertical",
+              "background": [
+                {
+                  "color": "#FAFAFA"
+                }
+              ],
+              "items": [
+                {
+                  "type": "categoryCard",
+                  "emoji": "💰",
+                  "title": "Зарплата"
+                },
+                {
+                  "type": "categoryCard",
+                  "emoji": "💻",
+                  "title": "Фриланс"
+                },
+                {
+                  "type": "categoryCard",
+                  "emoji": "🎁",
+                  "title": "Подарки"
+                },
+                {
+                  "type": "categoryCard",
+                  "emoji": "🏦",
+                  "title": "Проценты по вкладам"
+                },
+                {
+                  "type": "categoryCard",
+                  "emoji": "↩️",
+                  "title": "Возврат долга"
+                },
+                {
+                  "type": "categoryCard",
+                  "emoji": "🏠",
+                  "title": "Продажа имущества"
+                },
+                {
+                  "type": "categoryCard",
+                  "emoji": "🏡",
+                  "title": "Жильё"
+                },
+                {
+                  "type": "categoryCard",
+                  "emoji": "🍎",
+                  "title": "Продукты"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
